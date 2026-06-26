@@ -138,7 +138,7 @@
             <p class="text-xs text-slate-500 mt-0.5">Màu: Carbon Black · RAM: 16GB · SSD: 512GB</p>
             <p class="text-[10px] text-slate-400 mt-0.5 font-mono">SKU: LAP-DELL-INS-3520-I5-16-512</p>
             <div class="flex items-center gap-1.5 mt-1">
-              <span class="text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded font-semibold">🛡 Bảo hành 24 tháng</span>
+              <span class="text-[10px] text-green-600 bg-green-50 border border-green-100 px-1.5 py-0.5 rounded font-semibold">🛡 Bảo hành 24 tháng</span>
             </div>
 
             <!-- Price + qty row (desktop) -->
@@ -218,7 +218,7 @@
             <p class="text-xs text-slate-500 mt-0.5">Màu: Natural Silver · RAM: 8GB · SSD: 512GB</p>
             <p class="text-[10px] text-slate-400 mt-0.5 font-mono">SKU: LAP-HP-PAV-15-I5-8-512</p>
             <div class="mt-1">
-              <span class="text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded font-semibold">🛡 Bảo hành 12 tháng</span>
+              <span class="text-[10px] text-green-600 bg-green-50 border border-green-100 px-1.5 py-0.5 rounded font-semibold">🛡 Bảo hành 12 tháng</span>
             </div>
             <div class="hidden md:flex items-end justify-between mt-3">
               <div>
@@ -322,7 +322,7 @@
             <p class="text-xs text-slate-500 mt-0.5">Màu: Graphite</p>
             <p class="text-[10px] text-slate-400 mt-0.5 font-mono">SKU: MOUSE-LOGI-MX3S-GRY</p>
             <div class="mt-1">
-              <span class="text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded font-semibold">🛡 Bảo hành 24 tháng</span>
+              <span class="text-[10px] text-green-600 bg-green-50 border border-green-100 px-1.5 py-0.5 rounded font-semibold">🛡 Bảo hành 24 tháng</span>
             </div>
             <div class="hidden md:flex items-end justify-between mt-3">
               <div>
@@ -437,14 +437,14 @@
         </div>
 
         <!-- Applied coupon -->
-        <div id="coupon-success" class="flex items-center justify-between mt-2 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
-          <div class="flex items-center gap-2 text-emerald-700">
+        <div id="coupon-success" class="flex items-center justify-between mt-2 bg-green-50 border border-green-200 rounded-xl px-3 py-2">
+          <div class="flex items-center gap-2 text-green-700">
             <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             <span class="text-xs font-bold">TECH500 đã được áp dụng</span>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-sm font-bold text-emerald-700">-500.000đ</span>
-            <button onclick="removeCoupon()" class="text-emerald-600 hover:text-red-500 text-xs underline transition-colors">Xóa</button>
+            <span class="text-sm font-bold text-green-700">-500.000đ</span>
+            <button onclick="removeCoupon()" class="text-green-600 hover:text-red-500 text-xs underline transition-colors">Xóa</button>
           </div>
         </div>
 
@@ -460,7 +460,7 @@
           <button onclick="estimateShipping()" class="h-9 px-3 border border-slate-200 hover:border-blue-400 text-slate-600 hover:text-blue-600 rounded-lg text-sm transition-colors shrink-0">Tính phí</button>
         </div>
         <div id="ship-result" class="mt-2 text-xs text-slate-600">
-          <span class="text-emerald-600 font-semibold">✓ Giao trong 2 giờ nội thành Hà Nội</span> · Phí: <strong>30.000đ</strong>
+          <span class="text-green-600 font-semibold">✓ Giao trong 2 giờ nội thành Hà Nội</span> · Phí: <strong>30.000đ</strong>
         </div>
       </div>
 
@@ -472,7 +472,7 @@
             <span class="text-slate-500">Tạm tính <span class="text-slate-400 text-xs">(4 sản phẩm)</span></span>
             <span id="subtotal" class="font-semibold">56.450.000đ</span>
           </div>
-          <div class="flex justify-between text-emerald-600">
+          <div class="flex justify-between text-green-600">
             <span class="flex items-center gap-1">
               <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
               Mã TECH500
@@ -720,22 +720,22 @@
     var v = document.getElementById('ship-select').value;
     if (!v) { r.innerHTML = '<span class="text-red-500">Vui lòng chọn tỉnh/thành phố.</span>'; return; }
     var opts = { hn:'Giao trong 2 giờ nội thành Hà Nội', hcm:'Giao trong 2 giờ nội thành TP.HCM', dn:'Giao trong 1-2 ngày đến Đà Nẵng' };
-    r.innerHTML = '<span class="text-emerald-600 font-semibold">✓ ' + opts[v] + '</span> · Phí: <strong>30.000đ</strong>';
+    r.innerHTML = '<span class="text-green-600 font-semibold">✓ ' + opts[v] + '</span> · Phí: <strong>30.000đ</strong>';
   }
 
   // ── Add accessory ─────────────────────────────────────────────
   function addAccessory(btn, name) {
     var orig = btn.textContent;
     btn.textContent = '✓ Đã thêm';
-    btn.classList.replace('bg-blue-50','bg-emerald-50');
-    btn.classList.replace('border-blue-200','border-emerald-200');
-    btn.classList.replace('text-blue-700','text-emerald-700');
+    btn.classList.replace('bg-blue-50','bg-green-50');
+    btn.classList.replace('border-blue-200','border-green-200');
+    btn.classList.replace('text-blue-700','text-green-700');
     showToastMsg('Đã thêm ' + name + ' vào giỏ hàng.', false);
     setTimeout(() => {
       btn.textContent = orig;
-      btn.classList.replace('bg-emerald-50','bg-blue-50');
-      btn.classList.replace('border-emerald-200','border-blue-200');
-      btn.classList.replace('text-emerald-700','text-blue-700');
+      btn.classList.replace('bg-green-50','bg-blue-50');
+      btn.classList.replace('border-green-200','border-blue-200');
+      btn.classList.replace('text-green-700','text-blue-700');
     }, 2500);
   }
 
