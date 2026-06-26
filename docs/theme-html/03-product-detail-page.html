@@ -60,7 +60,7 @@
 
   /* Product card hover */
   .product-card{transition:all .18s;}
-  .product-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.12);border-color:#93c5fd!important;transform:translateY(-1px);}
+  .product-card:hover{box-shadow:0 2px 10px rgba(15,23,42,.08);border-color:#93c5fd!important;transform:translateY(-1px);}
 
   /* Price */
   .price-s{color:#dc2626;}
@@ -87,7 +87,7 @@
       </a>
       <div class="hidden md:flex flex-1 max-w-xl">
         <div class="relative w-full">
-          <input type="search" placeholder="Tìm kiếm sản phẩm..." class="w-full h-9 pl-4 pr-12 border-2 border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 transition-colors">
+          <input type="search" placeholder="Tìm kiếm sản phẩm..." class="w-full h-9 pl-4 pr-12 border-2 border-slate-200 rounded-lg text-sm bg-slate-50 focus:outline-none focus:border-blue-500 transition-colors">
           <button class="absolute right-0 top-0 h-9 w-11 bg-blue-600 hover:bg-blue-700 rounded-r-xl flex items-center justify-center transition-colors">
             <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </button>
@@ -162,7 +162,7 @@
          ============================================================ -->
     <div class="lg:w-[46%] shrink-0">
       <!-- Main image -->
-      <div class="relative bg-white border border-slate-200 rounded-2xl overflow-hidden mb-3 group cursor-zoom-in" onclick="openModal()">
+      <div class="relative bg-white border border-slate-200 rounded-lg overflow-hidden mb-3 group cursor-zoom-in" onclick="openModal()">
         <img id="main-img" src="https://placehold.co/520x390/f8fafc/1e40af?text=Dell+Inspiron+15" alt="Laptop Dell Inspiron 15 3520 i5-1235U 16GB 512GB SSD" class="w-full object-contain aspect-[4/3]" style="max-height:400px;">
         <!-- Badge sale -->
         <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-lg">-16%</span>
@@ -241,7 +241,7 @@
       </div>
 
       <!-- Price block -->
-      <div class="bg-slate-50 rounded-2xl px-4 py-4 mb-4">
+      <div class="bg-slate-50 rounded-lg px-4 py-4 mb-4">
         <div class="flex items-end gap-3 flex-wrap">
           <span id="display-price" class="text-3xl font-extrabold price-s">15.990.000đ</span>
           <div class="flex items-center gap-2 pb-0.5">
@@ -254,7 +254,7 @@
       </div>
 
       <!-- Promotion box -->
-      <div class="border border-orange-200 bg-orange-50 rounded-2xl px-4 py-3 mb-4">
+      <div class="border border-orange-200 bg-orange-50 rounded-lg px-4 py-3 mb-4">
         <p class="text-xs font-bold text-orange-700 uppercase tracking-wide mb-2">🎁 Khuyến mãi</p>
         <ul class="space-y-1.5 text-sm text-slate-700">
           <li class="flex items-start gap-2"><span class="text-orange-500 shrink-0">✓</span> Giảm thêm <strong>500.000đ</strong> khi thanh toán chuyển khoản</li>
@@ -306,11 +306,11 @@
 
       <!-- CTA buttons -->
       <div class="flex gap-3 mb-4">
-        <button id="btn-cart" onclick="addToCart(this)" class="flex-1 bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-3 rounded-xl transition-colors text-sm flex items-center justify-center gap-2">
+        <button id="btn-cart" onclick="addToCart(this)" class="flex-1 bg-white border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           Thêm vào giỏ
         </button>
-        <button onclick="buyNow()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors text-sm flex items-center justify-center gap-2">
+        <button onclick="buyNow()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           Mua ngay
         </button>
@@ -318,28 +318,28 @@
 
       <!-- Trust service box -->
       <div class="grid grid-cols-2 gap-2 mb-4">
-        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2.5">
+        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-lg px-3 py-2.5">
           <span class="text-xl">🛡</span>
           <div>
             <p class="text-xs font-semibold text-slate-800">Bảo hành 24 tháng</p>
             <p class="text-[10px] text-slate-500">Chính hãng Dell</p>
           </div>
         </div>
-        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2.5">
+        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-lg px-3 py-2.5">
           <span class="text-xl">🔄</span>
           <div>
             <p class="text-xs font-semibold text-slate-800">Đổi trả 7 ngày</p>
             <p class="text-[10px] text-slate-500">Lỗi nhà sản xuất</p>
           </div>
         </div>
-        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2.5">
+        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-lg px-3 py-2.5">
           <span class="text-xl">🚀</span>
           <div>
             <p class="text-xs font-semibold text-slate-800">Giao 2 giờ</p>
             <p class="text-[10px] text-slate-500">Nội thành TP.HCM, HN</p>
           </div>
         </div>
-        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2.5">
+        <div class="flex items-center gap-2.5 bg-white border border-slate-200 rounded-lg px-3 py-2.5">
           <span class="text-xl">💳</span>
           <div>
             <p class="text-xs font-semibold text-slate-800">Thanh toán an toàn</p>
@@ -349,7 +349,7 @@
       </div>
 
       <!-- Delivery estimator -->
-      <div class="bg-white border border-slate-200 rounded-2xl px-4 py-3">
+      <div class="bg-white border border-slate-200 rounded-lg px-4 py-3">
         <p class="text-sm font-semibold text-slate-800 mb-2">🚚 Kiểm tra giao hàng</p>
         <div class="flex gap-2">
           <select class="flex-1 h-9 px-3 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:border-blue-400 bg-white">
@@ -371,35 +371,35 @@
   <!-- ============================================================
        QUICK SPECS GRID
        ============================================================ -->
-  <div class="mt-8 bg-white border border-slate-200 rounded-2xl p-5">
+  <div class="mt-8 bg-white border border-slate-200 rounded-lg p-5">
     <h2 class="text-base font-bold text-slate-800 mb-4">Cấu hình nổi bật</h2>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-xl">
+      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-lg">
         <span class="text-2xl mb-1">🖥</span>
         <p class="text-[11px] text-slate-500 mb-0.5">CPU</p>
         <p class="text-xs font-bold text-slate-800">Core i5-1235U</p>
       </div>
-      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-xl">
+      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-lg">
         <span class="text-2xl mb-1">💾</span>
         <p class="text-[11px] text-slate-500 mb-0.5">RAM</p>
         <p class="text-xs font-bold text-slate-800">16GB DDR4</p>
       </div>
-      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-xl">
+      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-lg">
         <span class="text-2xl mb-1">💿</span>
         <p class="text-[11px] text-slate-500 mb-0.5">Lưu trữ</p>
         <p class="text-xs font-bold text-slate-800">512GB NVMe</p>
       </div>
-      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-xl">
+      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-lg">
         <span class="text-2xl mb-1">🖥️</span>
         <p class="text-[11px] text-slate-500 mb-0.5">Màn hình</p>
         <p class="text-xs font-bold text-slate-800">15.6" FHD</p>
       </div>
-      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-xl">
+      <div class="flex flex-col items-center text-center p-3 bg-slate-50 rounded-lg">
         <span class="text-2xl mb-1">🎮</span>
         <p class="text-[11px] text-slate-500 mb-0.5">Đồ họa</p>
         <p class="text-xs font-bold text-slate-800">Intel Iris Xe</p>
       </div>
-      <div class="flex flex-col items-center text-center p-3 bg-blue-50 rounded-xl border border-blue-100">
+      <div class="flex flex-col items-center text-center p-3 bg-blue-50 rounded-lg border border-blue-100">
         <span class="text-2xl mb-1">🛡️</span>
         <p class="text-[11px] text-blue-600 mb-0.5">Bảo hành</p>
         <p class="text-xs font-bold text-blue-700">24 tháng</p>
@@ -414,7 +414,7 @@
   <!-- ============================================================
        PRODUCT DESCRIPTION
        ============================================================ -->
-  <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-5">
+  <div class="mt-6 bg-white border border-slate-200 rounded-lg p-5">
     <h2 class="text-base font-bold text-slate-800 mb-4">Tổng quan sản phẩm</h2>
     <div id="desc-body">
       <div class="prose prose-sm max-w-none text-slate-700 leading-relaxed space-y-4">
@@ -437,7 +437,7 @@
   <!-- ============================================================
        TECHNICAL SPECS TABLE
        ============================================================ -->
-  <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-5" id="specs">
+  <div class="mt-6 bg-white border border-slate-200 rounded-lg p-5" id="specs">
     <h2 class="text-base font-bold text-slate-800 mb-4">Thông số kỹ thuật</h2>
     <div id="specs-table" class="overflow-hidden" style="max-height:400px;">
       <!-- Group: CPU -->
@@ -538,7 +538,7 @@
   <!-- ============================================================
        REVIEWS
        ============================================================ -->
-  <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-5" id="reviews">
+  <div class="mt-6 bg-white border border-slate-200 rounded-lg p-5" id="reviews">
     <h2 class="text-base font-bold text-slate-800 mb-4">Đánh giá khách hàng</h2>
 
     <!-- Rating summary -->
@@ -591,7 +591,7 @@
     <!-- Review list -->
     <div class="space-y-5">
       <!-- Review 1 -->
-      <div class="border border-slate-100 rounded-xl p-4">
+      <div class="border border-slate-100 rounded-lg p-4">
         <div class="flex items-start gap-3 mb-2">
           <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-sm shrink-0">N</div>
           <div class="flex-1">
@@ -612,7 +612,7 @@
         </div>
       </div>
       <!-- Review 2 -->
-      <div class="border border-slate-100 rounded-xl p-4">
+      <div class="border border-slate-100 rounded-lg p-4">
         <div class="flex items-start gap-3 mb-2">
           <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-700 font-bold text-sm shrink-0">T</div>
           <div class="flex-1">
@@ -630,7 +630,7 @@
         <p class="text-sm text-slate-700 leading-relaxed">Mua về dùng học và làm đề án tốt nghiệp. Máy chạy ổn, không nóng nhiều khi làm việc thông thường. Điểm trừ là loa hơi nhỏ, nhưng cắm tai nghe thì nghe tốt. Giá hợp lý so với tầm tiền.</p>
       </div>
       <!-- Review 3 -->
-      <div class="border border-slate-100 rounded-xl p-4">
+      <div class="border border-slate-100 rounded-lg p-4">
         <div class="flex items-start gap-3 mb-2">
           <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold text-sm shrink-0">H</div>
           <div class="flex-1">
@@ -648,16 +648,16 @@
       </div>
     </div>
 
-    <button class="mt-4 w-full py-2.5 border border-slate-200 rounded-xl text-sm text-slate-600 hover:border-blue-300 hover:text-blue-600 transition-colors">Xem thêm đánh giá (125)</button>
+    <button class="mt-4 w-full py-2.5 border border-slate-200 rounded-lg text-sm text-slate-600 hover:border-blue-300 hover:text-blue-600 transition-colors">Xem thêm đánh giá (125)</button>
   </div>
 
   <!-- ============================================================
        Q&A
        ============================================================ -->
-  <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-5" id="qa">
+  <div class="mt-6 bg-white border border-slate-200 rounded-lg p-5" id="qa">
     <h2 class="text-base font-bold text-slate-800 mb-4">Hỏi & Đáp</h2>
     <div class="space-y-4 mb-4">
-      <div class="border border-slate-100 rounded-xl p-4">
+      <div class="border border-slate-100 rounded-lg p-4">
         <p class="text-sm font-medium text-slate-800 mb-1">❓ Máy có thể chạy Photoshop và Illustrator không?</p>
         <p class="text-xs text-slate-500 mb-2">Khách hàng Lê Quang Vinh · 18/06/2026</p>
         <div class="bg-blue-50 border border-blue-100 rounded-lg p-3">
@@ -666,7 +666,7 @@
         </div>
       </div>
     </div>
-    <div class="border border-slate-200 rounded-xl p-4">
+    <div class="border border-slate-200 rounded-lg p-4">
       <p class="text-sm font-semibold text-slate-800 mb-2">Đặt câu hỏi về sản phẩm</p>
       <textarea placeholder="Nhập câu hỏi của bạn..." rows="3" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:outline-none focus:border-blue-400 resize-none"></textarea>
       <div class="flex justify-end mt-2">
@@ -682,7 +682,7 @@
     <h2 class="text-lg font-bold text-slate-800 mb-4">Sản phẩm tương tự</h2>
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
       <!-- Related 1 -->
-      <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer">
+      <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer">
         <a href="#">
           <div class="bg-slate-50 aspect-square flex items-center justify-center p-3 relative">
             <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-19%</span>
@@ -694,11 +694,11 @@
           <p class="text-[11px] text-slate-500 mb-1.5">Core i5 · 8GB · 512GB</p>
           <p class="text-base font-extrabold price-s">13.990.000đ</p>
           <p class="text-xs price-o">17.290.000đ</p>
-          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
         </div>
       </div>
       <!-- Related 2 -->
-      <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer">
+      <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer">
         <a href="#">
           <div class="bg-slate-50 aspect-square flex items-center justify-center p-3 relative">
             <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-15%</span>
@@ -710,11 +710,11 @@
           <p class="text-[11px] text-slate-500 mb-1.5">Core i5 · 16GB · 512GB</p>
           <p class="text-base font-extrabold price-s">14.990.000đ</p>
           <p class="text-xs price-o">17.590.000đ</p>
-          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
         </div>
       </div>
       <!-- Related 3 -->
-      <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer">
+      <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer">
         <a href="#">
           <div class="bg-slate-50 aspect-square flex items-center justify-center p-3 relative">
             <span class="absolute top-2 left-2 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Mới</span>
@@ -726,11 +726,11 @@
           <p class="text-[11px] text-slate-500 mb-1.5">Core i5 · 16GB · 512GB · OLED</p>
           <p class="text-base font-extrabold price-s">17.490.000đ</p>
           <p class="text-xs price-o text-transparent">—</p>
-          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
         </div>
       </div>
       <!-- Related 4 -->
-      <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer">
+      <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer">
         <a href="#">
           <div class="bg-slate-50 aspect-square flex items-center justify-center p-3 relative">
             <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-12%</span>
@@ -742,7 +742,7 @@
           <p class="text-[11px] text-slate-500 mb-1.5">Core i5 · 16GB · 512GB</p>
           <p class="text-base font-extrabold price-s">13.490.000đ</p>
           <p class="text-xs price-o">15.290.000đ</p>
-          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+          <button class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
         </div>
       </div>
     </div>
@@ -773,12 +773,12 @@
 <!-- ============================================================
      MOBILE STICKY CTA
      ============================================================ -->
-<div id="sticky-cta" class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-4 py-3 z-50 shadow-2xl">
+<div id="sticky-cta" class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 px-4 py-3 z-50 shadow-lg">
   <div class="flex gap-3">
-    <button onclick="addToCart(document.getElementById('btn-cart'))" class="flex-1 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-xl text-sm transition-colors">
+    <button onclick="addToCart(document.getElementById('btn-cart'))" class="flex-1 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-2.5 rounded-lg text-sm transition-colors">
       Thêm giỏ
     </button>
-    <button onclick="buyNow()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm transition-colors">
+    <button onclick="buyNow()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-sm transition-colors">
       Mua ngay
     </button>
   </div>
@@ -789,7 +789,7 @@
      ============================================================ -->
 <div id="img-modal" class="fixed inset-0 bg-black/90 z-[100] items-center justify-center" onclick="closeModal()">
   <div class="relative w-full h-full flex items-center justify-center p-4" onclick="event.stopPropagation()">
-    <img id="modal-img" src="https://placehold.co/800x600/f8fafc/1e40af?text=Dell+Inspiron+15" alt="Phóng to ảnh sản phẩm" class="max-h-[90vh] max-w-[90vw] object-contain rounded-xl">
+    <img id="modal-img" src="https://placehold.co/800x600/f8fafc/1e40af?text=Dell+Inspiron+15" alt="Phóng to ảnh sản phẩm" class="max-h-[90vh] max-w-[90vw] object-contain rounded-lg">
     <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors" aria-label="Đóng">
       <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
@@ -806,7 +806,7 @@
      MINI CART DRAWER
      ============================================================ -->
 <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50" onclick="closeCart()"></div>
-<div id="mini-cart" class="fixed top-0 right-0 h-full w-[90vw] max-w-sm bg-white z-[60] flex flex-col shadow-2xl">
+<div id="mini-cart" class="fixed top-0 right-0 h-full w-[90vw] max-w-sm bg-white z-[60] flex flex-col shadow-lg">
   <div class="flex items-center justify-between px-4 py-4 border-b border-slate-200 shrink-0">
     <h2 class="font-bold text-slate-900">Giỏ hàng</h2>
     <button onclick="closeCart()" class="p-1.5 text-slate-500 hover:text-slate-900 transition-colors" aria-label="Đóng giỏ hàng">
@@ -815,7 +815,7 @@
   </div>
   <div class="flex-1 overflow-y-auto p-4">
     <div class="flex gap-3 mb-4">
-      <img src="https://placehold.co/56x56/f8fafc/1e40af?text=Dell" alt="Dell Inspiron 15" class="w-14 h-14 object-contain border border-slate-100 rounded-xl bg-slate-50 shrink-0">
+      <img src="https://placehold.co/56x56/f8fafc/1e40af?text=Dell" alt="Dell Inspiron 15" class="w-14 h-14 object-contain border border-slate-100 rounded-lg bg-slate-50 shrink-0">
       <div class="flex-1 min-w-0">
         <p class="text-sm font-medium text-slate-800 line-clamp-2">Laptop Dell Inspiron 15 3520 i5-1235U 16GB 512GB</p>
         <p class="text-xs text-slate-500 mt-0.5">16GB / 512GB SSD</p>
@@ -828,13 +828,13 @@
       <span class="text-slate-500">Tạm tính</span>
       <span class="font-bold text-slate-900">15.990.000đ</span>
     </div>
-    <button onclick="closeCart()" class="w-full border border-slate-300 text-slate-700 font-semibold py-2.5 rounded-xl hover:border-slate-400 transition-colors text-sm">Tiếp tục mua sắm</button>
-    <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-sm text-center transition-colors">Xem giỏ & Thanh toán</a>
+    <button onclick="closeCart()" class="w-full border border-slate-300 text-slate-700 font-semibold py-2.5 rounded-lg hover:border-slate-400 transition-colors text-sm">Tiếp tục mua sắm</button>
+    <a href="#" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-sm text-center transition-colors">Xem giỏ & Thanh toán</a>
   </div>
 </div>
 
 <!-- Toast -->
-<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-xl opacity-0 pointer-events-none transition-opacity duration-300 z-[70]">
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-medium px-5 py-3 rounded-lg shadow-md opacity-0 pointer-events-none transition-opacity duration-300 z-[70]">
   ✓ Đã thêm vào giỏ hàng
 </div>
 

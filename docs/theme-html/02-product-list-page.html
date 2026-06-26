@@ -15,7 +15,7 @@
 
   /* Product card */
   .product-card { transition:all .18s ease; }
-  .product-card:hover { box-shadow:0 6px 24px rgba(0,0,0,.12); border-color:#93c5fd !important; transform:translateY(-1px); }
+  .product-card:hover { box-shadow:0 2px 10px rgba(15,23,42,.08); border-color:#93c5fd !important; transform:translateY(-1px); }
 
   /* Filter group */
   .filter-group-body { max-height:0; overflow:hidden; transition:max-height .25s ease; }
@@ -73,7 +73,7 @@
       <div class="hidden md:flex flex-1 max-w-xl">
         <div class="relative w-full">
           <label for="srch" class="sr-only">Tìm kiếm</label>
-          <input id="srch" type="search" value="laptop" class="w-full h-9 pl-4 pr-12 border-2 border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 transition-colors">
+          <input id="srch" type="search" value="laptop" class="w-full h-9 pl-4 pr-12 border-2 border-slate-200 rounded-lg text-sm bg-slate-50 focus:outline-none focus:border-blue-500 transition-colors">
           <button class="absolute right-0 top-0 h-9 w-11 bg-blue-600 hover:bg-blue-700 rounded-r-xl flex items-center justify-center transition-colors" aria-label="Tìm kiếm">
             <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </button>
@@ -166,13 +166,13 @@
   </div>
 
   <!-- Category banner (optional) -->
-  <div class="mb-5 rounded-2xl bg-gradient-to-r from-[#0f172a] to-[#1d4ed8] px-6 py-4 flex items-center justify-between overflow-hidden relative" style="max-height:140px">
+  <div class="mb-5 rounded-lg bg-gradient-to-r from-[#0f172a] to-[#1d4ed8] px-6 py-4 flex items-center justify-between overflow-hidden relative" style="max-height:140px">
     <div class="relative z-10">
       <p class="text-blue-300 text-xs font-semibold uppercase tracking-wider mb-1">Back to School 2026</p>
       <p class="text-white font-bold text-xl leading-tight">Laptop giảm đến 20%</p>
       <p class="text-blue-200 text-xs mt-1">Tặng balo + chuột không dây cho đơn từ 15 triệu</p>
     </div>
-    <a href="#" class="shrink-0 bg-blue-500 hover:bg-blue-400 text-white font-semibold text-sm px-5 py-2 rounded-xl transition-colors relative z-10">Xem ưu đãi</a>
+    <a href="#" class="shrink-0 bg-blue-500 hover:bg-blue-400 text-white font-semibold text-sm px-5 py-2 rounded-lg transition-colors relative z-10">Xem ưu đãi</a>
     <div class="absolute right-20 top-0 bottom-0 w-32 bg-white/5 rounded-l-3xl pointer-events-none"></div>
   </div>
 
@@ -195,7 +195,7 @@
          FILTER SIDEBAR — desktop
          ============================================================ -->
     <aside class="hidden md:block w-[280px] shrink-0">
-      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-white rounded-lg border border-slate-200 overflow-hidden">
 
         <!-- Sidebar header -->
         <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
@@ -456,7 +456,7 @@
           </div>
 
           <!-- Sort -->
-          <select class="h-9 pl-3 pr-8 border border-slate-200 rounded-xl text-sm text-slate-700 bg-white focus:outline-none focus:border-blue-400 transition-colors cursor-pointer" aria-label="Sắp xếp theo">
+          <select class="h-9 pl-3 pr-8 border border-slate-200 rounded-lg text-sm text-slate-700 bg-white focus:outline-none focus:border-blue-400 transition-colors cursor-pointer" aria-label="Sắp xếp theo">
             <option value="best_selling">Bán chạy nhất</option>
             <option value="newest">Mới nhất</option>
             <option value="price_asc">Giá thấp → cao</option>
@@ -475,7 +475,7 @@
              ============================================================ -->
 
         <!-- Card 1 — in_stock, on sale -->
-        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer group" data-compare-id="p1">
+        <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer group" data-compare-id="p1">
           <a href="#" class="block">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
               <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-16%</span>
@@ -511,8 +511,8 @@
             <p class="text-[11px] font-semibold avail-in mb-2.5">✓ Còn hàng · BH 24 tháng</p>
             <!-- Actions -->
             <div class="flex gap-2">
-              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors" aria-label="Thêm Dell Inspiron 15 vào giỏ hàng">Thêm giỏ</button>
-              <button onclick="addCompare('p1', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors" aria-label="So sánh sản phẩm">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors" aria-label="Thêm Dell Inspiron 15 vào giỏ hàng">Thêm giỏ</button>
+              <button onclick="addCompare('p1', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors" aria-label="So sánh sản phẩm">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </button>
             </div>
@@ -520,7 +520,7 @@
         </div>
 
         <!-- Card 2 — out_of_stock -->
-        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p2">
+        <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer" data-compare-id="p2">
           <a href="#" class="block">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
               <span class="absolute top-2 left-2 bg-slate-400 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Hết hàng</span>
@@ -539,8 +539,8 @@
             <p class="text-base font-extrabold text-slate-400">42.990.000đ</p>
             <p class="text-[11px] font-semibold avail-out mt-1 mb-2.5">— Tạm hết hàng</p>
             <div class="flex gap-2">
-              <button class="flex-1 bg-slate-200 text-slate-400 text-xs font-semibold py-2 rounded-xl cursor-not-allowed" disabled aria-label="Hết hàng, không thể thêm vào giỏ">Hết hàng</button>
-              <button onclick="addCompare('p2', this)" class="w-8 h-8 flex items-center justify-center border border-slate-100 rounded-xl text-slate-300 hover:border-blue-200 hover:text-blue-400 transition-colors" aria-label="So sánh sản phẩm">
+              <button class="flex-1 bg-slate-200 text-slate-400 text-xs font-semibold py-2 rounded-lg cursor-not-allowed" disabled aria-label="Hết hàng, không thể thêm vào giỏ">Hết hàng</button>
+              <button onclick="addCompare('p2', this)" class="w-8 h-8 flex items-center justify-center border border-slate-100 rounded-lg text-slate-300 hover:border-blue-200 hover:text-blue-400 transition-colors" aria-label="So sánh sản phẩm">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </button>
             </div>
@@ -548,7 +548,7 @@
         </div>
 
         <!-- Card 3 — low_stock, in compare -->
-        <div class="product-card bg-white border-2 border-blue-400 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p3">
+        <div class="product-card bg-white border-2 border-blue-400 rounded-lg overflow-hidden cursor-pointer" data-compare-id="p3">
           <a href="#" class="block">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
               <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-22%</span>
@@ -574,8 +574,8 @@
             <p class="text-[10px] text-orange-600 mb-1">💳 Trả góp từ 2.207.000đ/tháng</p>
             <p class="text-[11px] font-semibold avail-low mb-2.5">⚠ Sắp hết hàng · BH 24 tháng</p>
             <div class="flex gap-2">
-              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
-              <button onclick="addCompare('p3', this)" class="w-8 h-8 flex items-center justify-center border-2 border-blue-400 rounded-xl text-blue-500 hover:bg-blue-50 transition-colors" aria-label="Đang so sánh, bỏ so sánh">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
+              <button onclick="addCompare('p3', this)" class="w-8 h-8 flex items-center justify-center border-2 border-blue-400 rounded-lg text-blue-500 hover:bg-blue-50 transition-colors" aria-label="Đang so sánh, bỏ so sánh">
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </button>
             </div>
@@ -583,7 +583,7 @@
         </div>
 
         <!-- Card 4 — pre_order -->
-        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p4">
+        <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer" data-compare-id="p4">
           <a href="#" class="block">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
               <span class="absolute top-2 left-2 bg-violet-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Đặt trước</span>
@@ -603,8 +603,8 @@
             <p class="text-[10px] text-violet-600 mb-1 mt-1">Dự kiến về hàng: 15/07/2026</p>
             <p class="text-[11px] font-semibold avail-pre mb-2.5">Đặt trước ngay · BH 12 tháng</p>
             <div class="flex gap-2">
-              <button class="flex-1 bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Đặt trước</button>
-              <button onclick="addCompare('p4', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
+              <button class="flex-1 bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Đặt trước</button>
+              <button onclick="addCompare('p4', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </button>
             </div>
@@ -612,7 +612,7 @@
         </div>
 
         <!-- Card 5 -->
-        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p5">
+        <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer" data-compare-id="p5">
           <a href="#" class="block">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
               <span class="absolute top-2 left-2 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Mới</span>
@@ -636,8 +636,8 @@
             <p class="text-[10px] text-orange-600 mb-1">💳 Trả góp từ 1.624.000đ/tháng</p>
             <p class="text-[11px] font-semibold avail-in mb-2.5">✓ Còn hàng · BH 24 tháng</p>
             <div class="flex gap-2">
-              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
-              <button onclick="addCompare('p5', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
+              <button onclick="addCompare('p5', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </button>
             </div>
@@ -645,7 +645,7 @@
         </div>
 
         <!-- Card 6 -->
-        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p6">
+        <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer" data-compare-id="p6">
           <a href="#" class="block">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
               <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-15%</span>
@@ -671,8 +671,8 @@
             <p class="text-[10px] text-slate-600 mb-1">🎁 Tặng balo trị giá 500K</p>
             <p class="text-[11px] font-semibold avail-in mb-2.5">✓ Còn hàng · BH 24 tháng</p>
             <div class="flex gap-2">
-              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
-              <button onclick="addCompare('p6', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Thêm giỏ</button>
+              <button onclick="addCompare('p6', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-lg hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               </button>
             </div>
@@ -680,26 +680,26 @@
         </div>
 
         <!-- Skeleton card (loading state demo) -->
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden opacity-60">
+        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden opacity-60">
           <div class="aspect-square skeleton"></div>
           <div class="p-3 space-y-2">
             <div class="h-4 skeleton rounded w-full"></div>
             <div class="h-4 skeleton rounded w-3/4"></div>
             <div class="h-3 skeleton rounded w-1/2"></div>
             <div class="h-5 skeleton rounded w-2/3 mt-2"></div>
-            <div class="h-8 skeleton rounded-xl w-full mt-2"></div>
+            <div class="h-8 skeleton rounded-lg w-full mt-2"></div>
           </div>
         </div>
 
         <!-- Skeleton card 2 -->
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden opacity-40">
+        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden opacity-40">
           <div class="aspect-square skeleton"></div>
           <div class="p-3 space-y-2">
             <div class="h-4 skeleton rounded w-full"></div>
             <div class="h-4 skeleton rounded w-5/6"></div>
             <div class="h-3 skeleton rounded w-1/2"></div>
             <div class="h-5 skeleton rounded w-2/3 mt-2"></div>
-            <div class="h-8 skeleton rounded-xl w-full mt-2"></div>
+            <div class="h-8 skeleton rounded-lg w-full mt-2"></div>
           </div>
         </div>
 
@@ -712,7 +712,7 @@
         </div>
         <h3 class="text-lg font-bold text-slate-800 mb-2">Không tìm thấy sản phẩm phù hợp</h3>
         <p class="text-sm text-slate-500 mb-6">Hãy thử bỏ bớt bộ lọc hoặc thay đổi khoảng giá.</p>
-        <button onclick="clearAllFilters()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Xóa tất cả bộ lọc</button>
+        <button onclick="clearAllFilters()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm">Xóa tất cả bộ lọc</button>
       </div>
 
       <!-- Error state (hidden by default) -->
@@ -722,7 +722,7 @@
         </div>
         <h3 class="text-lg font-bold text-slate-800 mb-2">Không thể tải danh sách sản phẩm</h3>
         <p class="text-sm text-slate-500 mb-6">Đã xảy ra lỗi kết nối. Vui lòng thử lại.</p>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Thử lại</button>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-lg transition-colors text-sm">Thử lại</button>
       </div>
 
       <!-- Pagination -->
@@ -748,7 +748,7 @@
 <!-- ============================================================
      COMPARE TRAY — fixed bottom
      ============================================================ -->
-<div id="compare-tray" class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-blue-500 shadow-2xl visible">
+<div id="compare-tray" class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-blue-500 shadow-lg visible">
   <div class="max-w-[1320px] mx-auto px-4 py-3 flex items-center gap-4">
     <div class="flex items-center gap-1.5 text-sm font-semibold text-blue-700">
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -756,22 +756,22 @@
     </div>
     <!-- Compare items -->
     <div class="flex items-center gap-3 flex-1 overflow-x-auto">
-      <div class="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-xl px-3 py-1.5 shrink-0">
+      <div class="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-1.5 shrink-0">
         <img src="https://placehold.co/32x32/eff6ff/2563eb?text=MSI" alt="MSI Katana" class="w-8 h-8 object-contain rounded">
         <span class="text-xs font-medium text-slate-700 max-w-[100px] truncate">MSI Katana 15 i7</span>
         <button class="text-slate-400 hover:text-red-500 transition-colors text-sm font-bold" aria-label="Bỏ MSI Katana khỏi so sánh">×</button>
       </div>
       <!-- Empty slot -->
-      <div class="flex items-center justify-center w-24 h-10 border-2 border-dashed border-slate-300 rounded-xl shrink-0">
+      <div class="flex items-center justify-center w-24 h-10 border-2 border-dashed border-slate-300 rounded-lg shrink-0">
         <span class="text-xs text-slate-400">+ Thêm SP</span>
       </div>
-      <div class="flex items-center justify-center w-24 h-10 border-2 border-dashed border-slate-300 rounded-xl shrink-0">
+      <div class="flex items-center justify-center w-24 h-10 border-2 border-dashed border-slate-300 rounded-lg shrink-0">
         <span class="text-xs text-slate-400">+ Thêm SP</span>
       </div>
     </div>
     <div class="flex items-center gap-2 shrink-0">
       <button onclick="clearCompare()" class="text-sm text-slate-500 hover:text-red-500 transition-colors">Xóa</button>
-      <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2 rounded-xl transition-colors">So sánh ngay</a>
+      <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2 rounded-lg transition-colors">So sánh ngay</a>
     </div>
   </div>
 </div>
@@ -783,7 +783,7 @@
 <div id="filter-overlay" class="fixed inset-0 bg-black/50 z-50" onclick="closeDrawer()"></div>
 
 <!-- Drawer panel -->
-<div id="filter-drawer" class="fixed inset-y-0 left-0 w-[85vw] max-w-sm bg-white z-50 flex flex-col shadow-2xl" aria-label="Bộ lọc" role="dialog" aria-modal="true">
+<div id="filter-drawer" class="fixed inset-y-0 left-0 w-[85vw] max-w-sm bg-white z-50 flex flex-col shadow-lg" aria-label="Bộ lọc" role="dialog" aria-modal="true">
   <!-- Drawer header -->
   <div class="flex items-center justify-between px-4 py-4 border-b border-slate-200 shrink-0">
     <div class="flex items-center gap-2">
@@ -833,13 +833,13 @@
 
   <!-- Drawer footer (sticky) -->
   <div class="shrink-0 border-t border-slate-200 px-4 py-4 flex gap-3 bg-white">
-    <button onclick="clearAllFilters()" class="flex-1 border border-slate-300 text-slate-700 font-semibold py-2.5 rounded-xl hover:border-slate-400 transition-colors text-sm">Xóa tất cả</button>
-    <button onclick="closeDrawer()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Áp dụng (2)</button>
+    <button onclick="clearAllFilters()" class="flex-1 border border-slate-300 text-slate-700 font-semibold py-2.5 rounded-lg hover:border-slate-400 transition-colors text-sm">Xóa tất cả</button>
+    <button onclick="closeDrawer()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm">Áp dụng (2)</button>
   </div>
 </div>
 
 <!-- Toast notification (demo) -->
-<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-xl opacity-0 pointer-events-none transition-opacity z-[60]">
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-medium px-5 py-3 rounded-lg shadow-md opacity-0 pointer-events-none transition-opacity z-[60]">
   ✓ Đã thêm vào giỏ hàng
 </div>
 

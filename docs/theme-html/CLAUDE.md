@@ -45,7 +45,7 @@ Mỗi mockup là **một file `.html` self-contained duy nhất** (không tách 
 
   /* Product card — chuẩn dùng chung mọi trang */
   .product-card { transition:all .18s ease; }
-  .product-card:hover { box-shadow:0 8px 28px rgba(0,0,0,.13); border-color:#93c5fd !important; transform:translateY(-2px); }
+  .product-card:hover { box-shadow:0 2px 10px rgba(15,23,42,.08); border-color:#93c5fd !important; transform:translateY(-1px); }
 
   /* Màu giá — KHÔNG hard-code đỏ rải rác, dùng các class này */
   .price-s { color:#dc2626; }                              /* giá bán / giá sale */
@@ -121,7 +121,8 @@ Toàn bộ palette electronics map gần như khớp tuyệt đối với Tailwi
 - Spacing theo hệ 4px (dùng thang Tailwind `p-2 p-3 p-4 gap-4 ...`). KHÔNG dùng số lẻ (`p-[13px]`).
 - Container chuẩn: `max-w-7xl mx-auto px-4`. Mọi section bọc nội dung trong container này; nền full-width thì cho màu nền ra ngoài, nội dung vẫn trong `max-w-7xl`.
 - Section spacing: `py-5`–`py-8`. Giữa các block lớn dùng `border-b border-slate-100` để phân tách (đúng như 2 trang đã có).
-- Radius: card `rounded-2xl`, button/input `rounded-xl`, badge `rounded-md`/`rounded-full`. Không trộn quá nhiều loại radius trong cùng màn.
+- Radius (thang theo vai trò — xem [`../theme/18-anti-generic-ui.md`](../theme/18-anti-generic-ui.md)): card/ảnh `rounded-lg` (storefront) hoặc `rounded-md` (admin, crisp hơn), button/input/select `rounded-md`, bảng/tab gần vuông (`rounded`), status/data badge `rounded` (chữ nhật bo nhẹ). Chỉ `rounded-full` cho avatar/dot/số đếm/nút icon. **Cấm** `rounded-2xl`/`rounded-3xl`.
+- Elevation: bề mặt nghỉ phẳng + `border border-slate-200`, KHÔNG shadow. Shadow chỉ cho lớp nổi thật (dropdown/popover/modal/toast/sticky) ở mức `shadow-md`/`shadow-lg`. Hover tinh tế: bóng nhẹ + tối đa `translateY(-1px)`.
 
 ---
 
@@ -153,7 +154,7 @@ Header, Navigation/Mega menu, và Footer **phải giống hệt** giữa mọi t
 Cấu trúc cố định, theo đúng card trong `01-home-page.html`:
 
 ```text
-<div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer">
+<div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden cursor-pointer">
   [Ảnh] aspect-square, nền slate-50, object-contain, có badge sale góc trái
   [Tên] text-sm font-semibold line-clamp-2          ← TỐI ĐA 2 DÒNG
   [Quick specs] 3 chip text-[10px] bg-slate-100      ← i5 / 16GB / SSD 512GB

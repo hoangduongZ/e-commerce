@@ -33,7 +33,7 @@
   .nav-item.is-active svg { color:#2563eb; }
   .nav-group-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.08em; padding:16px 24px 6px; }
 
-  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600; white-space:nowrap; }
   .badge-blue   { background:#dbeafe; color:#1d4ed8; }
   .badge-green{ background:#dcfce7; color:#166534; }
   .badge-amber  { background:#fef3c7; color:#92400e; }
@@ -61,7 +61,7 @@
   /* Toggle switch */
   .switch { position:relative; display:inline-block; width:40px; height:22px; flex-shrink:0; }
   .switch input { opacity:0; width:0; height:0; }
-  .switch .slider { position:absolute; cursor:pointer; inset:0; background:#cbd5e1; border-radius:999px; transition:.2s; }
+  .switch .slider { position:absolute; cursor:pointer; inset:0; background:#cbd5e1; border-radius:5px; transition:.2s; }
   .switch .slider:before { content:""; position:absolute; height:16px; width:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.2s; }
   .switch input:checked + .slider { background:#2563eb; }
   .switch input:checked + .slider:before { transform:translateX(18px); }
@@ -89,7 +89,7 @@
      ============================================================ -->
 <aside id="admin-sidebar" class="bg-white border-r border-slate-200 flex flex-col h-full overflow-y-auto">
   <div class="flex items-center gap-2.5 h-16 px-5 border-b border-slate-100 shrink-0">
-    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+    <div class="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
       <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
     </div>
     <div>
@@ -119,7 +119,7 @@
     <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Cài đặt</span></a>
   </nav>
   <div class="border-t border-slate-100 p-3 shrink-0">
-    <div class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 cursor-pointer">
+    <div class="flex items-center gap-2.5 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
       <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">NM</div>
       <div class="flex-1 min-w-0"><p class="text-xs font-semibold text-slate-900 leading-tight">Nguyễn Minh</p><p class="text-[10px] text-slate-400">Store Manager</p></div>
       <svg class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>
@@ -134,20 +134,20 @@
      2. ADMIN TOP BAR
      ============================================================ -->
 <header class="bg-white border-b border-slate-200 flex items-center gap-3 h-16 px-4 shrink-0">
-  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg" aria-label="Mở menu">
+  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-md" aria-label="Mở menu">
     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
   <div class="relative flex-1 max-w-md">
     <label for="admin-search" class="sr-only">Tìm kiếm</label>
     <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-md text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
   </div>
   <div class="flex items-center gap-1 ml-auto">
-    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Thông báo">
+    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thông báo">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
     </button>
-    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Tài khoản admin">
+    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors" aria-label="Tài khoản admin">
       <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">NM</div>
       <span class="hidden md:block text-sm font-medium">Nguyễn Minh</span>
       <svg class="h-4 w-4 text-slate-400 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -186,19 +186,19 @@
     <p class="text-sm text-slate-500 mt-0.5 line-clamp-1">Samsung Galaxy S24 Ultra 12GB 256GB · SKU SS-S24U-12-256</p>
   </div>
   <div class="hidden lg:flex items-center gap-2">
-    <button class="h-9 px-3 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-white bg-white transition-colors" onclick="showToast('Đã lưu nháp (Ctrl/Cmd + S)')">Lưu nháp</button>
-    <button class="h-9 px-3 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-white bg-white transition-colors inline-flex items-center gap-1.5" onclick="showToast('Mở preview như storefront')">
+    <button class="h-9 px-3 border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-white bg-white transition-colors" onclick="showToast('Đã lưu nháp (Ctrl/Cmd + S)')">Lưu nháp</button>
+    <button class="h-9 px-3 border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-white bg-white transition-colors inline-flex items-center gap-1.5" onclick="showToast('Mở preview như storefront')">
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
       Xem trước
     </button>
-    <button class="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-colors" onclick="tryPublish()">Đăng bán</button>
+    <button class="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-md transition-colors" onclick="tryPublish()">Đăng bán</button>
   </div>
 </div>
 
 <!-- ============================================================
      5. ERROR SUMMARY (hiện khi publish fail) — spec mục 23
      ============================================================ -->
-<div id="error-summary" class="hidden mb-4 rounded-2xl border border-red-200 bg-red-50 p-4" role="alert" tabindex="-1">
+<div id="error-summary" class="hidden mb-4 rounded-md border border-red-200 bg-red-50 p-4" role="alert" tabindex="-1">
   <div class="flex items-start gap-3">
     <svg class="h-5 w-5 text-red-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
     <div class="flex-1 min-w-0">
@@ -228,7 +228,7 @@
     <!-- 6.1 BASIC INFORMATION -->
     <section id="sec-basic" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">1</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">1</span>
         <h2 class="text-sm font-bold text-slate-900">Thông tin cơ bản</h2>
       </div>
       <div class="fbody space-y-4">
@@ -242,7 +242,7 @@
             <label class="flabel" for="f-slug">Slug (đường dẫn) <span class="text-red-500">*</span></label>
             <div class="flex gap-2">
               <input id="f-slug" type="text" class="finput" value="samsung-galaxy-s24-ultra-256gb">
-              <button class="h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50 shrink-0" onclick="genSlug()" title="Tạo lại slug từ tên">Tự sinh</button>
+              <button class="h-10 px-3 border border-slate-200 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-50 shrink-0" onclick="genSlug()" title="Tạo lại slug từ tên">Tự sinh</button>
             </div>
             <p class="fhint">Lowercase, dùng gạch ngang, không ký tự đặc biệt. <span class="text-green-600">✓ Hợp lệ & chưa trùng</span></p>
           </div>
@@ -270,15 +270,15 @@
         <div>
           <label class="flabel">Mô tả đầy đủ</label>
           <!-- Rich text editor (mock toolbar) -->
-          <div class="border border-slate-200 rounded-xl overflow-hidden">
+          <div class="border border-slate-200 rounded-md overflow-hidden">
             <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-100 bg-slate-50 flex-wrap" role="toolbar" aria-label="Định dạng văn bản">
-              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 font-bold text-sm" aria-label="In đậm">B</button>
-              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 italic text-sm" aria-label="In nghiêng">I</button>
-              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 underline text-sm" aria-label="Gạch chân">U</button>
+              <button class="w-8 h-8 rounded-md hover:bg-white text-slate-600 font-bold text-sm" aria-label="In đậm">B</button>
+              <button class="w-8 h-8 rounded-md hover:bg-white text-slate-600 italic text-sm" aria-label="In nghiêng">I</button>
+              <button class="w-8 h-8 rounded-md hover:bg-white text-slate-600 underline text-sm" aria-label="Gạch chân">U</button>
               <span class="w-px h-5 bg-slate-200 mx-1"></span>
-              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600" aria-label="Danh sách"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600" aria-label="Chèn link"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 015.656 0 4 4 0 010 5.656l-3 3a4 4 0 01-5.656-5.656"/></svg></button>
-              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600" aria-label="Chèn ảnh"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></button>
+              <button class="w-8 h-8 rounded-md hover:bg-white text-slate-600" aria-label="Danh sách"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+              <button class="w-8 h-8 rounded-md hover:bg-white text-slate-600" aria-label="Chèn link"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 015.656 0 4 4 0 010 5.656l-3 3a4 4 0 01-5.656-5.656"/></svg></button>
+              <button class="w-8 h-8 rounded-md hover:bg-white text-slate-600" aria-label="Chèn ảnh"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></button>
             </div>
             <div contenteditable="true" class="p-3 min-h-[120px] text-sm text-slate-700 focus:outline-none" aria-label="Nội dung mô tả đầy đủ">
               <p><strong>Samsung Galaxy S24 Ultra</strong> là flagship mạnh nhất của Samsung 2024, khung Titan, bút S Pen tích hợp.</p>
@@ -293,13 +293,13 @@
     <!-- 6.2 MEDIA -->
     <section id="sec-media" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">2</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">2</span>
         <h2 class="text-sm font-bold text-slate-900">Hình ảnh & media</h2>
         <span class="badge badge-red ml-auto">Cần ảnh chính</span>
       </div>
       <div class="fbody space-y-4">
         <!-- Dropzone -->
-        <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-blue-400 hover:bg-blue-50/40 transition-colors cursor-pointer" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn ảnh để tải lên" onclick="showToast('Mở hộp thoại chọn ảnh')">
+        <div class="border-2 border-dashed border-slate-300 rounded-md p-6 text-center hover:border-blue-400 hover:bg-blue-50/40 transition-colors cursor-pointer" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn ảnh để tải lên" onclick="showToast('Mở hộp thoại chọn ảnh')">
           <svg class="h-8 w-8 text-slate-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
           <p class="text-sm font-semibold text-slate-700">Kéo thả ảnh vào đây hoặc <span class="text-blue-600">chọn từ máy</span></p>
           <p class="text-xs text-slate-400 mt-1">JPG, PNG, WEBP · tỉ lệ 1:1 hoặc 4:3 · tự tạo thumbnail & tối ưu</p>
@@ -307,34 +307,34 @@
         <!-- Image grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
           <!-- Primary -->
-          <div class="relative group border-2 border-blue-500 rounded-xl overflow-hidden bg-slate-50">
+          <div class="relative group border-2 border-blue-500 rounded-md overflow-hidden bg-slate-50">
             <span class="absolute top-1.5 left-1.5 z-10 badge badge-blue">★ Ảnh chính</span>
             <img src="https://placehold.co/200x200/f5f3ff/7c3aed?text=S24U-1" alt="Galaxy S24 Ultra mặt trước" class="w-full aspect-square object-contain">
             <div class="p-1.5">
-              <input type="text" value="Galaxy S24 Ultra mặt trước" aria-label="Alt text ảnh 1" class="w-full text-[11px] px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500">
+              <input type="text" value="Galaxy S24 Ultra mặt trước" aria-label="Alt text ảnh 1" class="w-full text-[11px] px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500">
             </div>
             <div class="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="w-7 h-7 bg-white/90 rounded-lg flex items-center justify-center text-slate-600 hover:text-red-600 shadow" aria-label="Xóa ảnh 1" onclick="openConfirm('delete-image')"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+              <button class="w-7 h-7 bg-white/90 rounded-md flex items-center justify-center text-slate-600 hover:text-red-600 shadow" aria-label="Xóa ảnh 1" onclick="openConfirm('delete-image')"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
             </div>
           </div>
           <!-- Normal images -->
-          <div class="relative group border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+          <div class="relative group border border-slate-200 rounded-md overflow-hidden bg-slate-50">
             <img src="https://placehold.co/200x200/f5f3ff/7c3aed?text=S24U-2" alt="Galaxy S24 Ultra mặt sau" class="w-full aspect-square object-contain">
-            <div class="p-1.5"><input type="text" value="Mặt sau" aria-label="Alt text ảnh 2" class="w-full text-[11px] px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></div>
+            <div class="p-1.5"><input type="text" value="Mặt sau" aria-label="Alt text ảnh 2" class="w-full text-[11px] px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></div>
             <div class="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button class="w-7 h-7 bg-white/90 rounded-lg flex items-center justify-center text-[10px] font-bold text-blue-600 shadow" aria-label="Đặt làm ảnh chính" onclick="showToast('Đã đặt làm ảnh chính')">★</button>
-              <button class="w-7 h-7 bg-white/90 rounded-lg flex items-center justify-center text-slate-600 hover:text-red-600 shadow" aria-label="Xóa ảnh 2" onclick="openConfirm('delete-image')"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m14 0H5m5 4v6m4-6v6"/></svg></button>
+              <button class="w-7 h-7 bg-white/90 rounded-md flex items-center justify-center text-[10px] font-bold text-blue-600 shadow" aria-label="Đặt làm ảnh chính" onclick="showToast('Đã đặt làm ảnh chính')">★</button>
+              <button class="w-7 h-7 bg-white/90 rounded-md flex items-center justify-center text-slate-600 hover:text-red-600 shadow" aria-label="Xóa ảnh 2" onclick="openConfirm('delete-image')"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m14 0H5m5 4v6m4-6v6"/></svg></button>
             </div>
           </div>
           <!-- Uploading (progress) -->
-          <div class="relative border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+          <div class="relative border border-slate-200 rounded-md overflow-hidden bg-slate-50">
             <div class="w-full aspect-square flex flex-col items-center justify-center p-3">
               <div class="w-full bg-slate-200 rounded-full h-1.5 mb-2"><div class="bg-blue-600 h-1.5 rounded-full" style="width:62%"></div></div>
               <p class="text-[11px] text-slate-500">Đang tải… 62%</p>
             </div>
           </div>
           <!-- Failed (retry) -->
-          <div class="relative border border-red-200 bg-red-50 rounded-xl overflow-hidden">
+          <div class="relative border border-red-200 bg-red-50 rounded-md overflow-hidden">
             <div class="w-full aspect-square flex flex-col items-center justify-center p-3 text-center">
               <svg class="h-6 w-6 text-red-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               <p class="text-[11px] text-red-600 font-medium">Tải ảnh thất bại</p>
@@ -349,7 +349,7 @@
     <!-- 6.3 PRICING -->
     <section id="sec-pricing" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">3</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">3</span>
         <h2 class="text-sm font-bold text-slate-900">Giá bán</h2>
         <span class="badge badge-red ml-auto">Chưa có giá</span>
       </div>
@@ -382,7 +382,7 @@
           </div>
         </div>
         <!-- Promotion -->
-        <div class="rounded-xl bg-slate-50 border border-slate-100 p-3">
+        <div class="rounded-md bg-slate-50 border border-slate-100 p-3">
           <div class="flex items-center justify-between mb-3">
             <p class="text-sm font-semibold text-slate-700">Giá khuyến mãi theo thời gian</p>
             <label class="switch"><input type="checkbox" id="promo-toggle" onchange="document.getElementById('promo-fields').classList.toggle('hidden', !this.checked)"><span class="slider"></span></label>
@@ -402,7 +402,7 @@
     <!-- 6.4 CATEGORY & BRAND -->
     <section id="sec-catbrand" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">4</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">4</span>
         <h2 class="text-sm font-bold text-slate-900">Danh mục & thương hiệu</h2>
       </div>
       <div class="fbody space-y-4">
@@ -421,7 +421,7 @@
             <label class="flabel" for="f-brand">Thương hiệu <span class="text-red-500">*</span></label>
             <div class="flex gap-2">
               <select id="f-brand" class="finput"><option>Samsung</option><option>Apple</option><option>Xiaomi</option><option>Dell</option><option>Asus</option></select>
-              <button class="h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50 shrink-0" onclick="showToast('Mở form tạo nhanh thương hiệu')">+ Mới</button>
+              <button class="h-10 px-3 border border-slate-200 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-50 shrink-0" onclick="showToast('Mở form tạo nhanh thương hiệu')">+ Mới</button>
             </div>
           </div>
         </div>
@@ -439,7 +439,7 @@
     <!-- 6.5 VARIANTS -->
     <section id="sec-variants" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">5</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">5</span>
         <h2 class="text-sm font-bold text-slate-900">Biến thể</h2>
       </div>
       <div class="fbody space-y-4">
@@ -463,10 +463,10 @@
         </div>
         <div class="flex items-center justify-between gap-2 pt-1">
           <p class="text-xs text-slate-400">3 màu × 3 bộ nhớ = 9 tổ hợp</p>
-          <button class="h-9 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl" onclick="showToast('Đã sinh 9 tổ hợp biến thể (bỏ trùng)')">Tạo tổ hợp biến thể</button>
+          <button class="h-9 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md" onclick="showToast('Đã sinh 9 tổ hợp biến thể (bỏ trùng)')">Tạo tổ hợp biến thể</button>
         </div>
         <!-- Variant table -->
-        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+        <div class="overflow-x-auto border border-slate-100 rounded-md">
           <table class="w-full text-sm min-w-[640px]">
             <thead><tr class="border-b border-slate-100 bg-slate-50">
               <th class="text-left py-2 px-3 text-xs font-semibold text-slate-500">Biến thể</th>
@@ -478,24 +478,24 @@
             <tbody>
               <tr class="border-b border-slate-50">
                 <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Đen / 256GB</td>
-                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-256" aria-label="SKU Titan Đen 256GB" class="w-full text-xs font-mono px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
-                <td class="py-2 px-3"><input type="number" value="31990000" aria-label="Giá Titan Đen 256GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
-                <td class="py-2 px-3"><input type="number" value="20" aria-label="Tồn Titan Đen 256GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-256" aria-label="SKU Titan Đen 256GB" class="w-full text-xs font-mono px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="31990000" aria-label="Giá Titan Đen 256GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="20" aria-label="Tồn Titan Đen 256GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
                 <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
               </tr>
               <tr class="border-b border-slate-50">
                 <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Đen / 512GB</td>
-                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-512" aria-label="SKU Titan Đen 512GB" class="w-full text-xs font-mono px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
-                <td class="py-2 px-3"><input type="number" value="35990000" aria-label="Giá Titan Đen 512GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
-                <td class="py-2 px-3"><input type="number" value="12" aria-label="Tồn Titan Đen 512GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-512" aria-label="SKU Titan Đen 512GB" class="w-full text-xs font-mono px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="35990000" aria-label="Giá Titan Đen 512GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="12" aria-label="Tồn Titan Đen 512GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
                 <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
               </tr>
               <!-- duplicate SKU error -->
               <tr class="border-b border-slate-50 bg-red-50">
                 <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Xám / 256GB</td>
-                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-256" aria-label="SKU Titan Xám 256GB" class="w-full text-xs font-mono px-2 py-1 border border-red-400 rounded-lg focus:outline-none"><span class="text-[10px] text-red-600">SKU bị trùng</span></td>
-                <td class="py-2 px-3"><input type="number" value="31990000" aria-label="Giá Titan Xám 256GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
-                <td class="py-2 px-3"><input type="number" value="8" aria-label="Tồn Titan Xám 256GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-256" aria-label="SKU Titan Xám 256GB" class="w-full text-xs font-mono px-2 py-1 border border-red-400 rounded-md focus:outline-none"><span class="text-[10px] text-red-600">SKU bị trùng</span></td>
+                <td class="py-2 px-3"><input type="number" value="31990000" aria-label="Giá Titan Xám 256GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="8" aria-label="Tồn Titan Xám 256GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-md focus:outline-none focus:border-blue-500"></td>
                 <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
               </tr>
               <!-- disabled combination -->
@@ -516,14 +516,14 @@
     <!-- 6.6 TECHNICAL SPECS (attribute template theo category) -->
     <section id="sec-specs" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">6</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">6</span>
         <h2 class="text-sm font-bold text-slate-900">Thông số kỹ thuật</h2>
         <span class="text-[11px] text-slate-400 ml-2 hidden sm:inline">Template: Điện thoại</span>
         <span class="badge badge-amber ml-auto">Thiếu specs bắt buộc</span>
       </div>
       <div class="fbody space-y-4">
         <!-- Missing specs warning -->
-        <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 flex items-start gap-2">
+        <div class="rounded-md bg-amber-50 border border-amber-200 p-3 flex items-start gap-2">
           <svg class="h-4 w-4 text-amber-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <p class="text-xs text-amber-800">Còn thiếu thông số bắt buộc: <strong>Chipset, RAM</strong>. Cần điền trước khi đăng bán.</p>
         </div>
@@ -593,7 +593,7 @@
     <!-- 6.7 INVENTORY -->
     <section id="sec-inventory" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">7</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">7</span>
         <h2 class="text-sm font-bold text-slate-900">Tồn kho</h2>
       </div>
       <div class="fbody space-y-4">
@@ -601,7 +601,7 @@
           <span class="font-semibold text-slate-700">Theo dõi tồn kho</span>
           <label class="switch"><input type="checkbox" id="track-toggle" checked onchange="document.getElementById('inv-fields').classList.toggle('hidden', !this.checked); document.getElementById('inv-off').classList.toggle('hidden', this.checked)"><span class="slider"></span></label>
         </label>
-        <div id="inv-off" class="hidden rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">⚠ Không theo dõi tồn kho: sản phẩm có thể bán không giới hạn, checkout sẽ không kiểm tra kho.</div>
+        <div id="inv-off" class="hidden rounded-md bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">⚠ Không theo dõi tồn kho: sản phẩm có thể bán không giới hạn, checkout sẽ không kiểm tra kho.</div>
         <div id="inv-fields" class="space-y-4">
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div><label class="flabel" for="inv-avail">Có thể bán</label><input id="inv-avail" type="number" class="finput" value="40"></div>
@@ -621,7 +621,7 @@
     <!-- 6.8 SHIPPING -->
     <section id="sec-shipping" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">8</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">8</span>
         <h2 class="text-sm font-bold text-slate-900">Vận chuyển</h2>
       </div>
       <div class="fbody space-y-4">
@@ -645,7 +645,7 @@
     <!-- 6.9 WARRANTY -->
     <section id="sec-warranty" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">9</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">9</span>
         <h2 class="text-sm font-bold text-slate-900">Bảo hành</h2>
       </div>
       <div class="fbody space-y-4">
@@ -664,7 +664,7 @@
     <!-- 6.10 SEO -->
     <section id="sec-seo" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">10</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">10</span>
         <h2 class="text-sm font-bold text-slate-900">SEO</h2>
         <span class="badge badge-amber ml-auto">Thiếu SEO title</span>
       </div>
@@ -685,7 +685,7 @@
           <div><label class="flabel" for="seo-og-title">OG title</label><input id="seo-og-title" type="text" class="finput" placeholder="Mặc định theo SEO title"></div>
         </div>
         <div class="flex items-center gap-3">
-          <div class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
+          <div class="w-16 h-16 rounded-md bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
             <img src="https://placehold.co/64x64/f5f3ff/7c3aed?text=OG" alt="OG image preview" class="w-full h-full object-contain">
           </div>
           <div class="flex-1">
@@ -701,7 +701,7 @@
     <!-- 6.11 VISIBILITY -->
     <section id="sec-visibility" class="fcard fsection">
       <div class="fhead">
-        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">11</span>
+        <span class="w-7 h-7 rounded-md bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">11</span>
         <h2 class="text-sm font-bold text-slate-900">Hiển thị</h2>
       </div>
       <div class="fbody space-y-4">
@@ -742,10 +742,10 @@
           <label class="flabel" for="side-status">Trạng thái sản phẩm</label>
           <select id="side-status" class="finput"><option>Nháp</option><option>Đang bán</option><option>Đang ẩn</option><option>Ngừng kinh doanh</option><option>Lưu trữ</option></select>
         </div>
-        <button class="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors" onclick="tryPublish()">Đăng bán sản phẩm</button>
+        <button class="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-md transition-colors" onclick="tryPublish()">Đăng bán sản phẩm</button>
         <div class="grid grid-cols-2 gap-2">
-          <button class="h-9 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50" onclick="showToast('Đã lưu nháp')">Lưu nháp</button>
-          <button class="h-9 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50" onclick="showToast('Mở preview storefront')">Xem trước</button>
+          <button class="h-9 border border-slate-200 rounded-md text-xs font-semibold text-slate-700 hover:bg-slate-50" onclick="showToast('Đã lưu nháp')">Lưu nháp</button>
+          <button class="h-9 border border-slate-200 rounded-md text-xs font-semibold text-slate-700 hover:bg-slate-50" onclick="showToast('Mở preview storefront')">Xem trước</button>
         </div>
         <p class="text-[11px] text-slate-400 text-center">Phím tắt: <kbd class="px-1 bg-slate-100 rounded">⌘S</kbd> lưu nháp · <kbd class="px-1 bg-slate-100 rounded">⌘↵</kbd> đăng bán</p>
       </div>
@@ -780,27 +780,27 @@
      7. MOBILE BOTTOM ACTION BAR (side panel → bottom bar)
      ============================================================ -->
 <div class="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 px-3 py-2.5 z-30 flex items-center gap-2" style="padding-bottom:calc(0.625rem + env(safe-area-inset-bottom))">
-  <button class="flex-1 h-11 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700" onclick="showToast('Đã lưu nháp')">Lưu nháp</button>
-  <button class="h-11 px-4 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700" onclick="showToast('Mở preview')" aria-label="Xem trước">
+  <button class="flex-1 h-11 border border-slate-200 rounded-md text-sm font-semibold text-slate-700" onclick="showToast('Đã lưu nháp')">Lưu nháp</button>
+  <button class="h-11 px-4 border border-slate-200 rounded-md text-sm font-semibold text-slate-700" onclick="showToast('Mở preview')" aria-label="Xem trước">
     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
   </button>
-  <button class="flex-1 h-11 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold" onclick="tryPublish()">Đăng bán</button>
+  <button class="flex-1 h-11 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-bold" onclick="tryPublish()">Đăng bán</button>
 </div>
 
 <!-- ============================================================
      8. CONFIRM MODAL
      ============================================================ -->
 <div id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-6">
+  <div class="bg-white rounded-md shadow-lg w-full max-w-sm mx-4 p-6">
     <div class="flex items-start gap-3 mb-4">
-      <div id="confirm-icon-wrap" class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+      <div id="confirm-icon-wrap" class="w-10 h-10 rounded-md bg-red-50 flex items-center justify-center shrink-0">
         <svg id="confirm-icon" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
       </div>
       <div><h3 id="confirm-title" class="text-base font-bold text-slate-900"></h3><p id="confirm-msg" class="text-sm text-slate-500 mt-1"></p></div>
     </div>
     <div class="flex gap-2 justify-end">
-      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
-      <button id="btn-confirm-action" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-colors">Xác nhận</button>
+      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
+      <button id="btn-confirm-action" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-semibold transition-colors">Xác nhận</button>
     </div>
   </div>
 </div>
@@ -809,7 +809,7 @@
      9. TOAST
      ============================================================ -->
 <div id="toast" role="status" aria-live="polite">
-  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-xl max-w-xs">
+  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-md shadow-md max-w-xs">
     <svg class="h-4 w-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
     <span id="toast-msg"></span>
   </div>

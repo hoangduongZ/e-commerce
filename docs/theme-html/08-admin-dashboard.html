@@ -60,7 +60,7 @@
   .chart-toggle { transition:all .15s; }
 
   /* Status badge shared */
-  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; }
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:5px; font-size:11px; font-weight:600; }
   .badge-blue   { background:#dbeafe; color:#1d4ed8; }
   .badge-green{ background:#dcfce7; color:#166534; }
   .badge-amber  { background:#fef3c7; color:#92400e; }
@@ -104,7 +104,7 @@
 
   <!-- Sidebar logo -->
   <div class="flex items-center gap-2.5 h-16 px-5 border-b border-slate-100 shrink-0">
-    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+    <div class="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center">
       <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
     </div>
     <div>
@@ -187,7 +187,7 @@
 
   <!-- Admin profile (bottom) -->
   <div class="border-t border-slate-100 p-3 shrink-0">
-    <div class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 cursor-pointer">
+    <div class="flex items-center gap-2.5 p-2 rounded-md hover:bg-slate-50 cursor-pointer">
       <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">NM</div>
       <div class="flex-1 min-w-0">
         <p class="text-xs font-semibold text-slate-900 leading-tight">Nguyễn Minh</p>
@@ -212,7 +212,7 @@
 <header class="bg-white border-b border-slate-200 flex items-center gap-3 h-16 px-4 shrink-0">
 
   <!-- Mobile menu btn -->
-  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg" aria-label="Mở menu">
+  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-md" aria-label="Mở menu">
     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
   </button>
 
@@ -220,24 +220,24 @@
   <div class="relative flex-1 max-w-md">
     <label for="admin-search" class="sr-only">Tìm kiếm đơn hàng, sản phẩm, khách hàng</label>
     <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-md text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
   </div>
 
   <div class="flex items-center gap-1 ml-auto">
     <!-- Quick create -->
-    <button class="hidden sm:flex items-center gap-1.5 h-9 px-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-colors" aria-label="Tạo mới nhanh">
+    <button class="hidden sm:flex items-center gap-1.5 h-9 px-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-md transition-colors" aria-label="Tạo mới nhanh">
       <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
       <span class="hidden md:inline">Tạo mới</span>
     </button>
 
     <!-- Notifications -->
-    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Thông báo (5 chưa đọc)">
+    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thông báo (5 chưa đọc)">
       <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
       <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
     </button>
 
     <!-- Admin profile -->
-    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Tài khoản admin">
+    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors" aria-label="Tài khoản admin">
       <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">NM</div>
       <span class="hidden md:block text-sm font-medium">Nguyễn Minh</span>
       <svg class="h-4 w-4 text-slate-400 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
@@ -267,19 +267,19 @@
   </div>
   <div class="flex flex-wrap items-center gap-2">
     <!-- Date range tabs -->
-    <div class="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-white">
+    <div class="flex items-center border border-slate-200 rounded-md overflow-hidden bg-white">
       <button class="date-tab active h-8 px-3 text-xs font-semibold border-r border-slate-100" data-label="Hôm nay">Hôm nay</button>
       <button class="date-tab h-8 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 border-r border-slate-100" data-label="7 ngày qua">7 ngày</button>
       <button class="date-tab h-8 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 border-r border-slate-100" data-label="30 ngày qua">30 ngày</button>
       <button class="date-tab h-8 px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50" data-label="Tháng này">Tháng này</button>
     </div>
     <!-- Refresh -->
-    <button id="btn-refresh" class="flex items-center gap-1.5 h-8 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" aria-label="Làm mới dữ liệu">
+    <button id="btn-refresh" class="flex items-center gap-1.5 h-8 px-3 border border-slate-200 rounded-md text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" aria-label="Làm mới dữ liệu">
       <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       Làm mới
     </button>
     <!-- Export -->
-    <button class="hidden sm:flex items-center gap-1.5 h-8 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors">
+    <button class="hidden sm:flex items-center gap-1.5 h-8 px-3 border border-slate-200 rounded-md text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors">
       <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
       Xuất báo cáo
     </button>
@@ -291,7 +291,7 @@
      ============================================================ -->
 <div class="space-y-2 mb-5">
   <!-- Danger: non-dismissible -->
-  <div class="alert-danger alert-item rounded-xl p-3 flex items-start gap-3">
+  <div class="alert-danger alert-item rounded-md p-3 flex items-start gap-3">
     <svg class="h-4 w-4 text-red-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     <div class="flex-1 min-w-0">
       <p class="text-sm font-semibold text-red-800">3 đơn hàng thanh toán thất bại hôm nay</p>
@@ -301,7 +301,7 @@
   </div>
 
   <!-- Warning: non-dismissible -->
-  <div class="alert-warning alert-item rounded-xl p-3 flex items-start gap-3">
+  <div class="alert-warning alert-item rounded-md p-3 flex items-start gap-3">
     <svg class="h-4 w-4 text-amber-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
     <div class="flex-1 min-w-0">
       <p class="text-sm font-semibold text-amber-800">5 đơn hàng vượt SLA xác nhận (> 30 phút)</p>
@@ -311,7 +311,7 @@
   </div>
 
   <!-- Info: dismissible -->
-  <div class="alert-info alert-item rounded-xl p-3 flex items-start gap-3">
+  <div class="alert-info alert-item rounded-md p-3 flex items-start gap-3">
     <svg class="h-4 w-4 text-blue-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
     <p class="flex-1 text-sm text-blue-800">Coupon <strong>SUMMER10</strong> sắp hết hạn — còn 2 ngày. Gia hạn hoặc thay thế bằng chiến dịch mới.</p>
     <button class="btn-dismiss-alert shrink-0 p-1 text-blue-400 hover:text-blue-700 rounded" aria-label="Đóng thông báo">
@@ -326,10 +326,10 @@
 <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 mb-5">
 
   <!-- Revenue -->
-  <a href="#" class="bg-white border border-slate-200 rounded-2xl p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
+  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
      aria-label="Doanh thu hôm nay: 128.500.000đ, tăng 12.4% so hôm qua">
     <div class="flex items-center justify-between mb-2">
-      <div class="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
+      <div class="w-9 h-9 bg-blue-50 rounded-md flex items-center justify-center">
         <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       </div>
       <span class="flex items-center gap-0.5 text-xs font-semibold text-green-600">
@@ -343,10 +343,10 @@
   </a>
 
   <!-- Orders -->
-  <a href="#" class="bg-white border border-slate-200 rounded-2xl p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
+  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
      aria-label="Tổng đơn hôm nay: 156 đơn, tăng 8.1% so hôm qua">
     <div class="flex items-center justify-between mb-2">
-      <div class="w-9 h-9 bg-green-50 rounded-xl flex items-center justify-center">
+      <div class="w-9 h-9 bg-green-50 rounded-md flex items-center justify-center">
         <svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
       </div>
       <span class="flex items-center gap-0.5 text-xs font-semibold text-green-600">
@@ -360,10 +360,10 @@
   </a>
 
   <!-- AOV -->
-  <a href="#" class="bg-white border border-slate-200 rounded-2xl p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
+  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
      aria-label="Giá trị đơn trung bình: 823.717đ, giảm 2.3% so hôm qua">
     <div class="flex items-center justify-between mb-2">
-      <div class="w-9 h-9 bg-violet-50 rounded-xl flex items-center justify-center">
+      <div class="w-9 h-9 bg-violet-50 rounded-md flex items-center justify-center">
         <svg class="h-5 w-5 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
       </div>
       <span class="flex items-center gap-0.5 text-xs font-semibold text-red-600">
@@ -377,10 +377,10 @@
   </a>
 
   <!-- Pending orders -->
-  <a href="/admin/orders?status=pending_confirmation" class="bg-white border border-amber-200 rounded-2xl p-4 hover:border-amber-300 hover:shadow-sm transition-all block"
+  <a href="/admin/orders?status=pending_confirmation" class="bg-white border border-amber-200 rounded-md p-4 hover:border-amber-300 hover:shadow-sm transition-all block"
      aria-label="Đơn chờ xử lý: 18 đơn, cần xử lý ngay">
     <div class="flex items-center justify-between mb-2">
-      <div class="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center">
+      <div class="w-9 h-9 bg-amber-50 rounded-md flex items-center justify-center">
         <svg class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       </div>
       <span class="badge badge-amber text-[10px]">Cần xử lý</span>
@@ -391,10 +391,10 @@
   </a>
 
   <!-- Low stock -->
-  <a href="/admin/inventory?status=low_stock" class="bg-white border border-red-200 rounded-2xl p-4 hover:border-red-300 hover:shadow-sm transition-all block"
+  <a href="/admin/inventory?status=low_stock" class="bg-white border border-red-200 rounded-md p-4 hover:border-red-300 hover:shadow-sm transition-all block"
      aria-label="Sản phẩm sắp hết hàng: 12 sản phẩm">
     <div class="flex items-center justify-between mb-2">
-      <div class="w-9 h-9 bg-red-50 rounded-xl flex items-center justify-center">
+      <div class="w-9 h-9 bg-red-50 rounded-md flex items-center justify-center">
         <svg class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
       </div>
       <span class="badge badge-red text-[10px]">Nguy hiểm</span>
@@ -411,14 +411,14 @@
 <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 mb-5">
 
   <!-- Revenue Chart (2/3) -->
-  <div class="xl:col-span-2 bg-white border border-slate-200 rounded-2xl p-5">
+  <div class="xl:col-span-2 bg-white border border-slate-200 rounded-md p-5">
     <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
       <div>
         <h2 class="text-sm font-bold text-slate-900">Biểu đồ doanh thu</h2>
         <p class="text-xs text-slate-400">Hôm nay theo giờ · Tổng: 128.500.000đ</p>
       </div>
       <!-- Chart metric toggle -->
-      <div class="flex border border-slate-200 rounded-xl overflow-hidden text-xs font-semibold">
+      <div class="flex border border-slate-200 rounded-md overflow-hidden text-xs font-semibold">
         <button class="chart-toggle bg-blue-600 text-white h-7 px-3">Doanh thu</button>
         <button class="chart-toggle bg-white text-slate-600 hover:bg-slate-50 h-7 px-3">Đơn hàng</button>
       </div>
@@ -471,13 +471,13 @@
   </div>
 
   <!-- Order Status Overview (1/3) -->
-  <div class="bg-white border border-slate-200 rounded-2xl p-5">
+  <div class="bg-white border border-slate-200 rounded-md p-5">
     <div class="mb-4">
       <h2 class="text-sm font-bold text-slate-900">Trạng thái đơn hàng</h2>
       <p class="text-xs text-slate-400">Hôm nay · Tổng: 163 đơn</p>
     </div>
     <div class="space-y-2">
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-amber-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-amber-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Chờ xác nhận</span>
@@ -487,7 +487,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-blue-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-blue-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Đã xác nhận</span>
@@ -497,7 +497,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-blue-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-blue-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-blue-300 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Đóng gói</span>
@@ -507,7 +507,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-blue-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-blue-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-blue-600 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Đang giao</span>
@@ -517,7 +517,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-green-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-green-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-green-500 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Đã giao</span>
@@ -527,7 +527,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-amber-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-amber-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Hoàn trả</span>
@@ -537,7 +537,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-slate-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-slate-400 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Đã hủy</span>
@@ -547,7 +547,7 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-red-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-md hover:bg-red-50 transition-colors group">
         <div class="flex items-center gap-2">
           <div class="w-2 h-2 rounded-full bg-red-500 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Thanh toán lỗi</span>
@@ -564,7 +564,7 @@
 <!-- ============================================================
      8. ORDERS REQUIRING ACTION
      ============================================================ -->
-<div class="bg-white border border-slate-200 rounded-2xl mb-5">
+<div class="bg-white border border-slate-200 rounded-md mb-5">
   <div class="flex items-center justify-between p-4 pb-0">
     <div>
       <h2 class="text-sm font-bold text-slate-900">Đơn hàng cần xử lý</h2>
@@ -615,8 +615,8 @@
           </td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5 justify-end">
-              <button onclick="openConfirm('confirm-order','DH1024')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors">Xác nhận</button>
-              <button onclick="openConfirm('mark-paid','DH1024')" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg transition-colors">Mark paid</button>
+              <button onclick="openConfirm('confirm-order','DH1024')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors">Xác nhận</button>
+              <button onclick="openConfirm('mark-paid','DH1024')" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-md transition-colors">Mark paid</button>
             </div>
           </td>
         </tr>
@@ -643,8 +643,8 @@
           </td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5 justify-end">
-              <button onclick="openConfirm('mark-paid','DH1019')" class="h-7 px-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors">Mark paid</button>
-              <button onclick="showToast('Đã gọi cho khách hàng')" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg transition-colors">Gọi KH</button>
+              <button onclick="openConfirm('mark-paid','DH1019')" class="h-7 px-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-md transition-colors">Mark paid</button>
+              <button onclick="showToast('Đã gọi cho khách hàng')" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-md transition-colors">Gọi KH</button>
             </div>
           </td>
         </tr>
@@ -671,8 +671,8 @@
           </td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5 justify-end">
-              <button onclick="openConfirm('cancel-order','DH1021')" class="h-7 px-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-lg transition-colors">Duyệt hủy</button>
-              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg transition-colors flex items-center">Xem</a>
+              <button onclick="openConfirm('cancel-order','DH1021')" class="h-7 px-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-md transition-colors">Duyệt hủy</button>
+              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-md transition-colors flex items-center">Xem</a>
             </div>
           </td>
         </tr>
@@ -680,9 +680,9 @@
     </table>
     <!-- Loading state example (hidden by default) -->
     <div class="hidden p-4 space-y-3" id="orders-loading">
-      <div class="skeleton h-8 rounded-lg w-full"></div>
-      <div class="skeleton h-8 rounded-lg w-full"></div>
-      <div class="skeleton h-8 rounded-lg w-full"></div>
+      <div class="skeleton h-8 rounded-md w-full"></div>
+      <div class="skeleton h-8 rounded-md w-full"></div>
+      <div class="skeleton h-8 rounded-md w-full"></div>
     </div>
   </div>
 </div>
@@ -690,7 +690,7 @@
 <!-- ============================================================
      9. LOW STOCK PRODUCTS
      ============================================================ -->
-<div class="bg-white border border-slate-200 rounded-2xl mb-5">
+<div class="bg-white border border-slate-200 rounded-md mb-5">
   <div class="flex items-center justify-between p-4 pb-0">
     <div>
       <h2 class="text-sm font-bold text-slate-900">Tồn kho thấp</h2>
@@ -714,7 +714,7 @@
         <tr class="row-fail border-b border-slate-100 hover:bg-red-50 transition-colors">
           <td class="py-3 px-4">
             <div class="flex items-center gap-3">
-              <img src="https://placehold.co/36x36/f1f5f9/1e40af?text=Dell" alt="Dell Inspiron 15" class="w-9 h-9 rounded-lg object-contain border border-slate-100" loading="lazy">
+              <img src="https://placehold.co/36x36/f1f5f9/1e40af?text=Dell" alt="Dell Inspiron 15" class="w-9 h-9 rounded-md object-contain border border-slate-100" loading="lazy">
               <div>
                 <p class="text-xs font-semibold text-slate-800 line-clamp-1">Dell Inspiron 15</p>
                 <p class="text-[10px] text-slate-400">16GB / SSD 512GB</p>
@@ -728,15 +728,15 @@
           <td class="py-3 px-4 text-right"><span class="text-xs text-slate-500">5</span></td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5">
-              <button onclick="showToast('Mở trang điều chỉnh tồn kho')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors">Điều chỉnh</button>
-              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg flex items-center">Xem SP</a>
+              <button onclick="showToast('Mở trang điều chỉnh tồn kho')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors">Điều chỉnh</button>
+              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-md flex items-center">Xem SP</a>
             </div>
           </td>
         </tr>
         <tr class="row-fail border-b border-slate-100 hover:bg-red-50 transition-colors">
           <td class="py-3 px-4">
             <div class="flex items-center gap-3">
-              <img src="https://placehold.co/36x36/f5f3ff/7c3aed?text=iPhone" alt="iPhone 15 Pro 256GB Natural Titanium" class="w-9 h-9 rounded-lg object-contain border border-slate-100" loading="lazy">
+              <img src="https://placehold.co/36x36/f5f3ff/7c3aed?text=iPhone" alt="iPhone 15 Pro 256GB Natural Titanium" class="w-9 h-9 rounded-md object-contain border border-slate-100" loading="lazy">
               <div>
                 <p class="text-xs font-semibold text-slate-800 line-clamp-1">iPhone 15 Pro</p>
                 <p class="text-[10px] text-slate-400">256GB / Natural Titanium</p>
@@ -750,15 +750,15 @@
           <td class="py-3 px-4 text-right"><span class="text-xs text-slate-500">3</span></td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5">
-              <button onclick="showToast('Mở trang điều chỉnh tồn kho')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors">Điều chỉnh</button>
-              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg flex items-center">Xem SP</a>
+              <button onclick="showToast('Mở trang điều chỉnh tồn kho')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors">Điều chỉnh</button>
+              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-md flex items-center">Xem SP</a>
             </div>
           </td>
         </tr>
         <tr class="border-b border-slate-100 hover:bg-amber-50 transition-colors" style="background:#fffbeb">
           <td class="py-3 px-4">
             <div class="flex items-center gap-3">
-              <img src="https://placehold.co/36x36/f0fdf4/16a34a?text=Sam" alt="Samsung 65 inch QLED 4K" class="w-9 h-9 rounded-lg object-contain border border-slate-100" loading="lazy">
+              <img src="https://placehold.co/36x36/f0fdf4/16a34a?text=Sam" alt="Samsung 65 inch QLED 4K" class="w-9 h-9 rounded-md object-contain border border-slate-100" loading="lazy">
               <div>
                 <p class="text-xs font-semibold text-slate-800 line-clamp-1">Samsung 65" QLED 4K</p>
                 <p class="text-[10px] text-slate-400">Smart TV · Model 2024</p>
@@ -772,8 +772,8 @@
           <td class="py-3 px-4 text-right"><span class="text-xs text-slate-500">5</span></td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5">
-              <button onclick="showToast('Mở trang điều chỉnh tồn kho')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors">Điều chỉnh</button>
-              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg flex items-center">Xem SP</a>
+              <button onclick="showToast('Mở trang điều chỉnh tồn kho')" class="h-7 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors">Điều chỉnh</button>
+              <a href="#" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-md flex items-center">Xem SP</a>
             </div>
           </td>
         </tr>
@@ -788,7 +788,7 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-5">
 
   <!-- Best Selling Products -->
-  <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-5">
+  <div class="lg:col-span-2 bg-white border border-slate-200 rounded-md p-5">
     <div class="flex items-center justify-between mb-4">
       <div>
         <h2 class="text-sm font-bold text-slate-900">Sản phẩm bán chạy</h2>
@@ -799,7 +799,7 @@
     <div class="space-y-3">
       <div class="flex items-center gap-3">
         <span class="w-5 text-xs font-bold text-slate-400 shrink-0 text-center">1</span>
-        <img src="https://placehold.co/40x40/f1f5f9/1e40af?text=MBA" alt="MacBook Air M2" class="w-10 h-10 rounded-xl object-contain border border-slate-100 shrink-0" loading="lazy">
+        <img src="https://placehold.co/40x40/f1f5f9/1e40af?text=MBA" alt="MacBook Air M2" class="w-10 h-10 rounded-md object-contain border border-slate-100 shrink-0" loading="lazy">
         <div class="flex-1 min-w-0">
           <p class="text-xs font-semibold text-slate-800 line-clamp-1">MacBook Air M2 — 8GB/256GB</p>
           <p class="text-[10px] text-slate-400">SKU: MAC-AIR-M2-8-256</p>
@@ -814,7 +814,7 @@
       </div>
       <div class="flex items-center gap-3">
         <span class="w-5 text-xs font-bold text-slate-400 shrink-0 text-center">2</span>
-        <img src="https://placehold.co/40x40/fff7ed/ea580c?text=APP" alt="AirPods Pro 2" class="w-10 h-10 rounded-xl object-contain border border-slate-100 shrink-0" loading="lazy">
+        <img src="https://placehold.co/40x40/fff7ed/ea580c?text=APP" alt="AirPods Pro 2" class="w-10 h-10 rounded-md object-contain border border-slate-100 shrink-0" loading="lazy">
         <div class="flex-1 min-w-0">
           <p class="text-xs font-semibold text-slate-800 line-clamp-1">AirPods Pro (2nd Gen) — USB-C</p>
           <p class="text-[10px] text-slate-400">SKU: APP-PRO2-USBC</p>
@@ -829,7 +829,7 @@
       </div>
       <div class="flex items-center gap-3">
         <span class="w-5 text-xs font-bold text-slate-400 shrink-0 text-center">3</span>
-        <img src="https://placehold.co/40x40/f5f3ff/7c3aed?text=i15" alt="iPhone 15 128GB" class="w-10 h-10 rounded-xl object-contain border border-slate-100 shrink-0" loading="lazy">
+        <img src="https://placehold.co/40x40/f5f3ff/7c3aed?text=i15" alt="iPhone 15 128GB" class="w-10 h-10 rounded-md object-contain border border-slate-100 shrink-0" loading="lazy">
         <div class="flex-1 min-w-0">
           <p class="text-xs font-semibold text-slate-800 line-clamp-1">iPhone 15 — 128GB Black</p>
           <p class="text-[10px] text-slate-400">SKU: IPH-15-128-BK</p>
@@ -844,7 +844,7 @@
       </div>
       <div class="flex items-center gap-3">
         <span class="w-5 text-xs font-bold text-slate-400 shrink-0 text-center">4</span>
-        <img src="https://placehold.co/40x40/f0fdf4/16a34a?text=XPS" alt="Dell XPS 13 9340" class="w-10 h-10 rounded-xl object-contain border border-slate-100 shrink-0" loading="lazy">
+        <img src="https://placehold.co/40x40/f0fdf4/16a34a?text=XPS" alt="Dell XPS 13 9340" class="w-10 h-10 rounded-md object-contain border border-slate-100 shrink-0" loading="lazy">
         <div class="flex-1 min-w-0">
           <p class="text-xs font-semibold text-slate-800 line-clamp-1">Dell XPS 13 9340 — Intel Core Ultra 7</p>
           <p class="text-[10px] text-slate-400">SKU: DEL-XPS13-CU7-512</p>
@@ -864,7 +864,7 @@
   <div class="flex flex-col gap-4">
 
     <!-- Payment Summary -->
-    <div class="bg-white border border-slate-200 rounded-2xl p-4">
+    <div class="bg-white border border-slate-200 rounded-md p-4">
       <h2 class="text-sm font-bold text-slate-900 mb-3">Tóm tắt thanh toán</h2>
       <div class="space-y-2">
         <div class="flex items-center justify-between">
@@ -897,7 +897,7 @@
     </div>
 
     <!-- Activity Feed -->
-    <div class="bg-white border border-slate-200 rounded-2xl p-4 flex-1">
+    <div class="bg-white border border-slate-200 rounded-md p-4 flex-1">
       <h2 class="text-sm font-bold text-slate-900 mb-3">Hoạt động gần đây</h2>
       <div class="space-y-3">
         <div class="flex gap-2.5">
@@ -944,20 +944,20 @@
 <!-- ============================================================
      11. STATES DEMO SECTION (loading / empty / error)
      ============================================================ -->
-<div class="bg-white border border-dashed border-slate-200 rounded-2xl p-5 mb-6">
+<div class="bg-white border border-dashed border-slate-200 rounded-md p-5 mb-6">
   <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Trạng thái widget — Minh họa (ẩn trên production)</p>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
     <!-- Loading skeleton -->
-    <div class="border border-slate-100 rounded-xl p-4">
+    <div class="border border-slate-100 rounded-md p-4">
       <p class="text-xs font-semibold text-slate-500 mb-3">Loading state</p>
-      <div class="skeleton h-6 rounded-lg mb-2 w-3/4"></div>
-      <div class="skeleton h-10 rounded-xl mb-2"></div>
+      <div class="skeleton h-6 rounded-md mb-2 w-3/4"></div>
+      <div class="skeleton h-10 rounded-md mb-2"></div>
       <div class="skeleton h-4 rounded w-1/2"></div>
     </div>
 
     <!-- Empty state -->
-    <div class="border border-slate-100 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+    <div class="border border-slate-100 rounded-md p-4 flex flex-col items-center justify-center text-center">
       <svg class="h-8 w-8 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
       <p class="text-xs font-semibold text-slate-600 mb-0.5">Chưa có đơn hàng</p>
       <p class="text-[10px] text-slate-400 mb-3">Khi khách đặt hàng, đơn sẽ hiển thị ở đây.</p>
@@ -965,7 +965,7 @@
     </div>
 
     <!-- Error state -->
-    <div class="border border-slate-100 rounded-xl p-4 flex flex-col items-center justify-center text-center">
+    <div class="border border-slate-100 rounded-md p-4 flex flex-col items-center justify-center text-center">
       <svg class="h-8 w-8 text-red-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       <p class="text-xs font-semibold text-slate-600 mb-0.5">Không thể tải biểu đồ doanh thu</p>
       <p class="text-[10px] text-slate-400 mb-3">Kiểm tra kết nối mạng và thử lại.</p>
@@ -985,9 +985,9 @@
      12. CONFIRM MODAL
      ============================================================ -->
 <div id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-6">
+  <div class="bg-white rounded-md shadow-lg w-full max-w-sm mx-4 p-6">
     <div class="flex items-start gap-3 mb-4">
-      <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+      <div class="w-10 h-10 rounded-md bg-amber-50 flex items-center justify-center shrink-0">
         <svg id="confirm-icon" class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
       </div>
       <div>
@@ -996,8 +996,8 @@
       </div>
     </div>
     <div class="flex gap-2 justify-end">
-      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
-      <button id="btn-confirm-action" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors">Xác nhận</button>
+      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-md text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
+      <button id="btn-confirm-action" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-semibold transition-colors">Xác nhận</button>
     </div>
   </div>
 </div>
@@ -1006,7 +1006,7 @@
      13. TOAST
      ============================================================ -->
 <div id="toast" role="status" aria-live="polite">
-  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-xl max-w-xs">
+  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-md shadow-md max-w-xs">
     <svg class="h-4 w-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
     <span id="toast-msg"></span>
   </div>
@@ -1092,23 +1092,23 @@
       confirmTitle.textContent = 'Xác nhận đơn hàng #' + orderId;
       confirmMsg.textContent = 'Đơn hàng sẽ chuyển sang "Đã xác nhận" và thông báo cho khách hàng.';
       btnConfirmAction.textContent = 'Xác nhận đơn';
-      btnConfirmAction.className = 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors';
+      btnConfirmAction.className = 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-semibold transition-colors';
       confirmIcon.style.color = '#2563eb';
-      confirmIcon.closest('div').className = 'w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0';
+      confirmIcon.closest('div').className = 'w-10 h-10 rounded-md bg-blue-50 flex items-center justify-center shrink-0';
     } else if (action === 'mark-paid') {
       confirmTitle.textContent = 'Đánh dấu đã thanh toán #' + orderId;
       confirmMsg.textContent = 'Xác nhận đơn đã được thanh toán. Thao tác sẽ ghi vào audit log và không thể hoàn tác.';
       btnConfirmAction.textContent = 'Xác nhận thanh toán';
-      btnConfirmAction.className = 'px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-sm font-semibold transition-colors';
+      btnConfirmAction.className = 'px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-semibold transition-colors';
       confirmIcon.style.color = '#059669';
-      confirmIcon.closest('div').className = 'w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0';
+      confirmIcon.closest('div').className = 'w-10 h-10 rounded-md bg-green-50 flex items-center justify-center shrink-0';
     } else if (action === 'cancel-order') {
       confirmTitle.textContent = 'Duyệt yêu cầu hủy #' + orderId;
       confirmMsg.textContent = 'Đơn hàng sẽ bị hủy và hoàn tiền nếu đã thanh toán. Thao tác này không thể hoàn tác.';
       btnConfirmAction.textContent = 'Xác nhận hủy đơn';
-      btnConfirmAction.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-colors';
+      btnConfirmAction.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-semibold transition-colors';
       confirmIcon.style.color = '#dc2626';
-      confirmIcon.closest('div').className = 'w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0';
+      confirmIcon.closest('div').className = 'w-10 h-10 rounded-md bg-red-50 flex items-center justify-center shrink-0';
     }
     confirmOverlay.classList.add('show');
   };
