@@ -85,6 +85,10 @@
   /* Confirm overlay */
   #confirm-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.5); z-index:90; align-items:center; justify-content:center; }
   #confirm-overlay.show { display:flex; }
+  /* de-AI refinements */
+  .price-s,.price-o{font-variant-numeric:tabular-nums;}
+  table{font-variant-numeric:tabular-nums;}
+  td,th{vertical-align:middle;}
 </style>
 </head>
 <body class="text-slate-900 antialiased">
@@ -326,7 +330,7 @@
 <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 mb-5">
 
   <!-- Revenue -->
-  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
+  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:transition-all block"
      aria-label="Doanh thu hôm nay: 128.500.000đ, tăng 12.4% so hôm qua">
     <div class="flex items-center justify-between mb-2">
       <div class="w-9 h-9 bg-blue-50 rounded-md flex items-center justify-center">
@@ -343,7 +347,7 @@
   </a>
 
   <!-- Orders -->
-  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
+  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:transition-all block"
      aria-label="Tổng đơn hôm nay: 156 đơn, tăng 8.1% so hôm qua">
     <div class="flex items-center justify-between mb-2">
       <div class="w-9 h-9 bg-green-50 rounded-md flex items-center justify-center">
@@ -360,7 +364,7 @@
   </a>
 
   <!-- AOV -->
-  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
+  <a href="#" class="bg-white border border-slate-200 rounded-md p-4 hover:border-blue-200 hover:transition-all block"
      aria-label="Giá trị đơn trung bình: 823.717đ, giảm 2.3% so hôm qua">
     <div class="flex items-center justify-between mb-2">
       <div class="w-9 h-9 bg-violet-50 rounded-md flex items-center justify-center">
@@ -377,7 +381,7 @@
   </a>
 
   <!-- Pending orders -->
-  <a href="/admin/orders?status=pending_confirmation" class="bg-white border border-amber-200 rounded-md p-4 hover:border-amber-300 hover:shadow-sm transition-all block"
+  <a href="/admin/orders?status=pending_confirmation" class="bg-white border border-amber-200 rounded-md p-4 hover:border-amber-300 hover:transition-all block"
      aria-label="Đơn chờ xử lý: 18 đơn, cần xử lý ngay">
     <div class="flex items-center justify-between mb-2">
       <div class="w-9 h-9 bg-amber-50 rounded-md flex items-center justify-center">
@@ -391,7 +395,7 @@
   </a>
 
   <!-- Low stock -->
-  <a href="/admin/inventory?status=low_stock" class="bg-white border border-red-200 rounded-md p-4 hover:border-red-300 hover:shadow-sm transition-all block"
+  <a href="/admin/inventory?status=low_stock" class="bg-white border border-red-200 rounded-md p-4 hover:border-red-300 hover:transition-all block"
      aria-label="Sản phẩm sắp hết hàng: 12 sản phẩm">
     <div class="flex items-center justify-between mb-2">
       <div class="w-9 h-9 bg-red-50 rounded-md flex items-center justify-center">

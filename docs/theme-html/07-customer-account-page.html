@@ -60,6 +60,10 @@ tailwind.config = {
   @media (prefers-reduced-motion: reduce) {
     .product-card:hover { transform:none; }
   }
+  /* de-AI refinements */
+  .price-s,.price-o{font-variant-numeric:tabular-nums;}
+  table{font-variant-numeric:tabular-nums;}
+  td,th{vertical-align:middle;}
 </style>
 </head>
 <body class="text-slate-900 antialiased">
@@ -92,7 +96,7 @@ tailwind.config = {
 <!-- ============================================================
      2. MAIN HEADER
      ============================================================ -->
-<header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4">
     <div class="flex items-center gap-3 h-16 md:h-[72px]">
 
@@ -282,7 +286,7 @@ tailwind.config = {
 
         <!-- Stat cards -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-          <button data-target="orders" class="stat-jump text-left bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all">
+          <button data-target="orders" class="stat-jump text-left bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:transition-all">
             <div class="flex items-center justify-between mb-2">
               <div class="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center">
                 <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
@@ -291,7 +295,7 @@ tailwind.config = {
             <p class="text-2xl font-extrabold text-slate-900">12</p>
             <p class="text-xs text-slate-500 mt-0.5">Tổng đơn hàng · <span class="text-blue-600 font-medium">Xem tất cả</span></p>
           </button>
-          <button data-target="orders" class="stat-jump text-left bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all">
+          <button data-target="orders" class="stat-jump text-left bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:transition-all">
             <div class="flex items-center justify-between mb-2">
               <div class="w-9 h-9 bg-orange-50 rounded-lg flex items-center justify-center">
                 <svg class="h-5 w-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
@@ -300,7 +304,7 @@ tailwind.config = {
             <p class="text-2xl font-extrabold text-slate-900">2</p>
             <p class="text-xs text-slate-500 mt-0.5">Đang xử lý · <span class="text-blue-600 font-medium">Theo dõi</span></p>
           </button>
-          <button data-target="warranty" class="stat-jump text-left bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:shadow-sm transition-all">
+          <button data-target="warranty" class="stat-jump text-left bg-white border border-slate-200 rounded-lg p-4 hover:border-blue-300 hover:transition-all">
             <div class="flex items-center justify-between mb-2">
               <div class="w-9 h-9 bg-green-50 rounded-lg flex items-center justify-center">
                 <svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
@@ -832,7 +836,7 @@ tailwind.config = {
           <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-4">
               <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">↓ Giảm giá</span>
-              <button onclick="showToast('Đã xóa khỏi yêu thích')" class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-white" aria-label="Xóa khỏi yêu thích">
+              <button onclick="showToast('Đã xóa khỏi yêu thích')" class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-red-500 hover:bg-white" aria-label="Xóa khỏi yêu thích">
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg>
               </button>
               <img src="https://placehold.co/220x220/eff6ff/2563eb?text=Asus+ZenBook" alt="Asus ZenBook 14 OLED" class="max-h-full max-w-full object-contain" loading="lazy">
@@ -848,7 +852,7 @@ tailwind.config = {
           <!-- wish 2 -->
           <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-4">
-              <button onclick="showToast('Đã xóa khỏi yêu thích')" class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-white" aria-label="Xóa khỏi yêu thích">
+              <button onclick="showToast('Đã xóa khỏi yêu thích')" class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-red-500 hover:bg-white" aria-label="Xóa khỏi yêu thích">
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg>
               </button>
               <img src="https://placehold.co/220x220/fdf4ff/9333ea?text=WH-1000XM5" alt="Sony WH-1000XM5" class="max-h-full max-w-full object-contain" loading="lazy">
@@ -865,7 +869,7 @@ tailwind.config = {
           <div class="product-card bg-white border border-slate-200 rounded-lg overflow-hidden">
             <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-4">
               <span class="absolute top-2 left-2 bg-slate-400 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">Hết hàng</span>
-              <button onclick="showToast('Đã xóa khỏi yêu thích')" class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-red-500 shadow-sm hover:bg-white" aria-label="Xóa khỏi yêu thích">
+              <button onclick="showToast('Đã xóa khỏi yêu thích')" class="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-full flex items-center justify-center text-red-500 hover:bg-white" aria-label="Xóa khỏi yêu thích">
                 <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"/></svg>
               </button>
               <img src="https://placehold.co/220x220/fff7ed/ea580c?text=iPhone+15" alt="iPhone 15 Pro Max" class="max-h-full max-w-full object-contain opacity-50" loading="lazy">

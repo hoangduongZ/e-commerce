@@ -87,6 +87,10 @@
   /* Row actions menu */
   .row-menu { display:none; }
   .row-menu.open { display:block; }
+  /* de-AI refinements */
+  .price-s,.price-o{font-variant-numeric:tabular-nums;}
+  table{font-variant-numeric:tabular-nums;}
+  td,th{vertical-align:middle;}
 </style>
 </head>
 <body class="text-slate-900 antialiased">
@@ -302,7 +306,7 @@
           <span class="dd-label">Trạng thái đơn</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-status" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1.5">
+        <div id="dd-status" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-md z-30 p-1.5">
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả trạng thái</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Chờ xác nhận">Chờ xác nhận</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Đã xác nhận">Đã xác nhận</label>
@@ -319,7 +323,7 @@
           <span class="dd-label">Thanh toán</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-payment" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1.5">
+        <div id="dd-payment" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-md z-30 p-1.5">
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả thanh toán</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Chưa thanh toán">Chưa thanh toán</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="COD chờ thu">COD chờ thu</label>
@@ -337,7 +341,7 @@
           <span class="dd-label">Vận chuyển</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-fulfillment" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1.5">
+        <div id="dd-fulfillment" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-md z-30 p-1.5">
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Chưa xử lý hàng">Chưa xử lý hàng</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Đang đóng gói">Đang đóng gói</label>
@@ -355,7 +359,7 @@
           <span class="dd-label">7 ngày qua</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-date" class="dropdown-panel absolute left-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1.5">
+        <div id="dd-date" class="dropdown-panel absolute left-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1.5">
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Hôm nay">Hôm nay</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Hôm qua">Hôm qua</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="7 ngày qua">7 ngày qua</label>
@@ -450,7 +454,7 @@
             <button class="h-8 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors" onclick="openConfirm('confirm')">Xác nhận</button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1024" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('mark-paid')">Đánh dấu đã thanh toán</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('In hóa đơn DH1024')">In hóa đơn</button>
@@ -485,7 +489,7 @@
             <button class="h-8 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors" onclick="showToast('Đánh dấu đơn DH1023 sẵn sàng giao')">Đóng gói xong</button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1023" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Cập nhật vận đơn DH1023')">Cập nhật vận đơn</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('In phiếu đóng gói DH1023')">In phiếu đóng gói</button>
@@ -520,7 +524,7 @@
             <button class="h-8 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-md transition-colors" onclick="openConfirm('delivered')">Đã giao</button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1022" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Theo dõi vận đơn GHTK G1234')">Theo dõi vận đơn</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-amber-700" onclick="showToast('Báo giao thất bại DH1022')">Báo giao thất bại</button>
@@ -553,7 +557,7 @@
             <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-md transition-colors" onclick="showToast('Giao lại đơn DH1019')">Giao lại</button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1019" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Gọi khách DH1019')">Gọi khách hàng</button>
                 <div class="border-t border-slate-100 my-1"></div>
@@ -587,7 +591,7 @@
             <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-md transition-colors" onclick="openConfirm('mark-paid')">Đánh dấu TT</button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1018" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Gửi lại link thanh toán DH1018')">Gửi lại link TT</button>
                 <div class="border-t border-slate-100 my-1"></div>
@@ -621,7 +625,7 @@
             <a href="12b-admin-order-detail.html" class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-md transition-colors flex items-center">Xem</a>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1015" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('In hóa đơn DH1015')">In hóa đơn</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Tạo phiếu bảo hành DH1015')">Tạo phiếu bảo hành</button>
@@ -655,7 +659,7 @@
             <a href="12b-admin-order-detail.html" class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-md transition-colors flex items-center">Xem</a>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác cho đơn DH1011" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Xem lịch sử (audit log) DH1011')">Xem lịch sử</button>
               </div>

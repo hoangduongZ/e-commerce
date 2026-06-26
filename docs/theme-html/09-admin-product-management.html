@@ -82,6 +82,10 @@
   /* Row actions menu */
   .row-menu { display:none; }
   .row-menu.open { display:block; }
+  /* de-AI refinements */
+  .price-s,.price-o{font-variant-numeric:tabular-nums;}
+  table{font-variant-numeric:tabular-nums;}
+  td,th{vertical-align:middle;}
 </style>
 </head>
 <body class="text-slate-900 antialiased">
@@ -285,7 +289,7 @@
           <span class="dd-label">Danh mục</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-category" class="dropdown-panel absolute left-0 mt-1 w-64 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-2">
+        <div id="dd-category" class="dropdown-panel absolute left-0 mt-1 w-64 bg-white border border-slate-200 rounded-md z-30 p-2">
           <label class="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm">
             <input type="checkbox" class="accent-blue-600 w-4 h-4" checked> <span class="font-semibold">Tất cả danh mục</span>
           </label>
@@ -309,7 +313,7 @@
           <span class="dd-label">Thương hiệu</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-brand" class="dropdown-panel absolute left-0 mt-1 w-56 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-2">
+        <div id="dd-brand" class="dropdown-panel absolute left-0 mt-1 w-56 bg-white border border-slate-200 rounded-md z-30 p-2">
           <div class="relative mb-1">
             <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             <input type="search" placeholder="Tìm thương hiệu..." aria-label="Tìm thương hiệu" class="w-full h-8 pl-8 pr-2 border border-slate-200 rounded-md text-xs focus:outline-none focus:border-blue-500">
@@ -334,7 +338,7 @@
           <span class="dd-label">Trạng thái</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-status" class="dropdown-panel absolute left-0 mt-1 w-48 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1.5">
+        <div id="dd-status" class="dropdown-panel absolute left-0 mt-1 w-48 bg-white border border-slate-200 rounded-md z-30 p-1.5">
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả trạng thái</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Nháp">Nháp</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Đang bán">Đang bán</label>
@@ -351,7 +355,7 @@
           <span class="dd-label">Tồn kho</span>
           <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
-        <div id="dd-stock" class="dropdown-panel absolute left-0 mt-1 w-48 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1.5">
+        <div id="dd-stock" class="dropdown-panel absolute left-0 mt-1 w-48 bg-white border border-slate-200 rounded-md z-30 p-1.5">
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả tồn kho</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Còn hàng">Còn hàng</label>
           <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 cursor-pointer text-sm" data-value="Sắp hết">Sắp hết</label>
@@ -454,7 +458,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước MacBook Air M3" onclick="showToast('Preview storefront: MacBook Air M3')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -496,7 +500,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước Dell Inspiron 15" onclick="showToast('Preview storefront: Dell Inspiron 15')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -536,7 +540,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước iPhone 15 Pro Max" onclick="showToast('Preview storefront: iPhone 15 Pro Max')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -579,7 +583,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước Samsung Galaxy S24" onclick="showToast('Preview nháp: Samsung Galaxy S24 Ultra')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
                 <div class="border-t border-slate-100 my-1"></div>
@@ -620,7 +624,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước Asus ROG Strix" onclick="showToast('Preview storefront: Asus ROG Strix G16')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -658,7 +662,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước màn hình LG UltraGear" onclick="showToast('Preview storefront: LG UltraGear')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -696,7 +700,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước tai nghe Sony" onclick="showToast('Preview storefront: Sony WH-1000XM5')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã đăng bán lại sản phẩm')">Đăng bán lại</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -735,7 +739,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước Lenovo ThinkPad X1" onclick="showToast('Preview storefront: Lenovo ThinkPad X1')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -773,7 +777,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước Acer Aspire 5" onclick="showToast('Preview storefront: Acer Aspire 5')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
                 <div class="border-t border-slate-100 my-1"></div>
@@ -811,7 +815,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước chuột Logitech" onclick="showToast('Preview storefront: Logitech MX Master 3S')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>
@@ -878,7 +882,7 @@
             <button class="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors" aria-label="Xem trước Xiaomi 14" onclick="showToast('Preview storefront: Xiaomi 14')"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></button>
             <div class="relative">
               <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-md transition-colors" aria-label="Thao tác khác" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
-              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md shadow-sm z-30 p-1 text-left">
+              <div class="row-menu absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-md z-30 p-1 text-left">
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Đã nhân bản sản phẩm')">Nhân bản</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('hide')">Ẩn sản phẩm</button>
                 <button class="w-full text-left px-3 py-1.5 rounded-md hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('archive')">Lưu trữ</button>

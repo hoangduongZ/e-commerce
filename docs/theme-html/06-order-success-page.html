@@ -92,6 +92,10 @@
   @media (min-width: 1024px) {
     #summary-col { position: sticky; top: 80px; align-self: start; }
   }
+  /* de-AI refinements */
+  .price-s,.price-o{font-variant-numeric:tabular-nums;}
+  table{font-variant-numeric:tabular-nums;}
+  td,th{vertical-align:middle;}
 </style>
 </head>
 <body class="antialiased">
@@ -112,7 +116,7 @@
 <!-- ============================================================
      HEADER (checkout-simplified)
      ============================================================ -->
-<header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50">
   <div class="max-w-[1280px] mx-auto px-4 h-16 flex items-center gap-4">
 
     <!-- Logo -->
@@ -208,7 +212,7 @@
       <!-- Pulse ring (plays once after icon appears) -->
       <span class="pulse-ring absolute w-20 h-20 rounded-full border-4 border-green-300"></span>
       <!-- Circle + check -->
-      <div class="check-circle relative w-20 h-20 bg-green-500 rounded-full flex items-center justify-center shadow-sm shadow-green-200">
+      <div class="check-circle relative w-20 h-20 bg-green-500 rounded-full flex items-center justify-center shadow-green-200">
         <svg class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
         </svg>
@@ -227,7 +231,7 @@
     </p>
 
     <!-- Order number chip -->
-    <div class="inline-flex items-center gap-3 bg-white border border-slate-200 rounded-lg px-5 py-3 shadow-sm mb-4">
+    <div class="inline-flex items-center gap-3 bg-white border border-slate-200 rounded-lg px-5 py-3 mb-4">
       <div>
         <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-0.5">Mã đơn hàng</p>
         <p class="order-num text-lg font-bold text-slate-900" id="order-number">#TS-2026-00847</p>
@@ -536,7 +540,7 @@
       <div class="flex flex-col sm:flex-row gap-3">
         <a href="#"
            class="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700
-                  text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors shadow-sm">
+                  text-white font-semibold text-sm px-6 py-3 rounded-lg transition-colors">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
