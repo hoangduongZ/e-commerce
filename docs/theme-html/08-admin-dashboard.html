@@ -62,7 +62,7 @@
   /* Status badge shared */
   .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; }
   .badge-blue   { background:#dbeafe; color:#1d4ed8; }
-  .badge-emerald{ background:#d1fae5; color:#065f46; }
+  .badge-green{ background:#dcfce7; color:#166534; }
   .badge-amber  { background:#fef3c7; color:#92400e; }
   .badge-red    { background:#fee2e2; color:#991b1b; }
   .badge-slate  { background:#f1f5f9; color:#475569; }
@@ -332,7 +332,7 @@
       <div class="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
         <svg class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       </div>
-      <span class="flex items-center gap-0.5 text-xs font-semibold text-emerald-600">
+      <span class="flex items-center gap-0.5 text-xs font-semibold text-green-600">
         <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
         +12.4%
       </span>
@@ -346,10 +346,10 @@
   <a href="#" class="bg-white border border-slate-200 rounded-2xl p-4 hover:border-blue-200 hover:shadow-sm transition-all block"
      aria-label="Tổng đơn hôm nay: 156 đơn, tăng 8.1% so hôm qua">
     <div class="flex items-center justify-between mb-2">
-      <div class="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center">
-        <svg class="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <div class="w-9 h-9 bg-green-50 rounded-xl flex items-center justify-center">
+        <svg class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
       </div>
-      <span class="flex items-center gap-0.5 text-xs font-semibold text-emerald-600">
+      <span class="flex items-center gap-0.5 text-xs font-semibold text-green-600">
         <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
         +8.1%
       </span>
@@ -517,14 +517,14 @@
           <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
-      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-emerald-50 transition-colors group">
+      <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-green-50 transition-colors group">
         <div class="flex items-center gap-2">
-          <div class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></div>
+          <div class="w-2 h-2 rounded-full bg-green-500 shrink-0"></div>
           <span class="text-xs font-medium text-slate-700">Đã giao</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm font-bold text-emerald-700">63</span>
-          <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-sm font-bold text-green-700">63</span>
+          <svg class="h-3.5 w-3.5 text-slate-300 group-hover:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </div>
       </a>
       <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-amber-50 transition-colors group">
@@ -643,7 +643,7 @@
           </td>
           <td class="py-3 px-4">
             <div class="flex items-center gap-1.5 justify-end">
-              <button onclick="openConfirm('mark-paid','DH1019')" class="h-7 px-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition-colors">Mark paid</button>
+              <button onclick="openConfirm('mark-paid','DH1019')" class="h-7 px-2.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors">Mark paid</button>
               <button onclick="showToast('Đã gọi cho khách hàng')" class="h-7 px-2.5 border border-slate-200 hover:bg-slate-50 text-xs font-semibold rounded-lg transition-colors">Gọi KH</button>
             </div>
           </td>
@@ -661,7 +661,7 @@
             <p class="text-sm font-bold text-slate-900">2.350.000đ</p>
           </td>
           <td class="py-3 px-4">
-            <span class="badge badge-emerald">Đã thanh toán</span>
+            <span class="badge badge-green">Đã thanh toán</span>
           </td>
           <td class="py-3 px-4">
             <span class="badge badge-amber">Yêu cầu hủy</span>
@@ -809,7 +809,7 @@
           <p class="text-[10px] text-slate-400">575.760.000đ</p>
         </div>
         <div class="shrink-0 w-10 text-right">
-          <span class="text-[10px] font-semibold text-emerald-600">còn 8</span>
+          <span class="text-[10px] font-semibold text-green-600">còn 8</span>
         </div>
       </div>
       <div class="flex items-center gap-3">
@@ -869,7 +869,7 @@
       <div class="space-y-2">
         <div class="flex items-center justify-between">
           <span class="text-xs text-slate-600">Đã thanh toán</span>
-          <span class="text-xs font-bold text-emerald-700">134 đơn</span>
+          <span class="text-xs font-bold text-green-700">134 đơn</span>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-xs text-slate-600">COD</span>
@@ -901,8 +901,8 @@
       <h2 class="text-sm font-bold text-slate-900 mb-3">Hoạt động gần đây</h2>
       <div class="space-y-3">
         <div class="flex gap-2.5">
-          <div class="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center shrink-0 mt-0.5">
-            <svg class="h-3 w-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <div class="w-6 h-6 rounded-full bg-green-50 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="h-3 w-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           </div>
           <div>
             <p class="text-[11px] font-semibold text-slate-800">Đơn <a href="#" class="text-blue-600">#DH1025</a> đã được xác nhận</p>
@@ -928,8 +928,8 @@
           </div>
         </div>
         <div class="flex gap-2.5">
-          <div class="w-6 h-6 rounded-full bg-emerald-50 flex items-center justify-center shrink-0 mt-0.5">
-            <svg class="h-3 w-3 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div class="w-6 h-6 rounded-full bg-green-50 flex items-center justify-center shrink-0 mt-0.5">
+            <svg class="h-3 w-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           </div>
           <div>
             <p class="text-[11px] font-semibold text-slate-800">Đơn <a href="#" class="text-blue-600">#DH1018</a> được đánh dấu đã thanh toán</p>
@@ -1007,7 +1007,7 @@
      ============================================================ -->
 <div id="toast" role="status" aria-live="polite">
   <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-xl max-w-xs">
-    <svg class="h-4 w-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <svg class="h-4 w-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
     <span id="toast-msg"></span>
   </div>
 </div>
@@ -1099,9 +1099,9 @@
       confirmTitle.textContent = 'Đánh dấu đã thanh toán #' + orderId;
       confirmMsg.textContent = 'Xác nhận đơn đã được thanh toán. Thao tác sẽ ghi vào audit log và không thể hoàn tác.';
       btnConfirmAction.textContent = 'Xác nhận thanh toán';
-      btnConfirmAction.className = 'px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition-colors';
+      btnConfirmAction.className = 'px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-xl text-sm font-semibold transition-colors';
       confirmIcon.style.color = '#059669';
-      confirmIcon.closest('div').className = 'w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0';
+      confirmIcon.closest('div').className = 'w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center shrink-0';
     } else if (action === 'cancel-order') {
       confirmTitle.textContent = 'Duyệt yêu cầu hủy #' + orderId;
       confirmMsg.textContent = 'Đơn hàng sẽ bị hủy và hoàn tiền nếu đã thanh toán. Thao tác này không thể hoàn tác.';
