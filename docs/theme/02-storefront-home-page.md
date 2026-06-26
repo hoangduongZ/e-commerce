@@ -1,7 +1,10 @@
 # 02 - Storefront Home Page Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Theme: Electronics Store  
-> Depends on: `ecommerce_design_language.md`, `01-electronics-store-theme.md`  
+> Depends on: `../main/ecommerce_design_language.md`, `01-electronics-store-theme.md`  
 > Page type: Public storefront page  
 > Primary users: Guest customer, logged-in customer  
 > Goal: Giúp khách nhanh chóng hiểu cửa hàng bán gì, tìm sản phẩm, xem khuyến mãi, khám phá danh mục, và đi vào luồng mua hàng.
@@ -1572,7 +1575,7 @@ interface HomeSectionConfig {
 
 Khi agent implement trang này, bắt buộc:
 
-1. Đọc `ecommerce_design_language.md` trước.
+1. Đọc `../main/ecommerce_design_language.md` trước.
 2. Đọc `01-electronics-store-theme.md` trước.
 3. Đọc toàn bộ file này trước khi code.
 4. Không tự ý đổi design token nếu không có yêu cầu.

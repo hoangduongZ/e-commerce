@@ -1,5 +1,8 @@
 # 01 - Electronics Store Theme
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Tài liệu này là **lớp theme chuyên ngành đồ điện tử** dựa trên file gốc `00 - Ngôn ngữ thiết kế chung cho website bán hàng và trang admin`.
 >
 > Mục tiêu: khi đưa tài liệu này cho coding agent/frontend agent, agent có thể biến design system chung thành giao diện bán đồ điện tử có tính **hiện đại, rõ thông số, đáng tin, dễ so sánh, dễ mua**, đồng thời vẫn tái sử dụng được source cho laptop, điện thoại, linh kiện, phụ kiện, thiết bị gia dụng điện tử.
@@ -13,7 +16,7 @@ Tài liệu này **không thay thế** design system gốc. Nó chỉ là lớp 
 Thứ tự ưu tiên khi agent/code đọc tài liệu:
 
 ```text
-00-ecommerce-design-language.md
+../main/ecommerce_design_language.md
 ↓
 01-electronics-store-theme.md
 ↓
@@ -2958,21 +2961,29 @@ Không mất dữ liệu khi validate fail.
 
 ---
 
-## 30. File tiếp theo nên tạo
+## 30. Bộ page spec (đã có)
 
-Sau file này, nên tạo các file page spec theo thứ tự:
+Các file spec màn hình kế thừa file này, theo đúng tên & thứ tự sau:
 
 ```text
-docs/design/02-storefront-home-page.md
-docs/design/03-product-list-page.md
-docs/design/04-product-detail-page.md
-docs/design/05-cart-page.md
-docs/design/06-checkout-page.md
-docs/design/07-order-success-page.md
-docs/design/08-admin-dashboard.md
-docs/design/09-admin-product-management.md
-docs/design/10-admin-order-management.md
-docs/design/11-attribute-template-admin.md
+# Storefront
+02-storefront-home-page.md
+03-storefront-product-list-page.md
+04-storefront-product-detail-page.md
+05-storefront-cart-page.md
+06-storefront-checkout-page.md
+07-storefront-order-success-page.md
+08-storefront-customer-account-page.md
+# Admin
+09-admin-dashboard.md
+10-admin-product-management.md
+11-admin-category-attribute-management.md
+12-admin-order-management.md
+13-admin-inventory-management.md
+14-admin-promotion-management.md
+15-admin-warranty-service-management.md
+16-admin-shipping-management.md
+17-payment-design.md
 ```
 
 Mục tiêu là đi từ:

@@ -1,10 +1,13 @@
 # 16 — Admin Shipping Management Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Dự án: Electronics Store Theme  
 > Khu vực: Admin Panel  
 > Module: Shipping / Fulfillment Management  
 > Mục tiêu: Đặc tả đủ chi tiết để coding agent/frontend/backend agent có thể xây module quản lý vận chuyển từ đầu đến cuối.  
-> Phụ thuộc: `ecommerce_design_language.md`, `01-electronics-store-theme.md`, `09-admin-dashboard.md`, `12-admin-order-management.md`, `13-admin-inventory-management.md`, `system-design.md`.  
+> Phụ thuộc: `../main/ecommerce_design_language.md`, `01-electronics-store-theme.md`, `09-admin-dashboard.md`, `12-admin-order-management.md`, `13-admin-inventory-management.md`, `../main/system-design.md`.  
 > Nguyên tắc: Không phụ thuộc framework. Có thể map sang Nuxt, React, Vue, Laravel, FastAPI, Spring Boot hoặc bất kỳ stack nào.
 
 ---
@@ -20,7 +23,7 @@ Nhiệm vụ của bạn là implement module Admin Shipping Management cho webs
 
 Trước khi code, bắt buộc đọc các tài liệu:
 
-1. ecommerce_design_language.md
+1. ../main/ecommerce_design_language.md
 2. 01-electronics-store-theme.md
 3. 09-admin-dashboard.md
 4. 12-admin-order-management.md
@@ -1701,66 +1704,66 @@ API chỉ là gợi ý, có thể đổi theo backend framework.
 ## 23.1. Shipping methods
 
 ```http
-GET    /api/admin/shipping/methods
-POST   /api/admin/shipping/methods
-GET    /api/admin/shipping/methods/{id}
-PATCH  /api/admin/shipping/methods/{id}
-POST   /api/admin/shipping/methods/{id}/disable
-POST   /api/admin/shipping/methods/{id}/enable
+GET    /api/v1/admin/shipping/methods
+POST   /api/v1/admin/shipping/methods
+GET    /api/v1/admin/shipping/methods/{id}
+PATCH  /api/v1/admin/shipping/methods/{id}
+POST   /api/v1/admin/shipping/methods/{id}/disable
+POST   /api/v1/admin/shipping/methods/{id}/enable
 ```
 
 ## 23.2. Shipping zones
 
 ```http
-GET    /api/admin/shipping/zones
-POST   /api/admin/shipping/zones
-GET    /api/admin/shipping/zones/{id}
-PATCH  /api/admin/shipping/zones/{id}
-POST   /api/admin/shipping/zones/{id}/disable
-POST   /api/admin/shipping/zones/{id}/enable
+GET    /api/v1/admin/shipping/zones
+POST   /api/v1/admin/shipping/zones
+GET    /api/v1/admin/shipping/zones/{id}
+PATCH  /api/v1/admin/shipping/zones/{id}
+POST   /api/v1/admin/shipping/zones/{id}/disable
+POST   /api/v1/admin/shipping/zones/{id}/enable
 ```
 
 ## 23.3. Shipping rates
 
 ```http
-GET    /api/admin/shipping/rates
-POST   /api/admin/shipping/rates
-GET    /api/admin/shipping/rates/{id}
-PATCH  /api/admin/shipping/rates/{id}
-POST   /api/admin/shipping/rates/{id}/disable
-POST   /api/admin/shipping/rates/{id}/enable
-POST   /api/admin/shipping/rates/preview
+GET    /api/v1/admin/shipping/rates
+POST   /api/v1/admin/shipping/rates
+GET    /api/v1/admin/shipping/rates/{id}
+PATCH  /api/v1/admin/shipping/rates/{id}
+POST   /api/v1/admin/shipping/rates/{id}/disable
+POST   /api/v1/admin/shipping/rates/{id}/enable
+POST   /api/v1/admin/shipping/rates/preview
 ```
 
 ## 23.4. Carriers
 
 ```http
-GET    /api/admin/shipping/carriers
-POST   /api/admin/shipping/carriers
-GET    /api/admin/shipping/carriers/{id}
-PATCH  /api/admin/shipping/carriers/{id}
-POST   /api/admin/shipping/carriers/{id}/test-connection
+GET    /api/v1/admin/shipping/carriers
+POST   /api/v1/admin/shipping/carriers
+GET    /api/v1/admin/shipping/carriers/{id}
+PATCH  /api/v1/admin/shipping/carriers/{id}
+POST   /api/v1/admin/shipping/carriers/{id}/test-connection
 ```
 
 ## 23.5. Shipments
 
 ```http
-GET    /api/admin/shipments
-POST   /api/admin/shipments
-GET    /api/admin/shipments/{id}
-PATCH  /api/admin/shipments/{id}
-POST   /api/admin/shipments/{id}/print-label
-POST   /api/admin/shipments/{id}/cancel
-POST   /api/admin/shipments/{id}/update-status
-POST   /api/admin/shipments/{id}/create-return
+GET    /api/v1/admin/shipments
+POST   /api/v1/admin/shipments
+GET    /api/v1/admin/shipments/{id}
+PATCH  /api/v1/admin/shipments/{id}
+POST   /api/v1/admin/shipments/{id}/print-label
+POST   /api/v1/admin/shipments/{id}/cancel
+POST   /api/v1/admin/shipments/{id}/update-status
+POST   /api/v1/admin/shipments/{id}/create-return
 ```
 
 ## 23.6. Order shipping actions
 
 ```http
-POST   /api/admin/orders/{orderId}/shipments
-GET    /api/admin/orders/{orderId}/shipments
-POST   /api/admin/orders/{orderId}/mark-ready-to-ship
+POST   /api/v1/admin/orders/{orderId}/shipments
+GET    /api/v1/admin/orders/{orderId}/shipments
+POST   /api/v1/admin/orders/{orderId}/mark-ready-to-ship
 ```
 
 ## 23.7. Checkout shipping options

@@ -1,12 +1,15 @@
 # 13-admin-inventory-management.md
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 # Admin Inventory Management Specification
 
 > Dự án: Electronics Store Theme  
 > Khu vực: Admin Panel  
 > Màn hình/module: Quản lý tồn kho  
 > Mục tiêu: Đặc tả đủ chi tiết để coding agent/frontend/backend có thể code module quản lý tồn kho từ đầu đến cuối.  
-> Phụ thuộc: `ecommerce_design_language.md`, `01-electronics-store-theme.md`, `09-admin-dashboard.md`, `10-admin-product-management.md`, `12-admin-order-management.md`, `system-design.md`  
+> Phụ thuộc: `../main/ecommerce_design_language.md`, `01-electronics-store-theme.md`, `09-admin-dashboard.md`, `10-admin-product-management.md`, `12-admin-order-management.md`, `../main/system-design.md`  
 > Không phụ thuộc công nghệ frontend/backend cụ thể.
 
 ---
@@ -20,13 +23,13 @@ Bạn là Senior Fullstack Engineer kiêm UI Implementation Agent.
 
 Hãy đọc và tuân thủ các tài liệu sau trước khi code:
 
-1. ecommerce_design_language.md
+1. ../main/ecommerce_design_language.md
 2. 01-electronics-store-theme.md
 3. 09-admin-dashboard.md
 4. 10-admin-product-management.md
 5. 12-admin-order-management.md
 6. 13-admin-inventory-management.md
-7. system-design.md
+7. ../main/system-design.md
 
 Nhiệm vụ của bạn là implement module Admin Inventory Management cho website bán hàng đồ điện tử.
 
@@ -1342,7 +1345,7 @@ Module inventory phải không cản trở mở rộng này.
   "damaged_quantity": 0,
   "safety_stock_quantity": 1,
   "low_stock_threshold": 5,
-  "stock_status": "in_stock",
+  "stockStatus": "in_stock",
   "track_inventory": true,
   "allow_backorder": false,
   "last_movement_at": "2026-06-22T14:35:00+07:00",
@@ -1417,7 +1420,7 @@ API chỉ là gợi ý, có thể đổi theo framework.
 ## 18.1. Inventory list
 
 ```http
-GET /api/admin/inventory
+GET /api/v1/admin/inventory
 ```
 
 Query params:
@@ -1442,14 +1445,14 @@ sort
 ## 18.2. Inventory detail
 
 ```http
-GET /api/admin/inventory/{inventory_item_id}
+GET /api/v1/admin/inventory/{inventory_item_id}
 ```
 
 ## 18.3. Stock movements
 
 ```http
-GET /api/admin/inventory/movements
-GET /api/admin/inventory/{inventory_item_id}/movements
+GET /api/v1/admin/inventory/movements
+GET /api/v1/admin/inventory/{inventory_item_id}/movements
 ```
 
 Query params:
@@ -1470,7 +1473,7 @@ page_size
 ## 18.4. Adjust stock
 
 ```http
-POST /api/admin/inventory/{inventory_item_id}/adjust
+POST /api/v1/admin/inventory/{inventory_item_id}/adjust
 ```
 
 Request:
@@ -1498,7 +1501,7 @@ Response:
 ## 18.5. Reserve stock
 
 ```http
-POST /api/admin/inventory/reserve
+POST /api/v1/admin/inventory/reserve
 ```
 
 Normally called by Order Service, not manually from UI.
@@ -1521,7 +1524,7 @@ Request:
 ## 18.6. Release stock
 
 ```http
-POST /api/admin/inventory/release
+POST /api/v1/admin/inventory/release
 ```
 
 Request:
@@ -1537,15 +1540,15 @@ Request:
 ## 18.7. Import stock
 
 ```http
-POST /api/admin/inventory/import/preview
-POST /api/admin/inventory/import/confirm
-GET  /api/admin/inventory/import/{batch_id}
+POST /api/v1/admin/inventory/import/preview
+POST /api/v1/admin/inventory/import/confirm
+GET  /api/v1/admin/inventory/import/{batch_id}
 ```
 
 ## 18.8. Export stock
 
 ```http
-GET /api/admin/inventory/export
+GET /api/v1/admin/inventory/export
 ```
 
 Query params giống list hiện tại.
@@ -1553,7 +1556,7 @@ Query params giống list hiện tại.
 ## 18.9. Update threshold
 
 ```http
-PATCH /api/admin/inventory/{inventory_item_id}/threshold
+PATCH /api/v1/admin/inventory/{inventory_item_id}/threshold
 ```
 
 Request:

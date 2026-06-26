@@ -1,16 +1,19 @@
 # 15 - Admin Warranty & Service Management Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Dự án: Electronics Store Theme  
 > Khu vực: Admin Panel  
 > Module: Warranty & Service Management  
 > Mục tiêu: đặc tả đủ chi tiết để coding agent/frontend/backend agent có thể xây module quản lý bảo hành, đổi trả, sửa chữa và dịch vụ sau bán hàng cho website bán đồ điện tử.  
 > Phụ thuộc trực tiếp:  
-> - `00-ecommerce-design-language.md`  
+> - `../main/ecommerce_design_language.md`  
 > - `01-electronics-store-theme.md`  
 > - `09-admin-dashboard.md`  
 > - `12-admin-order-management.md`  
 > - `13-admin-inventory-management.md`  
-> - `system-design.md`  
+> - `../main/system-design.md`  
 >
 > File này vừa là **prompt triển khai cho agent**, vừa là **spec nghiệp vụ/UI/API/test** cho module warranty/service.
 
@@ -26,7 +29,7 @@ Bạn là Senior Full-stack E-commerce Agent.
 Hãy implement module Admin Warranty & Service Management cho website bán đồ điện tử.
 
 Trước khi code, bắt buộc đọc các tài liệu:
-1. 00-ecommerce-design-language.md
+1. ../main/ecommerce_design_language.md
 2. 01-electronics-store-theme.md
 3. 09-admin-dashboard.md
 4. 12-admin-order-management.md
@@ -1812,7 +1815,7 @@ API chỉ là gợi ý, có thể đổi theo framework.
 ## 27.1. Claim list
 
 ```http
-GET /api/admin/warranty/claims
+GET /api/v1/admin/warranty/claims
 ```
 
 Query params:
@@ -1841,13 +1844,13 @@ sort
 ## 27.2. Claim detail
 
 ```http
-GET /api/admin/warranty/claims/{id}
+GET /api/v1/admin/warranty/claims/{id}
 ```
 
 ## 27.3. Create claim
 
 ```http
-POST /api/admin/warranty/claims
+POST /api/v1/admin/warranty/claims
 ```
 
 Request:
@@ -1867,7 +1870,7 @@ Request:
 ## 27.4. Update claim status
 
 ```http
-POST /api/admin/warranty/claims/{id}/status
+POST /api/v1/admin/warranty/claims/{id}/status
 ```
 
 Request:
@@ -1882,7 +1885,7 @@ Request:
 ## 27.5. Assign claim
 
 ```http
-POST /api/admin/warranty/claims/{id}/assign
+POST /api/v1/admin/warranty/claims/{id}/assign
 ```
 
 Request:
@@ -1896,13 +1899,13 @@ Request:
 ## 27.6. Add inspection result
 
 ```http
-POST /api/admin/warranty/claims/{id}/inspection
+POST /api/v1/admin/warranty/claims/{id}/inspection
 ```
 
 ## 27.7. Approve resolution
 
 ```http
-POST /api/admin/warranty/claims/{id}/resolution
+POST /api/v1/admin/warranty/claims/{id}/resolution
 ```
 
 Request:
@@ -1918,7 +1921,7 @@ Request:
 ## 27.8. Reject claim
 
 ```http
-POST /api/admin/warranty/claims/{id}/reject
+POST /api/v1/admin/warranty/claims/{id}/reject
 ```
 
 Request:
@@ -1934,29 +1937,29 @@ Request:
 ## 27.9. Add note
 
 ```http
-POST /api/admin/warranty/claims/{id}/notes
+POST /api/v1/admin/warranty/claims/{id}/notes
 ```
 
 ## 27.10. Upload attachment
 
 ```http
-POST /api/admin/warranty/claims/{id}/attachments
+POST /api/v1/admin/warranty/claims/{id}/attachments
 ```
 
 ## 27.11. Lookup warranty
 
 ```http
-GET /api/admin/warranty/lookup?query=SVT-89X2-2026
+GET /api/v1/admin/warranty/lookup?query=SVT-89X2-2026
 ```
 
 ## 27.12. Warranty policy APIs
 
 ```http
-GET    /api/admin/warranty/policies
-GET    /api/admin/warranty/policies/{id}
-POST   /api/admin/warranty/policies
-PATCH  /api/admin/warranty/policies/{id}
-POST   /api/admin/warranty/policies/{id}/archive
+GET    /api/v1/admin/warranty/policies
+GET    /api/v1/admin/warranty/policies/{id}
+POST   /api/v1/admin/warranty/policies
+PATCH  /api/v1/admin/warranty/policies/{id}
+POST   /api/v1/admin/warranty/policies/{id}/archive
 ```
 
 ---

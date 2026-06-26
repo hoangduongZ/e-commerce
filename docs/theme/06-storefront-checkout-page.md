@@ -1,7 +1,10 @@
 # 06-storefront-checkout-page.md
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Electronics Storefront Checkout Page Specification  
-> Dựa trên: `ecommerce_design_language.md`, `01-electronics-store-theme.md`, `05-storefront-cart-page.md`  
+> Dựa trên: `../main/ecommerce_design_language.md`, `01-electronics-store-theme.md`, `05-storefront-cart-page.md`  
 > Mục tiêu: đặc tả đủ chi tiết để coding agent có thể code trang checkout từ đầu đến cuối, không phụ thuộc framework frontend/backend.
 
 ---

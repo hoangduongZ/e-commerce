@@ -1,9 +1,12 @@
 # 05 - Storefront Cart Page Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > File này đặc tả chi tiết trang **Giỏ hàng** cho website bán đồ điện tử.  
 > Tài liệu này là một phần của bộ thiết kế storefront dựa trên:
 >
-> - `ecommerce_design_language.md`
+> - `../main/ecommerce_design_language.md`
 > - `01-electronics-store-theme.md`
 > - `02-storefront-home-page.md`
 > - `03-storefront-product-list-page.md`
@@ -1170,7 +1173,7 @@ Ví dụ JSON tham khảo:
       "original_price": 18990000,
       "quantity": 2,
       "line_total": 31980000,
-      "stock_status": "in_stock",
+      "stockStatus": "in_stock",
       "available_quantity": 5,
       "warranty": "Bảo hành chính hãng 24 tháng",
       "variant_attributes": [
