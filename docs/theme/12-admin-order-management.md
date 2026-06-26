@@ -1,14 +1,17 @@
 # 12 - Admin Order Management Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Dự án: Electronics Store Theme  
 > Khu vực: Admin Panel  
 > Màn hình/module: Quản lý đơn hàng  
 > Mục tiêu: Đặc tả đủ chi tiết để coding agent/frontend agent/backend agent có thể code module quản lý đơn hàng admin từ đầu đến cuối.  
 > Phụ thuộc:  
-> - `00-ecommerce-design-language.md`  
+> - `../main/ecommerce_design_language.md`  
 > - `01-electronics-store-theme.md`  
 > - `09-admin-dashboard.md`  
-> - `system-design.md`  
+> - `../main/system-design.md`  
 >
 > Tài liệu này không phụ thuộc công nghệ frontend/backend cụ thể. Có thể triển khai bằng Nuxt, Next.js, Vue, React, Angular, Laravel, Spring Boot, FastAPI hoặc bất kỳ stack nào.
 
@@ -23,11 +26,11 @@ Bạn là Senior Frontend/Fullstack Agent.
 
 Hãy đọc và tuân thủ các tài liệu sau trước khi code:
 
-1. docs/design/00-ecommerce-design-language.md
-2. docs/design/01-electronics-store-theme.md
-3. docs/design/09-admin-dashboard.md
-4. docs/design/12-admin-order-management.md
-5. docs/system-design.md nếu cần hiểu backend/domain.
+1. ../main/ecommerce_design_language.md
+2. 01-electronics-store-theme.md
+3. 09-admin-dashboard.md
+4. 12-admin-order-management.md
+5. ../main/system-design.md nếu cần hiểu backend/domain.
 
 Nhiệm vụ:
 Implement module Admin Order Management cho web bán đồ điện tử.
@@ -1753,7 +1756,7 @@ Ghi audit log nếu export chứa dữ liệu nhạy cảm.
 ## 27.1. Order list
 
 ```http
-GET /api/admin/orders
+GET /api/v1/admin/orders
 ```
 
 Query params:
@@ -1800,13 +1803,13 @@ Response:
 ## 27.2. Order detail
 
 ```http
-GET /api/admin/orders/{orderId}
+GET /api/v1/admin/orders/{orderId}
 ```
 
 ## 27.3. Confirm order
 
 ```http
-POST /api/admin/orders/{orderId}/confirm
+POST /api/v1/admin/orders/{orderId}/confirm
 ```
 
 Body:
@@ -1820,7 +1823,7 @@ Body:
 ## 27.4. Update status
 
 ```http
-POST /api/admin/orders/{orderId}/status
+POST /api/v1/admin/orders/{orderId}/status
 ```
 
 Body:
@@ -1836,7 +1839,7 @@ Body:
 ## 27.5. Mark paid
 
 ```http
-POST /api/admin/orders/{orderId}/mark-paid
+POST /api/v1/admin/orders/{orderId}/mark-paid
 ```
 
 Body:
@@ -1854,7 +1857,7 @@ Body:
 ## 27.6. Cancel order
 
 ```http
-POST /api/admin/orders/{orderId}/cancel
+POST /api/v1/admin/orders/{orderId}/cancel
 ```
 
 Body:
@@ -1871,7 +1874,7 @@ Body:
 ## 27.7. Refund
 
 ```http
-POST /api/admin/orders/{orderId}/refunds
+POST /api/v1/admin/orders/{orderId}/refunds
 ```
 
 Body:
@@ -1888,7 +1891,7 @@ Body:
 ## 27.8. Add internal note
 
 ```http
-POST /api/admin/orders/{orderId}/notes
+POST /api/v1/admin/orders/{orderId}/notes
 ```
 
 Body:
@@ -1902,7 +1905,7 @@ Body:
 ## 27.9. Update tracking
 
 ```http
-POST /api/admin/orders/{orderId}/tracking
+POST /api/v1/admin/orders/{orderId}/tracking
 ```
 
 Body:

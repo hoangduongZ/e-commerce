@@ -1,10 +1,13 @@
 # 07 - Storefront Order Success / Payment Result / Order Tracking Page
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > File này đặc tả nhóm màn hình sau khi khách hoàn tất checkout trong website bán đồ điện tử.
 >
 > File này kế thừa:
 >
-> - `00-design-system.md` hoặc `ecommerce_design_language.md`
+> - `../main/ecommerce_design_language.md` hoặc `../main/ecommerce_design_language.md`
 > - `01-electronics-store-theme.md`
 > - `06-storefront-checkout-page.md`
 >

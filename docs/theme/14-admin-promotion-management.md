@@ -1,16 +1,19 @@
 # 14 - Admin Promotion Management Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Dự án: Electronics Store Theme  
 > Khu vực: Admin Panel  
 > Module: Promotion / Coupon / Campaign Management  
 > Mục tiêu: Đặc tả đủ chi tiết để coding agent/frontend/backend có thể xây module quản lý khuyến mãi từ đầu đến cuối.  
 > Phụ thuộc:  
-> - `ecommerce_design_language.md`  
+> - `../main/ecommerce_design_language.md`  
 > - `01-electronics-store-theme.md`  
 > - `09-admin-dashboard.md`  
 > - `12-admin-order-management.md`  
 > - `13-admin-inventory-management.md`  
-> - `system-design.md`
+> - `../main/system-design.md`
 
 ---
 
@@ -25,13 +28,13 @@ Nhiệm vụ của bạn là implement module Admin Promotion Management cho m�
 
 Trước khi code, bắt buộc đọc và tuân thủ các tài liệu sau:
 
-1. ecommerce_design_language.md
+1. ../main/ecommerce_design_language.md
 2. 01-electronics-store-theme.md
 3. 09-admin-dashboard.md
 4. 12-admin-order-management.md
 5. 13-admin-inventory-management.md
 6. 14-admin-promotion-management.md
-7. system-design.md
+7. ../main/system-design.md
 
 Mục tiêu module:
 - Admin có thể tạo, sửa, xem, lọc, kích hoạt, tạm dừng, kết thúc, archive promotion/coupon/campaign.
@@ -1850,7 +1853,7 @@ API chỉ là gợi ý, có thể đổi theo framework.
 ## 24.1. Promotion list
 
 ```http
-GET /api/admin/promotions
+GET /api/v1/admin/promotions
 ```
 
 Query params:
@@ -1872,47 +1875,47 @@ sort
 ## 24.2. Promotion detail
 
 ```http
-GET /api/admin/promotions/{id}
+GET /api/v1/admin/promotions/{id}
 ```
 
 ## 24.3. Create promotion
 
 ```http
-POST /api/admin/promotions
+POST /api/v1/admin/promotions
 ```
 
 ## 24.4. Update promotion
 
 ```http
-PATCH /api/admin/promotions/{id}
+PATCH /api/v1/admin/promotions/{id}
 ```
 
 ## 24.5. Save draft
 
 ```http
-POST /api/admin/promotions/{id}/save-draft
+POST /api/v1/admin/promotions/{id}/save-draft
 ```
 
 ## 24.6. Publish / schedule
 
 ```http
-POST /api/admin/promotions/{id}/publish
-POST /api/admin/promotions/{id}/schedule
+POST /api/v1/admin/promotions/{id}/publish
+POST /api/v1/admin/promotions/{id}/schedule
 ```
 
 ## 24.7. Pause / resume / end / archive
 
 ```http
-POST /api/admin/promotions/{id}/pause
-POST /api/admin/promotions/{id}/resume
-POST /api/admin/promotions/{id}/end
-POST /api/admin/promotions/{id}/archive
+POST /api/v1/admin/promotions/{id}/pause
+POST /api/v1/admin/promotions/{id}/resume
+POST /api/v1/admin/promotions/{id}/end
+POST /api/v1/admin/promotions/{id}/archive
 ```
 
 ## 24.8. Duplicate
 
 ```http
-POST /api/admin/promotions/{id}/duplicate
+POST /api/v1/admin/promotions/{id}/duplicate
 ```
 
 Response tạo draft mới.
@@ -1920,7 +1923,7 @@ Response tạo draft mới.
 ## 24.9. Validate before publish
 
 ```http
-POST /api/admin/promotions/{id}/validate-publish
+POST /api/v1/admin/promotions/{id}/validate-publish
 ```
 
 Response:
@@ -1938,7 +1941,7 @@ Response:
 ## 24.10. Preview discount
 
 ```http
-POST /api/admin/promotions/preview
+POST /api/v1/admin/promotions/preview
 ```
 
 Body:
@@ -1974,8 +1977,8 @@ DELETE /api/v1/cart/coupons/{code}
 ## 24.12. Promotion usage
 
 ```http
-GET /api/admin/promotions/{id}/usages
-GET /api/admin/promotions/{id}/analytics
+GET /api/v1/admin/promotions/{id}/usages
+GET /api/v1/admin/promotions/{id}/analytics
 ```
 
 ---

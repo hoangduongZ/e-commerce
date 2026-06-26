@@ -18,6 +18,7 @@
 | [04-lo-trinh-sprint.md](04-lo-trinh-sprint.md) | Lộ trình theo phase/sprint, milestone, bản đồ Epic, đồ thị phụ thuộc | PM, Lead |
 | [05-task-breakdown.md](05-task-breakdown.md) | Chia task chi tiết theo Epic, mỗi task có ID, mô tả, AC, phụ thuộc, estimate | Backend, QA |
 | [backlog.csv](backlog.csv) | Toàn bộ backlog dạng bảng, import thẳng vào Jira/Linear/Azure DevOps | PM, Lead |
+| [jira_csv_overview_explained.md](jira_csv_overview_explained.md) | Giải thích chi tiết từng cột của `backlog.csv` và cách import vào Jira | PM, Lead |
 
 **Thứ tự đọc khuyến nghị:** `00` → `01` → `02` → `03` → `04` → `05` → import `backlog.csv`.
 

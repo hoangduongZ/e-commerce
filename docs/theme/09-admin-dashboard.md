@@ -1,9 +1,12 @@
 # 09-admin-dashboard.md
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Spec chi tiết cho **Admin Dashboard** của web bán hàng đồ điện tử.  
 > File này kế thừa từ:
 >
-> - `ecommerce_design_language.md`
+> - `../main/ecommerce_design_language.md`
 > - `01-electronics-store-theme.md`
 >
 > Mục tiêu: agent/frontend có thể dựa vào file này để code dashboard quản trị từ đầu đến cuối, không phụ thuộc framework.
@@ -1055,8 +1058,8 @@ Ví dụ:
 ## 21.1. Dashboard overview
 
 ```http
-GET /api/admin/dashboard?range=today
-GET /api/admin/dashboard?from=2026-06-01&to=2026-06-22
+GET /api/v1/admin/dashboard?range=today
+GET /api/v1/admin/dashboard?from=2026-06-01&to=2026-06-22
 ```
 
 ## 21.2. Widget-specific APIs
@@ -1064,13 +1067,13 @@ GET /api/admin/dashboard?from=2026-06-01&to=2026-06-22
 Có thể tách API theo widget để dashboard không bị fail toàn bộ.
 
 ```http
-GET /api/admin/dashboard/kpis?range=today
-GET /api/admin/dashboard/revenue-chart?range=last_7_days
-GET /api/admin/dashboard/order-status?range=today
-GET /api/admin/dashboard/orders-requiring-action
-GET /api/admin/dashboard/low-stock-products
-GET /api/admin/dashboard/best-selling-products?range=last_30_days
-GET /api/admin/dashboard/alerts
+GET /api/v1/admin/dashboard/kpis?range=today
+GET /api/v1/admin/dashboard/revenue-chart?range=last_7_days
+GET /api/v1/admin/dashboard/order-status?range=today
+GET /api/v1/admin/dashboard/orders-requiring-action
+GET /api/v1/admin/dashboard/low-stock-products
+GET /api/v1/admin/dashboard/best-selling-products?range=last_30_days
+GET /api/v1/admin/dashboard/alerts
 ```
 
 ## 21.3. Recommended strategy
@@ -1078,7 +1081,7 @@ GET /api/admin/dashboard/alerts
 Với MVP, có thể dùng một API tổng hợp:
 
 ```http
-GET /api/admin/dashboard
+GET /api/v1/admin/dashboard
 ```
 
 Khi hệ thống lớn hơn, tách từng widget để:
@@ -2011,7 +2014,7 @@ Không được approve screenshot mới nếu:
 Khi agent implement Admin Dashboard, bắt buộc tuân thủ:
 
 1. Đọc file này trước khi code.
-2. Đọc `ecommerce_design_language.md` để lấy design token gốc.
+2. Đọc `../main/ecommerce_design_language.md` để lấy design token gốc.
 3. Đọc `01-electronics-store-theme.md` để lấy tone ngành đồ điện tử.
 4. Không hard-code màu ngoài design tokens.
 5. Không hard-code role/permission trong UI nếu có permission config.

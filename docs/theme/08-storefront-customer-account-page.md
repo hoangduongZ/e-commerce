@@ -1,9 +1,12 @@
 # 08 — Storefront Customer Account Page Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > File này là đặc tả giao diện và hành vi cho khu vực tài khoản khách hàng của website bán đồ điện tử.  
 > Tài liệu này mở rộng từ:
 >
-> - `ecommerce_design_language.md`
+> - `../main/ecommerce_design_language.md`
 > - `01-electronics-store-theme.md`
 > - `02-storefront-home-page.md`
 > - `03-storefront-product-list-page.md`
@@ -2720,9 +2723,9 @@ Khi giao agent code khu vực account, dùng prompt kiểu này:
 
 ```text
 Đọc các file:
-- docs/design/ecommerce_design_language.md
-- docs/design/01-electronics-store-theme.md
-- docs/design/08-storefront-customer-account-page.md
+- ../main/ecommerce_design_language.md
+- 01-electronics-store-theme.md
+- 08-storefront-customer-account-page.md
 
 Implement customer account module theo spec.
 

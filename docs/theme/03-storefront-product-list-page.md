@@ -1,7 +1,10 @@
 # 03 - Storefront Product List Page Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Theme: Electronics Store  
-> Depends on: `ecommerce_design_language.md`, `01-electronics-store-theme.md`, `02-storefront-home-page.md`  
+> Depends on: `../main/ecommerce_design_language.md`, `01-electronics-store-theme.md`, `02-storefront-home-page.md`  
 > Page type: Public storefront page  
 > Primary users: Guest customer, logged-in customer  
 > Goal: Giúp khách duyệt, lọc, sắp xếp, so sánh và chọn sản phẩm điện tử nhanh, rõ thông số, không bị rối.
@@ -848,7 +851,7 @@ Compare control
   "rating": 4.6,
   "reviewCount": 128,
   "soldCount": 530,
-  "availability": "in_stock",
+  "stockStatus": "in_stock",
   "warrantyMonths": 24,
   "quickSpecs": [
     { "label": "CPU", "value": "Intel Core i5" },
@@ -1431,7 +1434,7 @@ Product list query phổ biến
     "storage": ["512gb"],
     "cpu_family": ["intel-core-i5"]
   },
-  "availability": ["in_stock"],
+  "stockStatus": ["in_stock"],
   "ratingMin": 4,
   "sort": "price_asc",
   "page": 1,
@@ -1498,7 +1501,7 @@ Product list query phổ biến
   "currency": "VND",
   "rating": 4.6,
   "reviewCount": 128,
-  "availability": "in_stock",
+  "stockStatus": "in_stock",
   "quickSpecs": [],
   "badges": [],
   "promotions": []

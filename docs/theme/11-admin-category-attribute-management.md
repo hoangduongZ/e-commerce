@@ -1,5 +1,8 @@
 # 11-admin-category-attribute-management.md
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 # Admin Category, Brand & Attribute Management Specification
 
 > Dự án: Electronics Store Theme  
@@ -1842,70 +1845,70 @@ Có thể dùng REST, GraphQL, RPC hoặc backend framework nào cũng được.
 ### 16.1. Category API
 
 ```http
-GET    /api/admin/categories
-GET    /api/admin/categories/tree
-GET    /api/admin/categories/{id}
-POST   /api/admin/categories
-PATCH  /api/admin/categories/{id}
-DELETE /api/admin/categories/{id}
-POST   /api/admin/categories/reorder
-POST   /api/admin/categories/{id}/assign-template
+GET    /api/v1/admin/categories
+GET    /api/v1/admin/categories/tree
+GET    /api/v1/admin/categories/{id}
+POST   /api/v1/admin/categories
+PATCH  /api/v1/admin/categories/{id}
+DELETE /api/v1/admin/categories/{id}
+POST   /api/v1/admin/categories/reorder
+POST   /api/v1/admin/categories/{id}/assign-template
 ```
 
 ### 16.2. Brand API
 
 ```http
-GET    /api/admin/brands
-GET    /api/admin/brands/{id}
-POST   /api/admin/brands
-PATCH  /api/admin/brands/{id}
-DELETE /api/admin/brands/{id}
-POST   /api/admin/brands/{id}/merge
+GET    /api/v1/admin/brands
+GET    /api/v1/admin/brands/{id}
+POST   /api/v1/admin/brands
+PATCH  /api/v1/admin/brands/{id}
+DELETE /api/v1/admin/brands/{id}
+POST   /api/v1/admin/brands/{id}/merge
 ```
 
 ### 16.3. Attribute API
 
 ```http
-GET    /api/admin/attributes
-GET    /api/admin/attributes/{id}
-POST   /api/admin/attributes
-PATCH  /api/admin/attributes/{id}
-DELETE /api/admin/attributes/{id}
-POST   /api/admin/attributes/import
+GET    /api/v1/admin/attributes
+GET    /api/v1/admin/attributes/{id}
+POST   /api/v1/admin/attributes
+PATCH  /api/v1/admin/attributes/{id}
+DELETE /api/v1/admin/attributes/{id}
+POST   /api/v1/admin/attributes/import
 ```
 
 ### 16.4. Attribute Group API
 
 ```http
-GET    /api/admin/attribute-groups
-GET    /api/admin/attribute-groups/{id}
-POST   /api/admin/attribute-groups
-PATCH  /api/admin/attribute-groups/{id}
-DELETE /api/admin/attribute-groups/{id}
+GET    /api/v1/admin/attribute-groups
+GET    /api/v1/admin/attribute-groups/{id}
+POST   /api/v1/admin/attribute-groups
+PATCH  /api/v1/admin/attribute-groups/{id}
+DELETE /api/v1/admin/attribute-groups/{id}
 ```
 
 ### 16.5. Attribute Template API
 
 ```http
-GET    /api/admin/attribute-templates
-GET    /api/admin/attribute-templates/{id}
-POST   /api/admin/attribute-templates
-PATCH  /api/admin/attribute-templates/{id}
-DELETE /api/admin/attribute-templates/{id}
-POST   /api/admin/attribute-templates/{id}/publish
-POST   /api/admin/attribute-templates/{id}/duplicate
-POST   /api/admin/attribute-templates/{id}/preview-product-form
-POST   /api/admin/attribute-templates/{id}/migrate-products
+GET    /api/v1/admin/attribute-templates
+GET    /api/v1/admin/attribute-templates/{id}
+POST   /api/v1/admin/attribute-templates
+PATCH  /api/v1/admin/attribute-templates/{id}
+DELETE /api/v1/admin/attribute-templates/{id}
+POST   /api/v1/admin/attribute-templates/{id}/publish
+POST   /api/v1/admin/attribute-templates/{id}/duplicate
+POST   /api/v1/admin/attribute-templates/{id}/preview-product-form
+POST   /api/v1/admin/attribute-templates/{id}/migrate-products
 ```
 
 ### 16.6. Storefront config API
 
 ```http
-GET /api/storefront/categories
-GET /api/storefront/categories/{slug}/filters
-GET /api/storefront/categories/{slug}/template
-GET /api/storefront/products/{slug}/specs
-GET /api/storefront/compare/config?category_id=cat_laptop
+GET /api/v1/categories
+GET /api/v1/categories/{slug}/filters
+GET /api/v1/categories/{slug}/template
+GET /api/v1/products/{slug}/specs
+GET /api/v1/compare/config?category_id=cat_laptop
 ```
 
 ---

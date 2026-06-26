@@ -1,5 +1,8 @@
 # 17 — Payment Design Specification
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 > Dự án: Electronics Store Theme  
 > Khu vực: Storefront + Admin + Backend Domain  
 > Module: Payment Design  
@@ -572,7 +575,7 @@ Frontend đọc lại payment status từ backend
 API gợi ý:
 
 ```http
-POST /api/payments/intents
+POST /api/v1/payments/intents
 ```
 
 Request:
@@ -1239,13 +1242,13 @@ Response:
 ## 17.2. Create payment intent
 
 ```http
-POST /api/payments/intents
+POST /api/v1/payments/intents
 ```
 
 ## 17.3. Get payment intent
 
 ```http
-GET /api/payments/intents/{payment_intent_id}
+GET /api/v1/payments/intents/{payment_intent_id}
 ```
 
 ## 17.4. Retry payment
@@ -1271,7 +1274,7 @@ Request:
 ## 17.6. Provider callback/webhook
 
 ```http
-POST /api/payments/providers/{provider}/webhook
+POST /api/v1/payments/providers/{provider}/webhook
 ```
 
 Backend only.
@@ -1279,7 +1282,7 @@ Backend only.
 ## 17.7. Admin mark paid
 
 ```http
-POST /api/admin/orders/{order_id}/payments/mark-paid
+POST /api/v1/admin/orders/{order_id}/payments/mark-paid
 ```
 
 Request:
@@ -1297,26 +1300,26 @@ Request:
 ## 17.8. Admin request refund
 
 ```http
-POST /api/admin/orders/{order_id}/refunds
+POST /api/v1/admin/orders/{order_id}/refunds
 ```
 
 ## 17.9. Admin payment config
 
 ```http
-GET /api/admin/payment-methods
-POST /api/admin/payment-methods
-PATCH /api/admin/payment-methods/{id}
-POST /api/admin/payment-methods/{id}/enable
-POST /api/admin/payment-methods/{id}/disable
+GET /api/v1/admin/payment-methods
+POST /api/v1/admin/payment-methods
+PATCH /api/v1/admin/payment-methods/{id}
+POST /api/v1/admin/payment-methods/{id}/enable
+POST /api/v1/admin/payment-methods/{id}/disable
 ```
 
 ## 17.10. Admin bank accounts
 
 ```http
-GET /api/admin/payment/bank-accounts
-POST /api/admin/payment/bank-accounts
-PATCH /api/admin/payment/bank-accounts/{id}
-DELETE /api/admin/payment/bank-accounts/{id}
+GET /api/v1/admin/payment/bank-accounts
+POST /api/v1/admin/payment/bank-accounts
+PATCH /api/v1/admin/payment/bank-accounts/{id}
+DELETE /api/v1/admin/payment/bank-accounts/{id}
 ```
 
 ---

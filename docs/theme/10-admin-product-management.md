@@ -1,5 +1,8 @@
 # 10-admin-product-management.md
 
+> **⚠️ Chuẩn đồng bộ — đọc trước:** Hợp đồng API theo [`../main/api-conventions.md`](../main/api-conventions.md) · Enum & trạng thái theo [`../main/domain-enums.md`](../main/domain-enums.md) · Design token theo [`../main/ecommerce_design_language.md`](../main/ecommerce_design_language.md) + [`01-electronics-store-theme.md`](01-electronics-store-theme.md).
+> Khi ví dụ trong file này khác tài liệu chuẩn → **tài liệu chuẩn thắng**: base path `/api/v1`, envelope `{ success, data, error, meta }`, field JSON **camelCase**, giá trị enum **snake_case** (vd `"orderStatus": "pending_confirmation"`, `"stockStatus": "in_stock"`). FE chuẩn của dự án: **Nuxt 3 + TypeScript + Pinia + Tailwind**.
+
 # Admin Product Management Specification
 
 > Dự án: Electronics Store Theme  
@@ -1522,7 +1525,7 @@ API chỉ là tham khảo. Có thể đổi theo framework.
 ### Product list
 
 ```http
-GET /api/admin/products
+GET /api/v1/admin/products
 ```
 
 Query params:
@@ -1548,67 +1551,67 @@ sort
 ### Product detail
 
 ```http
-GET /api/admin/products/{id}
+GET /api/v1/admin/products/{id}
 ```
 
 ### Create product
 
 ```http
-POST /api/admin/products
+POST /api/v1/admin/products
 ```
 
 ### Update product
 
 ```http
-PATCH /api/admin/products/{id}
+PATCH /api/v1/admin/products/{id}
 ```
 
 ### Publish product
 
 ```http
-POST /api/admin/products/{id}/publish
+POST /api/v1/admin/products/{id}/publish
 ```
 
 ### Save draft
 
 ```http
-POST /api/admin/products/{id}/save-draft
+POST /api/v1/admin/products/{id}/save-draft
 ```
 
 ### Duplicate product
 
 ```http
-POST /api/admin/products/{id}/duplicate
+POST /api/v1/admin/products/{id}/duplicate
 ```
 
 ### Archive product
 
 ```http
-POST /api/admin/products/{id}/archive
+POST /api/v1/admin/products/{id}/archive
 ```
 
 ### Upload product image
 
 ```http
-POST /api/admin/products/{id}/images
+POST /api/v1/admin/products/{id}/images
 ```
 
 ### Reorder images
 
 ```http
-PATCH /api/admin/products/{id}/images/reorder
+PATCH /api/v1/admin/products/{id}/images/reorder
 ```
 
 ### Generate variants
 
 ```http
-POST /api/admin/products/{id}/variants/generate
+POST /api/v1/admin/products/{id}/variants/generate
 ```
 
 ### Validate product before publish
 
 ```http
-POST /api/admin/products/{id}/validate-publish
+POST /api/v1/admin/products/{id}/validate-publish
 ```
 
 ---
