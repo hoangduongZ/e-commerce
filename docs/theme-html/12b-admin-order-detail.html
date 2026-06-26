@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="electronics">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi tiết đơn #DH1024 | Admin — TechStore</title>
+<meta name="description" content="Xem chi tiết, xử lý trạng thái, thanh toán, vận chuyển và ghi chú cho đơn hàng.">
+<meta name="robots" content="noindex,nofollow">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } } }</script>
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; background:#f8fafc; height:100vh; overflow:hidden; }
+  .line-clamp-1 { display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; }
+  .line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+
+  /* Skeleton loading */
+  .skeleton { background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* Admin sidebar — đồng nhất với 09 */
+  #admin-sidebar { width:240px; flex-shrink:0; transition:transform .25s ease; z-index:40; }
+  @media (max-width:1023px) {
+    #admin-sidebar { position:fixed; top:0; left:0; bottom:0; transform:translateX(-100%); }
+    #admin-sidebar.open { transform:translateX(0); }
+    .admin-main { width:100%; }
+  }
+  #sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:39; }
+  #sidebar-overlay.show { display:block; }
+
+  .nav-item { display:flex; align-items:center; gap:10px; padding:9px 16px; border-radius:8px; cursor:pointer; transition:all .15s; color:#475569; font-size:14px; font-weight:500; border-left:3px solid transparent; margin:1px 8px; }
+  .nav-item:hover { background:#f8fafc; color:#0f172a; }
+  .nav-item.is-active { background:#eff6ff; color:#1d4ed8; border-left-color:#2563eb; }
+  .nav-item.is-active svg { color:#2563eb; }
+  .nav-group-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.08em; padding:16px 24px 6px; }
+
+  /* Status badge shared */
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .badge-lg { padding:4px 12px; font-size:12px; }
+  .badge-blue   { background:#dbeafe; color:#1d4ed8; }
+  .badge-emerald{ background:#d1fae5; color:#065f46; }
+  .badge-amber  { background:#fef3c7; color:#92400e; }
+  .badge-red    { background:#fee2e2; color:#991b1b; }
+  .badge-slate  { background:#f1f5f9; color:#475569; }
+
+  /* Risk chip */
+  .chip-risk { display:inline-flex; align-items:center; gap:3px; padding:1px 6px; border-radius:6px; font-size:10px; font-weight:600; background:#fffbeb; color:#b45309; border:1px solid #fde68a; }
+
+  /* Price */
+  .price-s { color:#dc2626; }
+
+  /* Card */
+  .panel { background:#fff; border:1px solid #e2e8f0; border-radius:1rem; }
+  .panel-title { font-size:14px; font-weight:700; color:#0f172a; }
+
+  /* Side panel sticky on desktop */
+  @media (min-width:1024px) { .side-panel { position:sticky; top:0; } }
+
+  /* Timeline */
+  .tl-item { position:relative; padding-left:28px; padding-bottom:18px; }
+  .tl-item:before { content:''; position:absolute; left:7px; top:18px; bottom:-2px; width:2px; background:#e2e8f0; }
+  .tl-item:last-child:before { display:none; }
+  .tl-dot { position:absolute; left:0; top:2px; width:16px; height:16px; border-radius:999px; display:flex; align-items:center; justify-content:center; }
+
+  /* Accordion (mobile timeline) */
+  .acc-body { display:none; }
+  .acc-body.open { display:block; }
+
+  /* Toast */
+  #toast { position:fixed; bottom:24px; right:24px; transform:translateY(120%); transition:transform .3s ease; z-index:100; }
+  #toast.show { transform:translateY(0); }
+
+  /* Confirm overlay */
+  #confirm-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.5); z-index:90; align-items:center; justify-content:center; }
+  #confirm-overlay.show { display:flex; }
+
+  /* Reveal blur (sensitive data) */
+  .masked { filter:blur(4px); user-select:none; transition:filter .15s; }
+  .masked.revealed { filter:none; user-select:auto; }
+
+  /* Mobile sticky action bar */
+  #mobile-actionbar { display:none; }
+  @media (max-width:1023px) { #mobile-actionbar { display:flex; } }
+</style>
+</head>
+<body class="text-slate-900 antialiased">
+
+<!-- ============================================================
+     ADMIN SHELL  (sidebar/topbar copy 09, "Đơn hàng" active)
+     ============================================================ -->
+<div class="flex h-screen overflow-hidden">
+
+<!-- 1. ADMIN SIDEBAR -->
+<aside id="admin-sidebar" class="bg-white border-r border-slate-200 flex flex-col h-full overflow-y-auto">
+  <div class="flex items-center gap-2.5 h-16 px-5 border-b border-slate-100 shrink-0">
+    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+      <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <p class="font-bold text-base leading-tight">Tech<span class="text-blue-600">Store</span></p>
+      <p class="text-[10px] text-slate-400">Admin Panel</p>
+    </div>
+  </div>
+  <nav class="flex-1 py-2" aria-label="Admin navigation">
+    <div class="nav-group-label">Vận hành</div>
+    <a href="08-admin-dashboard.html" class="nav-item" data-nav="dashboard">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 13a1 1 0 011-1h4a1 1 0 011 1v6a1 1 0 01-1 1h-4a1 1 0 01-1-1v-6z"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="12-admin-order-management.html" class="nav-item is-active" aria-current="page" data-nav="orders">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <span class="flex-1">Đơn hàng</span>
+      <span class="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">18</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="inventory">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <span class="flex-1">Tồn kho</span>
+      <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">12</span>
+    </a>
+    <div class="nav-group-label">Danh mục</div>
+    <a href="09-admin-product-management.html" class="nav-item" data-nav="products">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      <span>Sản phẩm</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="categories">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+      <span>Danh mục</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="brands">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      <span>Thương hiệu</span>
+    </a>
+    <div class="nav-group-label">Khách hàng</div>
+    <a href="#" class="nav-item" data-nav="customers">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span>Khách hàng</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="warranty">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      <span>Bảo hành</span>
+    </a>
+    <div class="nav-group-label">Hệ thống</div>
+    <a href="#" class="nav-item" data-nav="reports">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span>Báo cáo</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="settings">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span>Cài đặt</span>
+    </a>
+  </nav>
+  <div class="border-t border-slate-100 p-3 shrink-0">
+    <div class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">NM</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-semibold text-slate-900 leading-tight">Nguyễn Minh</p>
+        <p class="text-[10px] text-slate-400">Store Manager</p>
+      </div>
+      <svg class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>
+    </div>
+  </div>
+</aside>
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- MAIN AREA -->
+<div class="admin-main flex-1 flex flex-col overflow-hidden">
+
+<!-- 2. ADMIN TOP BAR -->
+<header class="bg-white border-b border-slate-200 flex items-center gap-3 h-16 px-4 shrink-0">
+  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg" aria-label="Mở menu">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="relative flex-1 max-w-md">
+    <label for="admin-search" class="sr-only">Tìm kiếm đơn hàng, sản phẩm, khách hàng</label>
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+  </div>
+  <div class="flex items-center gap-1 ml-auto">
+    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Thông báo (5 chưa đọc)">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+    </button>
+    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Tài khoản admin">
+      <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">NM</div>
+      <span class="hidden md:block text-sm font-medium">Nguyễn Minh</span>
+      <svg class="h-4 w-4 text-slate-400 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- 3. PAGE CONTENT -->
+<main class="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-50 pb-24 lg:pb-6">
+
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-3" aria-label="Breadcrumb">
+  <a href="08-admin-dashboard.html" class="text-slate-400 hover:text-slate-600">Admin</a>
+  <svg class="h-3 w-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <a href="12-admin-order-management.html" class="text-slate-400 hover:text-slate-600">Đơn hàng</a>
+  <svg class="h-3 w-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <span class="font-medium text-slate-700">#DH1024</span>
+</nav>
+
+<!-- ============================================================
+     4. ORDER HEADER
+     ============================================================ -->
+<div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+  <div class="min-w-0">
+    <div class="flex items-center gap-2 flex-wrap">
+      <a href="12-admin-order-management.html" class="p-1.5 -ml-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg" aria-label="Quay lại danh sách đơn">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </a>
+      <h1 class="text-xl font-bold text-slate-900">Đơn hàng #DH1024</h1>
+      <span class="badge badge-blue text-[10px]">Mới</span>
+    </div>
+    <p class="text-sm text-slate-500 mt-1 ml-7">Đặt lúc 22/06/2026 14:35 · COD/Chuyển khoản · 2 sản phẩm</p>
+    <div class="flex items-center gap-2 flex-wrap mt-2 ml-7">
+      <span class="badge badge-lg badge-amber">Chờ xác nhận</span>
+      <span class="badge badge-lg badge-amber">Chờ chuyển khoản</span>
+      <span class="badge badge-lg badge-slate">Chưa xử lý hàng</span>
+    </div>
+  </div>
+  <div class="flex flex-wrap items-center gap-2">
+    <button class="flex items-center gap-1.5 h-9 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" onclick="showToast('In hóa đơn cho đơn DH1024')">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+      In hóa đơn
+    </button>
+    <button class="flex items-center gap-1.5 h-9 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" onclick="showToast('In phiếu đóng gói cho đơn DH1024')">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      Phiếu đóng gói
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     5. RISK / ALERT BANNER (gom các cảnh báo)
+     ============================================================ -->
+<div class="rounded-2xl border border-amber-200 bg-amber-50 p-3.5 mb-4 flex items-start gap-3">
+  <svg class="h-5 w-5 text-amber-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+  <div class="flex-1 min-w-0">
+    <p class="text-sm font-bold text-amber-900">Cần kiểm tra trước khi xử lý</p>
+    <ul class="text-sm text-amber-800 mt-1 space-y-1 list-disc list-inside">
+      <li>Đơn giá trị cao <strong>30.980.000đ</strong> — vui lòng xác minh thanh toán trước khi giao.</li>
+      <li>Khách chọn chuyển khoản nhưng <strong>chưa đối soát</strong> được giao dịch.</li>
+      <li>Sản phẩm "Dell Inspiron 15" chỉ còn <strong>3 cái</strong> trong kho (đơn cần 2).</li>
+    </ul>
+    <div class="flex flex-wrap items-center gap-2 mt-2.5">
+      <button class="h-8 px-3 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg" onclick="openConfirm('mark-paid')">Đánh dấu đã thanh toán</button>
+      <button class="h-8 px-3 bg-white border border-amber-300 text-amber-800 text-xs font-semibold rounded-lg hover:bg-amber-100" onclick="showToast('Mở kiểm tra tồn kho')">Kiểm tra tồn kho</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     6. ORDER DETAIL LAYOUT (main + side panel)
+     ============================================================ -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+
+<!-- ============== MAIN COLUMN ============== -->
+<div class="lg:col-span-2 space-y-4">
+
+  <!-- 6.1 ITEMS SECTION -->
+  <section class="panel overflow-hidden">
+    <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100">
+      <h2 class="panel-title">Sản phẩm trong đơn <span class="text-slate-400 font-medium">(2)</span></h2>
+      <a href="09-admin-product-management.html" class="text-xs font-semibold text-blue-600 hover:text-blue-700">Xem tồn kho</a>
+    </div>
+    <!-- Desktop table -->
+    <div class="overflow-x-auto hidden sm:block">
+      <table class="w-full text-sm min-w-[640px]">
+        <thead>
+          <tr class="text-left border-b border-slate-100">
+            <th class="py-2 px-4 text-xs font-semibold text-slate-500">Sản phẩm</th>
+            <th class="py-2 px-3 text-xs font-semibold text-slate-500">Bảo hành</th>
+            <th class="py-2 px-3 text-xs font-semibold text-slate-500 text-right">Đơn giá</th>
+            <th class="py-2 px-3 text-xs font-semibold text-slate-500 text-center">SL</th>
+            <th class="py-2 px-3 text-xs font-semibold text-slate-500 text-right">Thành tiền</th>
+            <th class="py-2 px-4 text-xs font-semibold text-slate-500">Tồn kho</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-slate-50">
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-3 min-w-[260px]">
+                <img src="https://placehold.co/48x48/f1f5f9/1e40af?text=Dell" alt="Laptop Dell Inspiron 15 3520" class="w-12 h-12 rounded-lg object-contain border border-slate-100 shrink-0" loading="lazy">
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-slate-800 line-clamp-2">Laptop Dell Inspiron 15 3520 i5 1235U 16GB 512GB</p>
+                  <p class="text-[11px] text-slate-400 font-mono">SKU: DELL-INS-3520-I5-16-512</p>
+                  <p class="text-[11px] text-slate-500 mt-0.5">Silver / 16GB RAM / SSD 512GB</p>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-3"><span class="text-xs text-slate-600">24 tháng</span><p class="text-[10px] text-slate-400">Chính hãng</p></td>
+            <td class="py-3 px-3 text-right"><span class="text-sm text-slate-700">15.990.000đ</span></td>
+            <td class="py-3 px-3 text-center"><span class="text-sm font-semibold text-slate-800">2</span></td>
+            <td class="py-3 px-3 text-right"><span class="text-sm font-bold text-slate-900">31.980.000đ</span></td>
+            <td class="py-3 px-4"><span class="badge badge-amber text-[10px]">⚠ Chỉ còn 3</span></td>
+          </tr>
+          <tr>
+            <td class="py-3 px-4">
+              <div class="flex items-center gap-3 min-w-[260px]">
+                <img src="https://placehold.co/48x48/fff7ed/ea580c?text=Mouse" alt="Chuột Logitech M331" class="w-12 h-12 rounded-lg object-contain border border-slate-100 shrink-0" loading="lazy">
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-slate-800 line-clamp-2">Chuột không dây Logitech M331 Silent</p>
+                  <p class="text-[11px] text-slate-400 font-mono">SKU: LOGI-M331-BLK</p>
+                  <p class="text-[11px] text-slate-500 mt-0.5">Đen</p>
+                </div>
+              </div>
+            </td>
+            <td class="py-3 px-3"><span class="text-xs text-slate-600">12 tháng</span><p class="text-[10px] text-slate-400">Cửa hàng</p></td>
+            <td class="py-3 px-3 text-right"><span class="text-sm text-slate-700">—</span><p class="text-[10px] text-emerald-600">Quà tặng</p></td>
+            <td class="py-3 px-3 text-center"><span class="text-sm font-semibold text-slate-800">1</span></td>
+            <td class="py-3 px-3 text-right"><span class="text-sm font-bold text-slate-900">0đ</span></td>
+            <td class="py-3 px-4"><span class="badge badge-emerald text-[10px]">✓ Đã giữ hàng</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- Mobile item cards -->
+    <div class="sm:hidden divide-y divide-slate-100">
+      <div class="p-3 flex gap-3">
+        <img src="https://placehold.co/52x52/f1f5f9/1e40af?text=Dell" alt="Laptop Dell Inspiron 15 3520" class="w-[52px] h-[52px] rounded-lg object-contain border border-slate-100 shrink-0" loading="lazy">
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-semibold text-slate-800 line-clamp-2">Laptop Dell Inspiron 15 3520 i5 16GB 512GB</p>
+          <p class="text-[10px] text-slate-400 font-mono mt-0.5">Silver / 16GB / 512GB · BH 24 tháng</p>
+          <div class="flex items-center justify-between mt-1.5">
+            <span class="text-xs text-slate-500">15.990.000đ × 2</span>
+            <span class="text-sm font-bold text-slate-900">31.980.000đ</span>
+          </div>
+          <span class="badge badge-amber text-[10px] mt-1">⚠ Chỉ còn 3</span>
+        </div>
+      </div>
+      <div class="p-3 flex gap-3">
+        <img src="https://placehold.co/52x52/fff7ed/ea580c?text=Mouse" alt="Chuột Logitech M331" class="w-[52px] h-[52px] rounded-lg object-contain border border-slate-100 shrink-0" loading="lazy">
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-semibold text-slate-800 line-clamp-2">Chuột không dây Logitech M331 Silent</p>
+          <p class="text-[10px] text-slate-400 font-mono mt-0.5">Đen · BH 12 tháng</p>
+          <div class="flex items-center justify-between mt-1.5">
+            <span class="text-xs text-emerald-600">Quà tặng × 1</span>
+            <span class="text-sm font-bold text-slate-900">0đ</span>
+          </div>
+          <span class="badge badge-emerald text-[10px] mt-1">✓ Đã giữ hàng</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.2 ORDER SUMMARY -->
+  <section class="panel p-4">
+    <h2 class="panel-title mb-3">Tổng kết đơn hàng</h2>
+    <div class="space-y-2 text-sm max-w-md ml-auto">
+      <div class="flex items-center justify-between"><span class="text-slate-500">Tạm tính</span><span class="text-slate-700">31.980.000đ</span></div>
+      <div class="flex items-center justify-between"><span class="text-slate-500">Giảm giá <span class="text-[11px] text-emerald-600 font-medium">(SUMMER1TR)</span></span><span class="text-emerald-600">−1.000.000đ</span></div>
+      <div class="flex items-center justify-between"><span class="text-slate-500">Phí vận chuyển</span><span class="text-slate-700">0đ</span></div>
+      <div class="flex items-center justify-between"><span class="text-slate-500">Thuế VAT</span><span class="text-slate-700">0đ</span></div>
+      <div class="flex items-center justify-between border-t border-slate-100 pt-2 mt-1"><span class="font-bold text-slate-900">Tổng cộng</span><span class="text-base font-extrabold text-slate-900">30.980.000đ</span></div>
+      <div class="flex items-center justify-between"><span class="text-slate-500">Đã thanh toán</span><span class="text-slate-700">0đ</span></div>
+      <div class="flex items-center justify-between"><span class="font-semibold text-red-600">Còn phải thu</span><span class="font-bold price-s">30.980.000đ</span></div>
+    </div>
+  </section>
+
+  <!-- 6.3 CUSTOMER + SHIPPING (2 cột) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Customer -->
+    <section class="panel p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="panel-title">Khách hàng</h2>
+        <span class="badge badge-slate text-[10px]">Đã đăng ký</span>
+      </div>
+      <p class="text-sm font-semibold text-slate-800">Nguyễn Văn A</p>
+      <div class="mt-2 space-y-1.5 text-sm">
+        <div class="flex items-center gap-2">
+          <svg class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <span class="text-slate-700 font-mono">090****000</span>
+          <span class="masked text-slate-700 font-mono" id="cust-phone">0900000000</span>
+          <button class="text-[11px] font-semibold text-blue-600 hover:text-blue-700" onclick="reveal('cust-phone', this)" aria-label="Hiện số điện thoại đầy đủ">Hiện</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span class="text-slate-700 truncate">n***@gmail.com</span>
+        </div>
+        <p class="text-[11px] text-slate-400">Đã mua 4 đơn trước đó · Tổng chi tiêu 58.4tr</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-slate-100">
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="showToast('Gọi khách hàng')">Gọi</button>
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="showToast('Đã copy số điện thoại')">Copy SĐT</button>
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="showToast('Mở hồ sơ khách hàng')">Hồ sơ</button>
+      </div>
+      <p class="text-[10px] text-slate-400 mt-2">🔒 Dữ liệu đầy đủ chỉ hiện với quyền <span class="font-mono">customer.private.view</span></p>
+    </section>
+
+    <!-- Shipping -->
+    <section class="panel p-4">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="panel-title">Địa chỉ giao hàng</h2>
+        <button class="text-xs font-semibold text-blue-600 hover:text-blue-700" onclick="showToast('Sửa địa chỉ (cho phép trước khi giao)')">Sửa</button>
+      </div>
+      <p class="text-sm font-semibold text-slate-800">Nguyễn Văn A · <span class="font-mono font-normal text-slate-500">0900000000</span></p>
+      <p class="text-sm text-slate-600 mt-1">Số 1 Nguyễn Trãi, P. Văn Quán, Q. Hà Đông, Hà Nội</p>
+      <div class="flex items-start gap-2 mt-2 text-xs text-slate-500 bg-slate-50 rounded-lg px-2.5 py-1.5">
+        <svg class="h-4 w-4 text-slate-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg>
+        Ghi chú: Gọi trước khi giao
+      </div>
+      <div class="mt-3 pt-3 border-t border-slate-100 space-y-1.5 text-sm">
+        <div class="flex items-center justify-between"><span class="text-slate-500">Phương thức</span><span class="text-slate-700">Giao tiêu chuẩn</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Đơn vị VC</span><span class="text-slate-400 italic">Chưa gán</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Mã vận đơn</span><span class="text-slate-400 italic">Chưa có</span></div>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5 mt-3">
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="showToast('Đã copy địa chỉ')">Copy địa chỉ</button>
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="openConfirm('tracking')">Cập nhật vận đơn</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 6.4 PAYMENT + FULFILLMENT (2 cột) -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <!-- Payment -->
+    <section class="panel p-4">
+      <h2 class="panel-title mb-3">Thanh toán</h2>
+      <div class="space-y-1.5 text-sm">
+        <div class="flex items-center justify-between"><span class="text-slate-500">Phương thức</span><span class="text-slate-700 font-medium">Chuyển khoản</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Trạng thái</span><span class="badge badge-amber">Chờ chuyển khoản</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Số tiền cần thu</span><span class="font-bold text-slate-900">30.980.000đ</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Nội dung CK</span><span class="text-slate-700 font-mono text-xs">DH1024 NVA</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Tài khoản nhận</span><span class="text-slate-700 text-xs">VCB · 0011****888</span></div>
+      </div>
+      <div class="rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1.5 mt-2.5 text-xs text-amber-800">⏱ Đã chờ chuyển khoản hơn 24 giờ. Hãy đối soát hoặc nhắc khách.</div>
+      <div class="flex flex-wrap items-center gap-1.5 mt-3">
+        <button class="h-8 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg" onclick="openConfirm('mark-paid')">Đánh dấu đã TT</button>
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="showToast('Yêu cầu khách gửi ảnh chuyển khoản')">Yêu cầu chứng từ</button>
+      </div>
+    </section>
+
+    <!-- Fulfillment -->
+    <section class="panel p-4">
+      <h2 class="panel-title mb-3">Xử lý &amp; giao hàng</h2>
+      <div class="space-y-1.5 text-sm">
+        <div class="flex items-center justify-between"><span class="text-slate-500">Trạng thái</span><span class="badge badge-slate">Chưa xử lý hàng</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Kho xuất</span><span class="text-slate-700">Kho Hà Nội</span></div>
+        <div class="flex items-center justify-between"><span class="text-slate-500">Đã giữ hàng</span><span class="text-slate-700">1 / 2 sản phẩm</span></div>
+      </div>
+      <!-- Mini progress -->
+      <div class="flex items-center gap-1 mt-3">
+        <div class="flex-1 h-1.5 rounded-full bg-blue-600"></div>
+        <div class="flex-1 h-1.5 rounded-full bg-slate-200"></div>
+        <div class="flex-1 h-1.5 rounded-full bg-slate-200"></div>
+        <div class="flex-1 h-1.5 rounded-full bg-slate-200"></div>
+      </div>
+      <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1">
+        <span class="text-blue-600 font-semibold">Xác nhận</span><span>Đóng gói</span><span>Giao</span><span>Hoàn tất</span>
+      </div>
+      <div class="rounded-lg bg-slate-50 px-2.5 py-1.5 mt-2.5 text-xs text-slate-500">Cần xác nhận đơn trước khi kho bắt đầu đóng gói.</div>
+      <div class="flex flex-wrap items-center gap-1.5 mt-3">
+        <button class="h-8 px-3 bg-slate-100 text-slate-400 text-xs font-semibold rounded-lg cursor-not-allowed" disabled title="Cần xác nhận đơn trước">Bắt đầu đóng gói</button>
+        <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg" onclick="showToast('Giữ hàng cho đơn DH1024')">Giữ hàng</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 6.5 WARRANTY -->
+  <section class="panel p-4">
+    <h2 class="panel-title mb-3">Bảo hành &amp; dịch vụ</h2>
+    <div class="space-y-2">
+      <div class="flex items-center justify-between text-sm py-1.5 border-b border-slate-50">
+        <div class="min-w-0">
+          <p class="text-slate-700 font-medium line-clamp-1">Dell Inspiron 15 3520</p>
+          <p class="text-[11px] text-slate-400">Serial/IMEI: <span class="italic">gán khi đóng gói</span></p>
+        </div>
+        <span class="badge badge-emerald shrink-0">24 tháng · Chính hãng</span>
+      </div>
+      <div class="flex items-center justify-between text-sm py-1.5">
+        <div class="min-w-0">
+          <p class="text-slate-700 font-medium line-clamp-1">Chuột Logitech M331 Silent</p>
+          <p class="text-[11px] text-slate-400">Serial/IMEI: <span class="italic">không áp dụng</span></p>
+        </div>
+        <span class="badge badge-slate shrink-0">12 tháng · Cửa hàng</span>
+      </div>
+    </div>
+    <p class="text-[11px] text-slate-400 mt-2">Ngày bắt đầu bảo hành tính từ khi giao thành công. Có thể tạo phiếu bảo hành sau khi đơn hoàn tất.</p>
+  </section>
+
+  <!-- 6.6 TIMELINE -->
+  <section class="panel p-4">
+    <button class="w-full flex items-center justify-between sm:cursor-default" onclick="toggleAcc('acc-timeline', this)" aria-expanded="true">
+      <h2 class="panel-title">Lịch sử đơn hàng</h2>
+      <svg class="acc-caret h-4 w-4 text-slate-400 sm:hidden transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+    <div id="acc-timeline" class="acc-body open sm:!block mt-3">
+      <div class="tl-item">
+        <span class="tl-dot bg-amber-100"><span class="w-2 h-2 rounded-full bg-amber-500"></span></span>
+        <p class="text-sm font-semibold text-slate-800">Khách yêu cầu xác minh chuyển khoản</p>
+        <p class="text-xs text-slate-500">Khách báo đã chuyển nhưng nội dung thiếu mã đơn.</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">Hệ thống · 22/06/2026 15:10</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-dot bg-blue-100"><svg class="h-2.5 w-2.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg></span>
+        <p class="text-sm font-semibold text-slate-800">Đã giữ hàng 1 sản phẩm</p>
+        <p class="text-xs text-slate-500">Logitech M331 đã được reserve trong kho Hà Nội.</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">Quốc Bảo (Warehouse) · 22/06/2026 14:50</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-dot bg-blue-100"><span class="w-2 h-2 rounded-full bg-blue-600"></span></span>
+        <p class="text-sm font-semibold text-slate-800">Ghi chú nội bộ được thêm</p>
+        <p class="text-xs text-slate-500">"Đã gọi khách, khách yêu cầu giao buổi chiều."</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">Minh Anh (Sales) · 22/06/2026 14:40</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-dot bg-slate-200"><span class="w-2 h-2 rounded-full bg-slate-500"></span></span>
+        <p class="text-sm font-semibold text-slate-800">Đơn hàng được tạo</p>
+        <p class="text-xs text-slate-500">Khách đặt 2 sản phẩm, tổng 30.980.000đ qua chuyển khoản.</p>
+        <p class="text-[11px] text-slate-400 mt-0.5">Nguyễn Văn A (Khách) · 22/06/2026 14:35</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.7 INTERNAL NOTES -->
+  <section class="panel p-4">
+    <h2 class="panel-title mb-3">Ghi chú nội bộ</h2>
+    <div class="space-y-2.5">
+      <div class="flex gap-2.5">
+        <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-bold shrink-0">MA</div>
+        <div class="flex-1 min-w-0 bg-slate-50 rounded-xl px-3 py-2">
+          <div class="flex items-center justify-between gap-2">
+            <p class="text-xs font-semibold text-slate-700">Minh Anh <span class="badge badge-amber text-[9px] ml-1">📌 Ghim</span></p>
+            <span class="text-[10px] text-slate-400">14:40</span>
+          </div>
+          <p class="text-sm text-slate-700 mt-0.5">Đã gọi khách xác nhận, khách yêu cầu giao buổi chiều sau 14h.</p>
+        </div>
+      </div>
+      <div class="flex gap-2.5">
+        <div class="w-7 h-7 rounded-full bg-slate-400 flex items-center justify-center text-white text-[10px] font-bold shrink-0">QB</div>
+        <div class="flex-1 min-w-0 bg-slate-50 rounded-xl px-3 py-2">
+          <div class="flex items-center justify-between gap-2">
+            <p class="text-xs font-semibold text-slate-700">Quốc Bảo</p>
+            <span class="text-[10px] text-slate-400">14:52</span>
+          </div>
+          <p class="text-sm text-slate-700 mt-0.5">Kho chỉ còn 3 chiếc Dell màu bạc, đủ cho đơn này nhưng cần nhập thêm.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Add note -->
+    <div class="mt-3 pt-3 border-t border-slate-100">
+      <label for="note-input" class="sr-only">Thêm ghi chú nội bộ</label>
+      <textarea id="note-input" rows="2" maxlength="1000" placeholder="Thêm ghi chú nội bộ (chỉ admin thấy, không gửi cho khách)..." class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 resize-none"></textarea>
+      <div class="flex items-center justify-between mt-2">
+        <span class="text-[11px] text-slate-400">Tối đa 1000 ký tự · Không chứa thông tin thẻ/thanh toán</span>
+        <button class="h-8 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg" onclick="addNote()">Thêm ghi chú</button>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /main column -->
+
+<!-- ============== SIDE PANEL ============== -->
+<aside class="space-y-4 side-panel">
+
+  <!-- Action panel -->
+  <section class="panel p-4">
+    <h2 class="panel-title mb-3">Thao tác</h2>
+    <div class="space-y-2">
+      <button class="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors" onclick="openConfirm('confirm')">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        Xác nhận đơn hàng
+      </button>
+      <button class="w-full h-10 border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors" onclick="openConfirm('mark-paid')">
+        <svg class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        Đánh dấu đã thanh toán
+      </button>
+      <button class="w-full h-10 border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors" onclick="openConfirm('tracking')">
+        <svg class="h-4 w-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 001 1h2m-3-13h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1"/></svg>
+        Cập nhật vận đơn
+      </button>
+      <div class="border-t border-slate-100 my-1"></div>
+      <button class="w-full h-10 border border-red-200 text-red-600 hover:bg-red-50 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-colors" onclick="openConfirm('cancel')">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        Hủy đơn hàng
+      </button>
+    </div>
+    <p class="text-[10px] text-slate-400 mt-3">Các nút hiển thị theo trạng thái đơn và quyền của bạn. Hoàn tiền chỉ khả dụng khi đơn đã thanh toán.</p>
+  </section>
+
+  <!-- Status summary -->
+  <section class="panel p-4">
+    <h2 class="panel-title mb-3">Tóm tắt trạng thái</h2>
+    <div class="space-y-2.5 text-sm">
+      <div class="flex items-center justify-between"><span class="text-slate-500">Đơn hàng</span><span class="badge badge-amber">Chờ xác nhận</span></div>
+      <div class="flex items-center justify-between"><span class="text-slate-500">Thanh toán</span><span class="badge badge-amber">Chờ chuyển khoản</span></div>
+      <div class="flex items-center justify-between"><span class="text-slate-500">Vận chuyển</span><span class="badge badge-slate">Chưa xử lý hàng</span></div>
+      <div class="border-t border-slate-100 pt-2.5 flex items-center justify-between"><span class="text-slate-500">Tổng giá trị</span><span class="font-bold text-slate-900">30.980.000đ</span></div>
+    </div>
+  </section>
+
+  <!-- Staff assignment -->
+  <section class="panel p-4">
+    <h2 class="panel-title mb-3">Nhân viên xử lý</h2>
+    <div class="flex items-center gap-2.5">
+      <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">MA</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-semibold text-slate-800">Minh Anh</p>
+        <p class="text-[11px] text-slate-400">Sales Staff</p>
+      </div>
+      <button class="text-xs font-semibold text-blue-600 hover:text-blue-700" onclick="showToast('Đổi nhân viên xử lý')">Đổi</button>
+    </div>
+  </section>
+
+  <!-- Audit summary -->
+  <section class="panel p-4">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="panel-title">Nhật ký kiểm toán</h2>
+      <button class="text-xs font-semibold text-blue-600 hover:text-blue-700" onclick="showToast('Mở nhật ký kiểm toán đầy đủ')">Xem tất cả</button>
+    </div>
+    <ul class="text-xs text-slate-500 space-y-1.5">
+      <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>Tạo đơn · 14:35</li>
+      <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>Giữ hàng (Quốc Bảo) · 14:50</li>
+      <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>Thêm ghi chú (Minh Anh) · 14:40</li>
+    </ul>
+  </section>
+
+</aside>
+</div><!-- /detail layout -->
+
+</main>
+
+<!-- ============================================================
+     MOBILE STICKY ACTION BAR
+     ============================================================ -->
+<div id="mobile-actionbar" class="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t border-slate-200 px-3 py-2.5 items-center gap-2">
+  <button class="flex-1 h-10 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl" onclick="openConfirm('confirm')">Xác nhận đơn</button>
+  <button class="h-10 px-3 border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl" onclick="openConfirm('mark-paid')">Đã TT</button>
+  <button class="h-10 w-10 border border-red-200 text-red-600 rounded-xl flex items-center justify-center" aria-label="Hủy đơn hàng" onclick="openConfirm('cancel')">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
+</div>
+
+</div><!-- /admin-main -->
+</div><!-- /admin layout -->
+
+<!-- ============================================================
+     CONFIRM / ACTION MODAL (form theo từng action — spec 25)
+     ============================================================ -->
+<div id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 max-h-[90vh] overflow-y-auto">
+    <div class="flex items-start gap-3 mb-4">
+      <div id="confirm-icon-wrap" class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+        <svg id="confirm-icon" class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <div class="min-w-0">
+        <h3 id="confirm-title" class="text-base font-bold text-slate-900"></h3>
+        <p id="confirm-msg" class="text-sm text-slate-500 mt-1"></p>
+      </div>
+    </div>
+    <div id="confirm-fields" class="space-y-3 mb-4"></div>
+    <div class="flex gap-2 justify-end">
+      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
+      <button id="btn-confirm-action" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" role="status" aria-live="polite">
+  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-xl max-w-xs">
+    <svg class="h-4 w-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toast-msg"></span>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+(function() {
+  // ---- Sidebar toggle (mobile) ----
+  var sidebar = document.getElementById('admin-sidebar');
+  var overlay = document.getElementById('sidebar-overlay');
+  var btnMenu = document.getElementById('btn-menu');
+  function openSidebar() { if (sidebar && overlay) { sidebar.classList.add('open'); overlay.classList.add('show'); } }
+  function closeSidebar() { if (sidebar && overlay) { sidebar.classList.remove('open'); overlay.classList.remove('show'); } }
+  window.closeSidebar = closeSidebar;
+  if (btnMenu) btnMenu.addEventListener('click', openSidebar);
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+
+  // ---- Toast ----
+  var toastEl = document.getElementById('toast');
+  var toastMsg = document.getElementById('toast-msg');
+  var toastTimer = null;
+  window.showToast = function(msg) {
+    if (!toastEl || !toastMsg) return;
+    toastMsg.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { toastEl.classList.remove('show'); }, 3000);
+  };
+
+  // ---- Reveal sensitive data ----
+  window.reveal = function(id, btn) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var on = el.classList.toggle('revealed');
+    btn.textContent = on ? 'Ẩn' : 'Hiện';
+    if (on) showToast('Đã ghi audit: xem dữ liệu khách hàng');
+  };
+
+  // ---- Timeline accordion (mobile) ----
+  window.toggleAcc = function(id, btn) {
+    if (window.innerWidth >= 640) return; // desktop luôn mở
+    var body = document.getElementById(id);
+    if (!body) return;
+    var open = body.classList.toggle('open');
+    var caret = btn.querySelector('.acc-caret');
+    if (caret) caret.style.transform = open ? 'rotate(180deg)' : '';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  };
+
+  // ---- Add note ----
+  window.addNote = function() {
+    var ta = document.getElementById('note-input');
+    if (!ta || !ta.value.trim()) { showToast('Vui lòng nhập nội dung ghi chú'); return; }
+    ta.value = '';
+    showToast('Đã thêm ghi chú nội bộ');
+  };
+
+  // ---- Confirm / action modal (mỗi action có form riêng theo state machine) ----
+  var currentAction = null;
+  var confirmOverlay = document.getElementById('confirm-overlay');
+  var confirmTitle = document.getElementById('confirm-title');
+  var confirmMsg = document.getElementById('confirm-msg');
+  var confirmFields = document.getElementById('confirm-fields');
+  var confirmIconWrap = document.getElementById('confirm-icon-wrap');
+  var confirmIcon = document.getElementById('confirm-icon');
+  var btnConfirmAction = document.getElementById('btn-confirm-action');
+  var btnCancelConfirm = document.getElementById('btn-cancel-confirm');
+
+  var sel = 'class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"';
+  var inp = 'class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"';
+  var ta  = 'class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" rows="2"';
+
+  var ACTIONS = {
+    'confirm': { title:'Xác nhận đơn hàng #DH1024?', msg:'Đơn sẽ chuyển sang "Đã xác nhận" và sẵn sàng để kho đóng gói. Sự kiện được ghi vào lịch sử.', btn:'Xác nhận đơn', tone:'blue', done:'Đã xác nhận đơn hàng',
+      fields:'<div><label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú nội bộ (tùy chọn)</label><textarea '+ta+' placeholder="VD: Đã gọi khách xác nhận..."></textarea></div>' },
+    'mark-paid': { title:'Đánh dấu đã thanh toán?', msg:'Thao tác nhạy cảm — hãy đối soát kỹ trước khi xác nhận. Hệ thống sẽ ghi audit log.', btn:'Xác nhận đã TT', tone:'amber', done:'Đã ghi nhận thanh toán',
+      fields:'<div class="grid grid-cols-2 gap-2"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Số tiền *</label><input type="text" '+inp+' value="30.980.000đ"></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Ngày thanh toán *</label><input type="date" '+inp+' value="2026-06-26"></div></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Phương thức</label><select '+sel+'><option>Chuyển khoản</option><option>COD</option><option>VNPay</option><option>Tiền mặt</option></select></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Mã giao dịch (tùy chọn)</label><input type="text" '+inp+' placeholder="VD: FT202606260001"></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú</label><textarea '+ta+' placeholder="Đã đối soát chuyển khoản..."></textarea></div>' },
+    'tracking': { title:'Cập nhật vận đơn', msg:'Gán đơn vị vận chuyển và mã vận đơn. Bắt buộc trước khi chuyển sang "Đang giao" theo chính sách.', btn:'Lưu vận đơn', tone:'blue', done:'Đã cập nhật vận đơn',
+      fields:'<div class="grid grid-cols-2 gap-2"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Đơn vị VC *</label><select '+sel+'><option>GHTK</option><option>GHN</option><option>Viettel Post</option><option>J&amp;T Express</option></select></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Ngày giao</label><input type="date" '+inp+' value="2026-06-26"></div></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Mã vận đơn *</label><input type="text" '+inp+' placeholder="VD: GHTK123456"></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú</label><textarea '+ta+' placeholder="Đã bàn giao vận chuyển..."></textarea></div>' },
+    'cancel': { title:'Hủy đơn hàng #DH1024?', msg:'Thao tác này không thể hoàn tác trực tiếp. Nếu đơn đã thanh toán, cần xử lý hoàn tiền riêng.', btn:'Hủy đơn', tone:'red', done:'Đã hủy đơn hàng',
+      fields:'<div><label class="block text-xs font-semibold text-slate-600 mb-1">Lý do hủy *</label><select '+sel+'><option value="">— Chọn lý do —</option><option>Khách yêu cầu</option><option>Quá hạn thanh toán</option><option>Hết hàng</option><option>Sai địa chỉ</option><option>Đơn trùng</option><option>Nghi ngờ gian lận</option><option>Khác</option></select></div>'+
+             '<label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Hoàn trả hàng về kho (restock)</label>'+
+             '<label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Gửi thông báo cho khách</label>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú</label><textarea '+ta+' placeholder="Bắt buộc nếu chọn lý do Khác..."></textarea></div>' },
+    'refund': { title:'Hoàn tiền cho đơn này?', msg:'Thao tác nhạy cảm, ghi audit log. Số tiền hoàn không vượt quá số đã thanh toán.', btn:'Tạo yêu cầu hoàn tiền', tone:'red', done:'Đã tạo yêu cầu hoàn tiền',
+      fields:'<div class="grid grid-cols-2 gap-2"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Số tiền hoàn *</label><input type="text" '+inp+' placeholder="0đ"></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Phương thức</label><select '+sel+'><option>Chuyển khoản</option><option>Cổng thanh toán</option></select></div></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Lý do hoàn *</label><select '+sel+'><option value="">— Chọn lý do —</option><option>Khách trả hàng</option><option>Lỗi sản phẩm</option><option>Hoàn một phần</option><option>Khác</option></select></div>' }
+  };
+  var TONES = {
+    blue:  { wrap:'bg-blue-50',  ic:'#2563eb', btn:'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors' },
+    amber: { wrap:'bg-amber-50', ic:'#d97706', btn:'px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-sm font-semibold transition-colors' },
+    red:   { wrap:'bg-red-50',   ic:'#dc2626', btn:'px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-colors' }
+  };
+  window.openConfirm = function(action) {
+    var cfg = ACTIONS[action]; if (!cfg) return;
+    currentAction = cfg;
+    confirmTitle.textContent = cfg.title;
+    confirmMsg.textContent = cfg.msg;
+    confirmFields.innerHTML = cfg.fields || '';
+    confirmFields.style.display = cfg.fields ? '' : 'none';
+    btnConfirmAction.textContent = cfg.btn;
+    var tone = TONES[cfg.tone] || TONES.blue;
+    btnConfirmAction.className = tone.btn;
+    confirmIconWrap.className = 'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ' + tone.wrap;
+    confirmIcon.style.color = tone.ic;
+    if (confirmOverlay) confirmOverlay.classList.add('show');
+  };
+  function closeConfirm() { if (confirmOverlay) confirmOverlay.classList.remove('show'); currentAction = null; }
+  if (btnConfirmAction) btnConfirmAction.addEventListener('click', function() {
+    var msg = currentAction ? currentAction.done : 'Hoàn tất';
+    closeConfirm();
+    showToast(msg);
+  });
+  if (btnCancelConfirm) btnCancelConfirm.addEventListener('click', closeConfirm);
+  if (confirmOverlay) confirmOverlay.addEventListener('click', function(e) { if (e.target === this) closeConfirm(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeConfirm(); });
+})();
+</script>
+
+</body>
+</html>

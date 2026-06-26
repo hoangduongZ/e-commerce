@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="electronics">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sửa sản phẩm | Admin — TechStore</title>
+<meta name="description" content="Form tạo và chỉnh sửa sản phẩm: thông tin, ảnh, giá, biến thể, thông số kỹ thuật, tồn kho, bảo hành, SEO.">
+<meta name="robots" content="noindex,nofollow">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } } }</script>
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; background:#f8fafc; height:100vh; overflow:hidden; }
+  .line-clamp-1 { display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; }
+  .line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+
+  .skeleton { background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* Admin sidebar — đồng nhất 08/09 */
+  #admin-sidebar { width:240px; flex-shrink:0; transition:transform .25s ease; z-index:40; }
+  @media (max-width:1023px) {
+    #admin-sidebar { position:fixed; top:0; left:0; bottom:0; transform:translateX(-100%); }
+    #admin-sidebar.open { transform:translateX(0); }
+    .admin-main { width:100%; }
+  }
+  #sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:39; }
+  #sidebar-overlay.show { display:block; }
+  .nav-item { display:flex; align-items:center; gap:10px; padding:9px 16px; border-radius:8px; cursor:pointer; transition:all .15s; color:#475569; font-size:14px; font-weight:500; border-left:3px solid transparent; margin:1px 8px; }
+  .nav-item:hover { background:#f8fafc; color:#0f172a; }
+  .nav-item.is-active { background:#eff6ff; color:#1d4ed8; border-left-color:#2563eb; }
+  .nav-item.is-active svg { color:#2563eb; }
+  .nav-group-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.08em; padding:16px 24px 6px; }
+
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .badge-blue   { background:#dbeafe; color:#1d4ed8; }
+  .badge-emerald{ background:#d1fae5; color:#065f46; }
+  .badge-amber  { background:#fef3c7; color:#92400e; }
+  .badge-red    { background:#fee2e2; color:#991b1b; }
+  .badge-slate  { background:#f1f5f9; color:#475569; }
+
+  .price-s { color:#dc2626; }
+  .price-o { color:#94a3b8; text-decoration:line-through; }
+
+  /* Form section card */
+  .fcard { background:#fff; border:1px solid #e2e8f0; border-radius:16px; }
+  .fcard > .fhead { display:flex; align-items:center; gap:8px; padding:14px 18px; border-bottom:1px solid #f1f5f9; }
+  .fcard > .fbody { padding:18px; }
+  .flabel { display:block; font-size:13px; font-weight:600; color:#334155; margin-bottom:6px; }
+  .finput { width:100%; height:40px; padding:0 12px; border:1px solid #e2e8f0; border-radius:12px; font-size:14px; background:#fff; transition:border-color .15s; }
+  .finput:focus { outline:none; border-color:#3b82f6; }
+  textarea.finput { height:auto; padding:10px 12px; }
+  .fhint { font-size:11px; color:#94a3b8; margin-top:4px; }
+  .ferr  { font-size:11px; color:#dc2626; margin-top:4px; display:flex; align-items:center; gap:4px; }
+  .input-error { border-color:#dc2626 !important; }
+
+  /* Quick-spec flag chip */
+  .flag { display:inline-flex; align-items:center; gap:3px; padding:1px 6px; border-radius:6px; font-size:10px; font-weight:600; background:#eff6ff; color:#1d4ed8; }
+
+  /* Toggle switch */
+  .switch { position:relative; display:inline-block; width:40px; height:22px; flex-shrink:0; }
+  .switch input { opacity:0; width:0; height:0; }
+  .switch .slider { position:absolute; cursor:pointer; inset:0; background:#cbd5e1; border-radius:999px; transition:.2s; }
+  .switch .slider:before { content:""; position:absolute; height:16px; width:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:.2s; }
+  .switch input:checked + .slider { background:#2563eb; }
+  .switch input:checked + .slider:before { transform:translateX(18px); }
+
+  /* Section anchor offset within scroll container */
+  .fsection { scroll-margin-top:12px; }
+
+  #toast { position:fixed; bottom:24px; right:24px; transform:translateY(160%); transition:transform .3s ease; z-index:100; }
+  #toast.show { transform:translateY(0); }
+  @media (max-width:1023px){ #toast{ bottom:80px; } }
+
+  #confirm-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.5); z-index:90; align-items:center; justify-content:center; }
+  #confirm-overlay.show { display:flex; }
+</style>
+</head>
+<body class="text-slate-900 antialiased">
+
+<!-- ASSUMPTION: Form tạo/sửa dùng chung Admin Shell (sidebar + topbar) như 08/09.
+     Trang này minh hoạ trạng thái EDIT một sản phẩm đang là "Nháp" với vài lỗi publish. -->
+
+<div class="flex h-screen overflow-hidden">
+
+<!-- ============================================================
+     1. ADMIN SIDEBAR (đồng nhất 08/09, "Sản phẩm" active)
+     ============================================================ -->
+<aside id="admin-sidebar" class="bg-white border-r border-slate-200 flex flex-col h-full overflow-y-auto">
+  <div class="flex items-center gap-2.5 h-16 px-5 border-b border-slate-100 shrink-0">
+    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+      <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <p class="font-bold text-base leading-tight">Tech<span class="text-blue-600">Store</span></p>
+      <p class="text-[10px] text-slate-400">Admin Panel</p>
+    </div>
+  </div>
+  <nav class="flex-1 py-2" aria-label="Admin navigation">
+    <div class="nav-group-label">Vận hành</div>
+    <a href="08-admin-dashboard.html" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 13a1 1 0 011-1h4a1 1 0 011 1v6a1 1 0 01-1 1h-4a1 1 0 01-1-1v-6z"/></svg><span>Dashboard</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg><span class="flex-1">Đơn hàng</span><span class="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">18</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg><span class="flex-1">Tồn kho</span><span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">12</span></a>
+    <div class="nav-group-label">Danh mục</div>
+    <a href="09-admin-product-management.html" class="nav-item is-active" aria-current="page"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg><span>Sản phẩm</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><span>Danh mục</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg><span>Thương hiệu</span></a>
+    <div class="nav-group-label">Khách hàng</div>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Khách hàng</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><span>Đánh giá</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg><span>Bảo hành</span></a>
+    <div class="nav-group-label">Marketing</div>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><span>Khuyến mãi</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg><span>Vận chuyển</span></a>
+    <div class="nav-group-label">Hệ thống</div>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><span>Báo cáo</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span>Nhân sự & Phân quyền</span></a>
+    <a href="#" class="nav-item"><svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Cài đặt</span></a>
+  </nav>
+  <div class="border-t border-slate-100 p-3 shrink-0">
+    <div class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">NM</div>
+      <div class="flex-1 min-w-0"><p class="text-xs font-semibold text-slate-900 leading-tight">Nguyễn Minh</p><p class="text-[10px] text-slate-400">Store Manager</p></div>
+      <svg class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>
+    </div>
+  </div>
+</aside>
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<div class="admin-main flex-1 flex flex-col overflow-hidden">
+
+<!-- ============================================================
+     2. ADMIN TOP BAR
+     ============================================================ -->
+<header class="bg-white border-b border-slate-200 flex items-center gap-3 h-16 px-4 shrink-0">
+  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg" aria-label="Mở menu">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="relative flex-1 max-w-md">
+    <label for="admin-search" class="sr-only">Tìm kiếm</label>
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+  </div>
+  <div class="flex items-center gap-1 ml-auto">
+    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Thông báo">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+    </button>
+    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Tài khoản admin">
+      <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">NM</div>
+      <span class="hidden md:block text-sm font-medium">Nguyễn Minh</span>
+      <svg class="h-4 w-4 text-slate-400 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================
+     3. PAGE CONTENT (scrollable)
+     ============================================================ -->
+<main class="flex-1 overflow-y-auto bg-slate-50 pb-28 lg:pb-6">
+<div class="p-4 md:p-6">
+
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-3 flex-wrap" aria-label="Breadcrumb">
+  <a href="08-admin-dashboard.html" class="text-slate-400 hover:text-slate-600">Admin</a>
+  <svg class="h-3 w-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <a href="09-admin-product-management.html" class="text-slate-400 hover:text-slate-600">Sản phẩm</a>
+  <svg class="h-3 w-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <span class="font-medium text-slate-700 line-clamp-1">Samsung Galaxy S24 Ultra</span>
+</nav>
+
+<!-- ============================================================
+     4. PAGE HEADER + top actions
+     ============================================================ -->
+<div class="flex flex-wrap items-start justify-between gap-3 mb-4">
+  <div class="min-w-0">
+    <div class="flex items-center gap-2 flex-wrap">
+      <h1 class="text-xl font-bold text-slate-900">Sửa sản phẩm</h1>
+      <span class="badge badge-amber" id="hd-status">Nháp</span>
+      <span class="text-xs text-slate-400 inline-flex items-center gap-1" id="autosave-state">
+        <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        Đã lưu nháp lúc 11:30
+      </span>
+    </div>
+    <p class="text-sm text-slate-500 mt-0.5 line-clamp-1">Samsung Galaxy S24 Ultra 12GB 256GB · SKU SS-S24U-12-256</p>
+  </div>
+  <div class="hidden lg:flex items-center gap-2">
+    <button class="h-9 px-3 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-white bg-white transition-colors" onclick="showToast('Đã lưu nháp (Ctrl/Cmd + S)')">Lưu nháp</button>
+    <button class="h-9 px-3 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-white bg-white transition-colors inline-flex items-center gap-1.5" onclick="showToast('Mở preview như storefront')">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+      Xem trước
+    </button>
+    <button class="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-colors" onclick="tryPublish()">Đăng bán</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     5. ERROR SUMMARY (hiện khi publish fail) — spec mục 23
+     ============================================================ -->
+<div id="error-summary" class="hidden mb-4 rounded-2xl border border-red-200 bg-red-50 p-4" role="alert" tabindex="-1">
+  <div class="flex items-start gap-3">
+    <svg class="h-5 w-5 text-red-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+    <div class="flex-1 min-w-0">
+      <p class="text-sm font-bold text-red-800">Chưa thể đăng bán sản phẩm</p>
+      <p class="text-xs text-red-700 mt-0.5">Vui lòng sửa 4 vấn đề sau:</p>
+      <ul class="mt-2 space-y-1 text-sm">
+        <li><a href="#sec-media" class="text-red-700 hover:text-red-900 hover:underline inline-flex items-center gap-1.5">› Cần ít nhất 1 ảnh chính</a></li>
+        <li><a href="#sec-pricing" class="text-red-700 hover:text-red-900 hover:underline inline-flex items-center gap-1.5">› Chưa nhập giá bán</a></li>
+        <li><a href="#sec-specs" class="text-red-700 hover:text-red-900 hover:underline inline-flex items-center gap-1.5">› Thiếu thông số bắt buộc: Chipset, RAM</a></li>
+        <li><a href="#sec-seo" class="text-red-700 hover:text-red-900 hover:underline inline-flex items-center gap-1.5">› Chưa có SEO title (hoặc bật tự sinh)</a></li>
+      </ul>
+    </div>
+    <button onclick="document.getElementById('error-summary').classList.add('hidden')" class="p-1 text-red-400 hover:text-red-700 rounded shrink-0" aria-label="Đóng">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     6. LAYOUT: MAIN FORM + SIDE PANEL
+     ============================================================ -->
+<div class="flex flex-col lg:flex-row gap-5 items-start">
+
+  <!-- ===================== MAIN FORM ===================== -->
+  <div class="flex-1 min-w-0 w-full space-y-4">
+
+    <!-- 6.1 BASIC INFORMATION -->
+    <section id="sec-basic" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">1</span>
+        <h2 class="text-sm font-bold text-slate-900">Thông tin cơ bản</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <div>
+          <label class="flabel" for="f-name">Tên sản phẩm <span class="text-red-500">*</span></label>
+          <input id="f-name" type="text" maxlength="180" class="finput" value="Samsung Galaxy S24 Ultra 12GB 256GB" placeholder="VD: Laptop Dell Inspiron 15 3520 i5 16GB 512GB">
+          <p class="fhint">Nên rõ model + cấu hình chính. Tối đa 180 ký tự. <span id="name-count">41</span>/180</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="flabel" for="f-slug">Slug (đường dẫn) <span class="text-red-500">*</span></label>
+            <div class="flex gap-2">
+              <input id="f-slug" type="text" class="finput" value="samsung-galaxy-s24-ultra-256gb">
+              <button class="h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50 shrink-0" onclick="genSlug()" title="Tạo lại slug từ tên">Tự sinh</button>
+            </div>
+            <p class="fhint">Lowercase, dùng gạch ngang, không ký tự đặc biệt. <span class="text-emerald-600">✓ Hợp lệ & chưa trùng</span></p>
+          </div>
+          <div>
+            <label class="flabel" for="f-sku">SKU <span class="text-red-500">*</span></label>
+            <input id="f-sku" type="text" class="finput font-mono" value="SS-S24U-12-256" style="text-transform:uppercase">
+            <p class="fhint">Viết hoa, không khoảng trắng, duy nhất.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="flabel" for="f-model">Model code</label>
+            <input id="f-model" type="text" class="finput" value="SM-S928B">
+          </div>
+          <div>
+            <label class="flabel" for="f-tags">Tags</label>
+            <input id="f-tags" type="text" class="finput" value="flagship, snapdragon, s-pen" placeholder="Cách nhau bởi dấu phẩy">
+          </div>
+        </div>
+        <div>
+          <label class="flabel" for="f-short">Mô tả ngắn</label>
+          <textarea id="f-short" rows="2" maxlength="300" class="finput" placeholder="Hiển thị ở product card / summary...">Galaxy S24 Ultra: Snapdragon 8 Gen 3, màn 6.8" QHD+ 120Hz, camera 200MP, bút S Pen, pin 5000mAh.</textarea>
+          <p class="fhint">Tối đa 300 ký tự. Nên gồm cấu hình chính.</p>
+        </div>
+        <div>
+          <label class="flabel">Mô tả đầy đủ</label>
+          <!-- Rich text editor (mock toolbar) -->
+          <div class="border border-slate-200 rounded-xl overflow-hidden">
+            <div class="flex items-center gap-0.5 px-2 py-1.5 border-b border-slate-100 bg-slate-50 flex-wrap" role="toolbar" aria-label="Định dạng văn bản">
+              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 font-bold text-sm" aria-label="In đậm">B</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 italic text-sm" aria-label="In nghiêng">I</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600 underline text-sm" aria-label="Gạch chân">U</button>
+              <span class="w-px h-5 bg-slate-200 mx-1"></span>
+              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600" aria-label="Danh sách"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600" aria-label="Chèn link"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 015.656 0 4 4 0 010 5.656l-3 3a4 4 0 01-5.656-5.656"/></svg></button>
+              <button class="w-8 h-8 rounded-lg hover:bg-white text-slate-600" aria-label="Chèn ảnh"><svg class="h-4 w-4 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></button>
+            </div>
+            <div contenteditable="true" class="p-3 min-h-[120px] text-sm text-slate-700 focus:outline-none" aria-label="Nội dung mô tả đầy đủ">
+              <p><strong>Samsung Galaxy S24 Ultra</strong> là flagship mạnh nhất của Samsung 2024, khung Titan, bút S Pen tích hợp.</p>
+              <ul style="list-style:disc;margin-left:18px"><li>Chip Snapdragon 8 Gen 3 for Galaxy</li><li>Camera chính 200MP, zoom quang 5x</li><li>Pin 5000mAh, sạc nhanh 45W</li></ul>
+            </div>
+          </div>
+          <p class="fhint">Nội dung được sanitize, không nhúng script. Ảnh trong mô tả phải có alt text.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6.2 MEDIA -->
+    <section id="sec-media" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">2</span>
+        <h2 class="text-sm font-bold text-slate-900">Hình ảnh & media</h2>
+        <span class="badge badge-red ml-auto">Cần ảnh chính</span>
+      </div>
+      <div class="fbody space-y-4">
+        <!-- Dropzone -->
+        <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-blue-400 hover:bg-blue-50/40 transition-colors cursor-pointer" role="button" tabindex="0" aria-label="Kéo thả hoặc chọn ảnh để tải lên" onclick="showToast('Mở hộp thoại chọn ảnh')">
+          <svg class="h-8 w-8 text-slate-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+          <p class="text-sm font-semibold text-slate-700">Kéo thả ảnh vào đây hoặc <span class="text-blue-600">chọn từ máy</span></p>
+          <p class="text-xs text-slate-400 mt-1">JPG, PNG, WEBP · tỉ lệ 1:1 hoặc 4:3 · tự tạo thumbnail & tối ưu</p>
+        </div>
+        <!-- Image grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <!-- Primary -->
+          <div class="relative group border-2 border-blue-500 rounded-xl overflow-hidden bg-slate-50">
+            <span class="absolute top-1.5 left-1.5 z-10 badge badge-blue">★ Ảnh chính</span>
+            <img src="https://placehold.co/200x200/f5f3ff/7c3aed?text=S24U-1" alt="Galaxy S24 Ultra mặt trước" class="w-full aspect-square object-contain">
+            <div class="p-1.5">
+              <input type="text" value="Galaxy S24 Ultra mặt trước" aria-label="Alt text ảnh 1" class="w-full text-[11px] px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button class="w-7 h-7 bg-white/90 rounded-lg flex items-center justify-center text-slate-600 hover:text-red-600 shadow" aria-label="Xóa ảnh 1" onclick="openConfirm('delete-image')"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+            </div>
+          </div>
+          <!-- Normal images -->
+          <div class="relative group border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+            <img src="https://placehold.co/200x200/f5f3ff/7c3aed?text=S24U-2" alt="Galaxy S24 Ultra mặt sau" class="w-full aspect-square object-contain">
+            <div class="p-1.5"><input type="text" value="Mặt sau" aria-label="Alt text ảnh 2" class="w-full text-[11px] px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></div>
+            <div class="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button class="w-7 h-7 bg-white/90 rounded-lg flex items-center justify-center text-[10px] font-bold text-blue-600 shadow" aria-label="Đặt làm ảnh chính" onclick="showToast('Đã đặt làm ảnh chính')">★</button>
+              <button class="w-7 h-7 bg-white/90 rounded-lg flex items-center justify-center text-slate-600 hover:text-red-600 shadow" aria-label="Xóa ảnh 2" onclick="openConfirm('delete-image')"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m14 0H5m5 4v6m4-6v6"/></svg></button>
+            </div>
+          </div>
+          <!-- Uploading (progress) -->
+          <div class="relative border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+            <div class="w-full aspect-square flex flex-col items-center justify-center p-3">
+              <div class="w-full bg-slate-200 rounded-full h-1.5 mb-2"><div class="bg-blue-600 h-1.5 rounded-full" style="width:62%"></div></div>
+              <p class="text-[11px] text-slate-500">Đang tải… 62%</p>
+            </div>
+          </div>
+          <!-- Failed (retry) -->
+          <div class="relative border border-red-200 bg-red-50 rounded-xl overflow-hidden">
+            <div class="w-full aspect-square flex flex-col items-center justify-center p-3 text-center">
+              <svg class="h-6 w-6 text-red-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <p class="text-[11px] text-red-600 font-medium">Tải ảnh thất bại</p>
+              <button class="mt-1 text-[11px] font-semibold text-blue-600 hover:underline" onclick="showToast('Đang thử tải lại ảnh')">Thử lại</button>
+            </div>
+          </div>
+        </div>
+        <p class="fhint">Kéo thả để sắp xếp lại thứ tự. Publish yêu cầu ít nhất 1 ảnh chính hợp lệ.</p>
+      </div>
+    </section>
+
+    <!-- 6.3 PRICING -->
+    <section id="sec-pricing" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">3</span>
+        <h2 class="text-sm font-bold text-slate-900">Giá bán</h2>
+        <span class="badge badge-red ml-auto">Chưa có giá</span>
+      </div>
+      <div class="fbody space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="flabel" for="f-price">Giá bán (đ) <span class="text-red-500">*</span></label>
+            <input id="f-price" type="number" min="0" class="finput input-error" placeholder="0">
+            <p class="ferr"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Bắt buộc khi đăng bán. Phải ≥ 0.</p>
+          </div>
+          <div>
+            <label class="flabel" for="f-compare">Giá gốc (gạch ngang)</label>
+            <input id="f-compare" type="number" min="0" class="finput" value="33990000">
+            <p class="fhint">Phải lớn hơn giá bán nếu muốn hiển thị sale.</p>
+          </div>
+          <div>
+            <label class="flabel" for="f-cost">Giá vốn 🔒</label>
+            <input id="f-cost" type="number" min="0" class="finput" value="28500000">
+            <p class="fhint">Nội bộ, không hiển thị storefront. Chỉ role có quyền thấy.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="flabel" for="f-tax">Nhóm thuế</label>
+            <select id="f-tax" class="finput"><option>VAT 10%</option><option>VAT 8%</option><option>Không chịu thuế</option></select>
+          </div>
+          <div>
+            <label class="flabel" for="f-currency">Tiền tệ</label>
+            <select id="f-currency" class="finput"><option>VND (đ)</option></select>
+          </div>
+        </div>
+        <!-- Promotion -->
+        <div class="rounded-xl bg-slate-50 border border-slate-100 p-3">
+          <div class="flex items-center justify-between mb-3">
+            <p class="text-sm font-semibold text-slate-700">Giá khuyến mãi theo thời gian</p>
+            <label class="switch"><input type="checkbox" id="promo-toggle" onchange="document.getElementById('promo-fields').classList.toggle('hidden', !this.checked)"><span class="slider"></span></label>
+          </div>
+          <div id="promo-fields" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label class="flabel" for="f-promo-price">Giá KM (đ)</label><input id="f-promo-price" type="number" class="finput" placeholder="0"></div>
+            <div><label class="flabel" for="f-promo-badge">Text badge</label><input id="f-promo-badge" type="text" class="finput" placeholder="VD: Giảm sốc"></div>
+            <div><label class="flabel" for="f-promo-start">Bắt đầu</label><input id="f-promo-start" type="datetime-local" class="finput"></div>
+            <div><label class="flabel" for="f-promo-end">Kết thúc</label><input id="f-promo-end" type="datetime-local" class="finput"></div>
+            <p class="fhint sm:col-span-2">Hết hạn sẽ tự động không áp dụng. Bắt đầu phải trước Kết thúc.</p>
+          </div>
+        </div>
+        <label class="flex items-center gap-2.5 text-sm text-slate-700"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Cho phép mua trả góp</label>
+      </div>
+    </section>
+
+    <!-- 6.4 CATEGORY & BRAND -->
+    <section id="sec-catbrand" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">4</span>
+        <h2 class="text-sm font-bold text-slate-900">Danh mục & thương hiệu</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="flabel" for="f-category">Danh mục chính <span class="text-red-500">*</span></label>
+            <select id="f-category" class="finput" onchange="showToast('Đã tải attribute template cho danh mục mới')">
+              <option>Điện thoại</option>
+              <option>Điện tử › Laptop › Laptop Văn phòng</option>
+              <option>Điện tử › Laptop › Laptop Gaming</option>
+              <option>Màn hình</option><option>Tai nghe</option><option>Phụ kiện</option>
+            </select>
+            <p class="fhint">Chọn danh mục sẽ tự nạp bộ thông số (attribute template) tương ứng.</p>
+          </div>
+          <div>
+            <label class="flabel" for="f-brand">Thương hiệu <span class="text-red-500">*</span></label>
+            <div class="flex gap-2">
+              <select id="f-brand" class="finput"><option>Samsung</option><option>Apple</option><option>Xiaomi</option><option>Dell</option><option>Asus</option></select>
+              <button class="h-10 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50 shrink-0" onclick="showToast('Mở form tạo nhanh thương hiệu')">+ Mới</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="flabel">Danh mục phụ (tuỳ chọn)</label>
+          <div class="flex flex-wrap gap-2">
+            <span class="badge badge-slate">Sản phẩm nổi bật <button class="ml-0.5" aria-label="Bỏ" onclick="this.parentElement.remove()">✕</button></span>
+            <span class="badge badge-slate">Hàng mới về <button class="ml-0.5" aria-label="Bỏ" onclick="this.parentElement.remove()">✕</button></span>
+            <button class="badge badge-slate border border-dashed border-slate-300 bg-white" onclick="showToast('Thêm danh mục phụ')">+ Thêm</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6.5 VARIANTS -->
+    <section id="sec-variants" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">5</span>
+        <h2 class="text-sm font-bold text-slate-900">Biến thể</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <!-- Option builder -->
+        <div class="space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500 w-20 shrink-0">Màu sắc</span>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="badge badge-slate">Titan Đen ✕</span><span class="badge badge-slate">Titan Xám ✕</span><span class="badge badge-slate">Titan Tím ✕</span>
+              <button class="badge badge-slate border border-dashed border-slate-300 bg-white" onclick="showToast('Thêm giá trị màu')">+ giá trị</button>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500 w-20 shrink-0">Bộ nhớ</span>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="badge badge-slate">256GB ✕</span><span class="badge badge-slate">512GB ✕</span><span class="badge badge-slate">1TB ✕</span>
+              <button class="badge badge-slate border border-dashed border-slate-300 bg-white" onclick="showToast('Thêm giá trị bộ nhớ')">+ giá trị</button>
+            </div>
+          </div>
+          <button class="text-xs font-semibold text-blue-600 hover:text-blue-700" onclick="showToast('Thêm nhóm thuộc tính biến thể')">+ Thêm nhóm thuộc tính</button>
+        </div>
+        <div class="flex items-center justify-between gap-2 pt-1">
+          <p class="text-xs text-slate-400">3 màu × 3 bộ nhớ = 9 tổ hợp</p>
+          <button class="h-9 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl" onclick="showToast('Đã sinh 9 tổ hợp biến thể (bỏ trùng)')">Tạo tổ hợp biến thể</button>
+        </div>
+        <!-- Variant table -->
+        <div class="overflow-x-auto border border-slate-100 rounded-xl">
+          <table class="w-full text-sm min-w-[640px]">
+            <thead><tr class="border-b border-slate-100 bg-slate-50">
+              <th class="text-left py-2 px-3 text-xs font-semibold text-slate-500">Biến thể</th>
+              <th class="text-left py-2 px-3 text-xs font-semibold text-slate-500">SKU</th>
+              <th class="text-right py-2 px-3 text-xs font-semibold text-slate-500">Giá (đ)</th>
+              <th class="text-right py-2 px-3 text-xs font-semibold text-slate-500">Tồn</th>
+              <th class="py-2 px-3 text-xs font-semibold text-slate-500">Bán</th>
+            </tr></thead>
+            <tbody>
+              <tr class="border-b border-slate-50">
+                <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Đen / 256GB</td>
+                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-256" aria-label="SKU Titan Đen 256GB" class="w-full text-xs font-mono px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="31990000" aria-label="Giá Titan Đen 256GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="20" aria-label="Tồn Titan Đen 256GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+              </tr>
+              <tr class="border-b border-slate-50">
+                <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Đen / 512GB</td>
+                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-512" aria-label="SKU Titan Đen 512GB" class="w-full text-xs font-mono px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="35990000" aria-label="Giá Titan Đen 512GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="12" aria-label="Tồn Titan Đen 512GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+              </tr>
+              <!-- duplicate SKU error -->
+              <tr class="border-b border-slate-50 bg-red-50">
+                <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Xám / 256GB</td>
+                <td class="py-2 px-3"><input type="text" value="SS-S24U-BK-256" aria-label="SKU Titan Xám 256GB" class="w-full text-xs font-mono px-2 py-1 border border-red-400 rounded-lg focus:outline-none"><span class="text-[10px] text-red-600">SKU bị trùng</span></td>
+                <td class="py-2 px-3"><input type="number" value="31990000" aria-label="Giá Titan Xám 256GB" class="w-28 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3"><input type="number" value="8" aria-label="Tồn Titan Xám 256GB" class="w-16 text-xs text-right px-2 py-1 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500"></td>
+                <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></td>
+              </tr>
+              <!-- disabled combination -->
+              <tr class="opacity-50">
+                <td class="py-2 px-3 text-xs font-medium text-slate-700">Titan Tím / 1TB</td>
+                <td class="py-2 px-3"><span class="text-xs text-slate-400">— đã tắt —</span></td>
+                <td class="py-2 px-3 text-right text-xs text-slate-400">—</td>
+                <td class="py-2 px-3 text-right text-xs text-slate-400">—</td>
+                <td class="py-2 px-3 text-center"><label class="switch"><input type="checkbox"><span class="slider"></span></label></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fhint">SKU mỗi biến thể phải duy nhất. Có thể tắt 1 tổ hợp không kinh doanh.</p>
+      </div>
+    </section>
+
+    <!-- 6.6 TECHNICAL SPECS (attribute template theo category) -->
+    <section id="sec-specs" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">6</span>
+        <h2 class="text-sm font-bold text-slate-900">Thông số kỹ thuật</h2>
+        <span class="text-[11px] text-slate-400 ml-2 hidden sm:inline">Template: Điện thoại</span>
+        <span class="badge badge-amber ml-auto">Thiếu specs bắt buộc</span>
+      </div>
+      <div class="fbody space-y-4">
+        <!-- Missing specs warning -->
+        <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 flex items-start gap-2">
+          <svg class="h-4 w-4 text-amber-600 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          <p class="text-xs text-amber-800">Còn thiếu thông số bắt buộc: <strong>Chipset, RAM</strong>. Cần điền trước khi đăng bán.</p>
+        </div>
+
+        <!-- Group: Performance -->
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Hiệu năng</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="flabel" for="sp-chipset">Chipset <span class="text-red-500">*</span> <span class="flag ml-1">Lọc</span></label>
+              <select id="sp-chipset" class="finput input-error"><option value="">— Chọn —</option><option>Snapdragon 8 Gen 3</option><option>Snapdragon 8 Gen 2</option><option>Apple A17 Pro</option><option>Dimensity 9300</option></select>
+              <p class="ferr"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Bắt buộc</p>
+            </div>
+            <div>
+              <label class="flabel" for="sp-ram">RAM <span class="text-red-500">*</span> <span class="flag ml-1">Card</span> <span class="flag">Lọc</span></label>
+              <select id="sp-ram" class="finput input-error"><option value="">— Chọn —</option><option>8GB</option><option>12GB</option><option>16GB</option></select>
+              <p class="ferr"><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Bắt buộc</p>
+            </div>
+            <div>
+              <label class="flabel" for="sp-storage">Bộ nhớ trong <span class="flag ml-1">Card</span></label>
+              <select id="sp-storage" class="finput"><option>256GB</option><option>512GB</option><option>1TB</option></select>
+            </div>
+          </div>
+        </div>
+        <!-- Group: Display -->
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Màn hình</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="flabel" for="sp-screen">Kích thước (inch) <span class="flag ml-1">Card</span></label>
+              <input id="sp-screen" type="number" step="0.1" class="finput" value="6.8">
+            </div>
+            <div>
+              <label class="flabel" for="sp-panel">Tấm nền</label>
+              <select id="sp-panel" class="finput"><option>Dynamic AMOLED 2X</option><option>OLED</option><option>IPS LCD</option></select>
+            </div>
+            <div>
+              <label class="flabel" for="sp-refresh">Tần số quét (Hz) <span class="flag ml-1">So sánh</span></label>
+              <select id="sp-refresh" class="finput"><option>120Hz</option><option>90Hz</option><option>60Hz</option></select>
+            </div>
+          </div>
+        </div>
+        <!-- Group: Battery -->
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Pin & sạc</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label class="flabel" for="sp-batt">Dung lượng pin (mAh)</label><input id="sp-batt" type="number" class="finput" value="5000"></div>
+            <div><label class="flabel" for="sp-charge">Công suất sạc (W)</label><input id="sp-charge" type="number" class="finput" value="45"></div>
+          </div>
+        </div>
+        <!-- Group: Connectivity (boolean + multi) -->
+        <div>
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Kết nối</p>
+          <div class="flex flex-wrap gap-4">
+            <label class="flex items-center gap-2 text-sm text-slate-700"><span>5G</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+            <label class="flex items-center gap-2 text-sm text-slate-700"><span>2 SIM</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+            <label class="flex items-center gap-2 text-sm text-slate-700"><span>Wi-Fi 7</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></label>
+          </div>
+        </div>
+        <div class="flex items-center justify-between border-t border-slate-100 pt-3">
+          <p class="text-xs text-slate-400">Quick specs hiển thị ở card: chỉ 3–5 thông số chính (gắn cờ "Card").</p>
+          <button class="text-xs font-semibold text-blue-600 hover:text-blue-700" onclick="showToast('Mở quản lý attribute template')">Tuỳ chỉnh template</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6.7 INVENTORY -->
+    <section id="sec-inventory" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">7</span>
+        <h2 class="text-sm font-bold text-slate-900">Tồn kho</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <label class="flex items-center justify-between gap-2 text-sm">
+          <span class="font-semibold text-slate-700">Theo dõi tồn kho</span>
+          <label class="switch"><input type="checkbox" id="track-toggle" checked onchange="document.getElementById('inv-fields').classList.toggle('hidden', !this.checked); document.getElementById('inv-off').classList.toggle('hidden', this.checked)"><span class="slider"></span></label>
+        </label>
+        <div id="inv-off" class="hidden rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">⚠ Không theo dõi tồn kho: sản phẩm có thể bán không giới hạn, checkout sẽ không kiểm tra kho.</div>
+        <div id="inv-fields" class="space-y-4">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div><label class="flabel" for="inv-avail">Có thể bán</label><input id="inv-avail" type="number" class="finput" value="40"></div>
+            <div><label class="flabel" for="inv-reserved">Đang giữ 🔒</label><input id="inv-reserved" type="number" class="finput bg-slate-50" value="6" readonly></div>
+            <div><label class="flabel" for="inv-threshold">Ngưỡng sắp hết</label><input id="inv-threshold" type="number" class="finput" value="5"></div>
+            <div><label class="flabel" for="inv-restock">Ngày nhập lại</label><input id="inv-restock" type="date" class="finput"></div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div><label class="flabel" for="inv-warehouse">Kho</label><select id="inv-warehouse" class="finput"><option>Kho HCM (chính)</option><option>Kho Hà Nội</option></select></div>
+            <div><label class="flabel" for="inv-supplier">Nhà cung cấp</label><select id="inv-supplier" class="finput"><option>Samsung VN</option><option>Synnex FPT</option></select></div>
+          </div>
+          <label class="flex items-center gap-2.5 text-sm text-slate-700"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Cho phép đặt trước khi hết hàng (backorder)</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6.8 SHIPPING -->
+    <section id="sec-shipping" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">8</span>
+        <h2 class="text-sm font-bold text-slate-900">Vận chuyển</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div><label class="flabel" for="sh-weight">Cân nặng (g)</label><input id="sh-weight" type="number" class="finput" value="232"></div>
+          <div><label class="flabel" for="sh-l">Dài (cm)</label><input id="sh-l" type="number" class="finput" value="16"></div>
+          <div><label class="flabel" for="sh-w">Rộng (cm)</label><input id="sh-w" type="number" class="finput" value="8"></div>
+          <div><label class="flabel" for="sh-h">Cao (cm)</label><input id="sh-h" type="number" class="finput" value="4"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div><label class="flabel" for="sh-class">Nhóm vận chuyển</label><select id="sh-class" class="finput"><option>Hàng giá trị cao</option><option>Tiêu chuẩn</option><option>Cồng kềnh</option></select></div>
+        </div>
+        <div class="flex flex-wrap gap-4">
+          <label class="flex items-center gap-2 text-sm text-slate-700"><span>Hàng dễ vỡ</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+          <label class="flex items-center gap-2 text-sm text-slate-700"><span>Hàng cồng kềnh</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></label>
+          <label class="flex items-center gap-2 text-sm text-slate-700"><span>Đủ điều kiện freeship</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6.9 WARRANTY -->
+    <section id="sec-warranty" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">9</span>
+        <h2 class="text-sm font-bold text-slate-900">Bảo hành</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="flabel" for="wr-policy">Chính sách bảo hành</label><select id="wr-policy" class="finput"><option>Bảo hành chính hãng 12 tháng</option><option>Bảo hành 24 tháng</option><option>Bảo hành cửa hàng 6 tháng</option></select></div>
+          <div><label class="flabel" for="wr-months">Thời gian (tháng)</label><input id="wr-months" type="number" class="finput" value="12"></div>
+          <div><label class="flabel" for="wr-provider">Đơn vị bảo hành</label><input id="wr-provider" type="text" class="finput" value="Samsung Việt Nam"></div>
+          <div><label class="flabel" for="wr-type">Loại bảo hành</label><select id="wr-type" class="finput"><option>Bảo hành hãng</option><option>Bảo hành cửa hàng</option><option>Bảo hành mở rộng</option><option>Không bảo hành</option></select></div>
+          <div><label class="flabel" for="wr-return">Thời gian đổi trả (ngày)</label><input id="wr-return" type="number" class="finput" value="7"></div>
+        </div>
+        <div><label class="flabel" for="wr-note">Ghi chú dịch vụ</label><textarea id="wr-note" rows="2" class="finput" placeholder="VD: 1 đổi 1 trong 30 ngày nếu lỗi NSX...">1 đổi 1 trong 30 ngày đầu nếu lỗi nhà sản xuất. Bảo hành tại trung tâm uỷ quyền Samsung toàn quốc.</textarea></div>
+        <p class="fhint">Đồ điện tử nên bắt buộc cấu hình bảo hành trước khi đăng bán.</p>
+      </div>
+    </section>
+
+    <!-- 6.10 SEO -->
+    <section id="sec-seo" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">10</span>
+        <h2 class="text-sm font-bold text-slate-900">SEO</h2>
+        <span class="badge badge-amber ml-auto">Thiếu SEO title</span>
+      </div>
+      <div class="fbody space-y-4">
+        <label class="flex items-center gap-2.5 text-sm text-slate-700"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked onchange="showToast(this.checked ? 'Sẽ tự sinh SEO từ tên & mô tả' : 'Tắt tự sinh SEO')"> Tự sinh SEO từ tên & mô tả ngắn</label>
+        <div>
+          <label class="flabel" for="seo-title">SEO title</label>
+          <input id="seo-title" type="text" class="finput" placeholder="Tự sinh: Samsung Galaxy S24 Ultra 12GB 256GB chính hãng">
+          <p class="fhint">Để trống sẽ tự sinh từ tên sản phẩm. Nên có brand + model.</p>
+        </div>
+        <div>
+          <label class="flabel" for="seo-desc">Meta description</label>
+          <textarea id="seo-desc" rows="2" maxlength="160" class="finput" placeholder="Tự sinh từ mô tả ngắn..."></textarea>
+          <p class="fhint"><span id="seo-count">0</span>/160 ký tự.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="flabel" for="seo-canonical">Canonical URL</label><input id="seo-canonical" type="text" class="finput" value="https://techstore.vn/samsung-galaxy-s24-ultra-256gb"></div>
+          <div><label class="flabel" for="seo-og-title">OG title</label><input id="seo-og-title" type="text" class="finput" placeholder="Mặc định theo SEO title"></div>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-16 h-16 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
+            <img src="https://placehold.co/64x64/f5f3ff/7c3aed?text=OG" alt="OG image preview" class="w-full h-full object-contain">
+          </div>
+          <div class="flex-1">
+            <label class="flabel">OG image</label>
+            <p class="fhint">Mặc định dùng ảnh chính. Có thể override.</p>
+            <button class="mt-1 text-xs font-semibold text-blue-600 hover:underline" onclick="showToast('Chọn ảnh OG khác')">Đổi ảnh OG</button>
+          </div>
+        </div>
+        <label class="flex items-center gap-2.5 text-sm text-slate-700"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Cho phép Google index (indexable)</label>
+      </div>
+    </section>
+
+    <!-- 6.11 VISIBILITY -->
+    <section id="sec-visibility" class="fcard fsection">
+      <div class="fhead">
+        <span class="w-7 h-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0">11</span>
+        <h2 class="text-sm font-bold text-slate-900">Hiển thị</h2>
+      </div>
+      <div class="fbody space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div><label class="flabel" for="vis-status">Trạng thái</label><select id="vis-status" class="finput"><option>Nháp</option><option>Đang bán</option><option>Đang ẩn</option><option>Ngừng kinh doanh</option></select></div>
+          <div><label class="flabel" for="vis-publish">Ngày đăng</label><input id="vis-publish" type="date" class="finput"></div>
+          <div><label class="flabel" for="vis-unpublish">Ngày gỡ</label><input id="vis-unpublish" type="date" class="finput"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+          <label class="flex items-center justify-between gap-2 text-sm text-slate-700 py-1"><span>Sản phẩm nổi bật</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></label>
+          <label class="flex items-center justify-between gap-2 text-sm text-slate-700 py-1"><span>Hiện ở trang chủ</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+          <label class="flex items-center justify-between gap-2 text-sm text-slate-700 py-1"><span>Hiện trong tìm kiếm</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+          <label class="flex items-center justify-between gap-2 text-sm text-slate-700 py-1"><span>Hiện trong danh mục</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+          <label class="flex items-center justify-between gap-2 text-sm text-slate-700 py-1"><span>Cho phép so sánh</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+          <label class="flex items-center justify-between gap-2 text-sm text-slate-700 py-1"><span>Cho phép đánh giá</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mobile-only checklist (side panel ẩn ở mobile) -->
+    <section class="fcard lg:hidden">
+      <div class="fhead">
+        <svg class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h2 class="text-sm font-bold text-slate-900">Checklist đăng bán</h2>
+        <span class="badge badge-amber ml-auto">8/12</span>
+      </div>
+      <div class="fbody" id="checklist-mobile"></div>
+    </section>
+
+  </div>
+
+  <!-- ===================== SIDE PANEL (sticky, desktop) ===================== -->
+  <aside class="hidden lg:block w-80 shrink-0 lg:sticky lg:top-0 space-y-4">
+    <!-- Publish panel -->
+    <div class="fcard">
+      <div class="fbody space-y-3">
+        <div>
+          <label class="flabel" for="side-status">Trạng thái sản phẩm</label>
+          <select id="side-status" class="finput"><option>Nháp</option><option>Đang bán</option><option>Đang ẩn</option><option>Ngừng kinh doanh</option><option>Lưu trữ</option></select>
+        </div>
+        <button class="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors" onclick="tryPublish()">Đăng bán sản phẩm</button>
+        <div class="grid grid-cols-2 gap-2">
+          <button class="h-9 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50" onclick="showToast('Đã lưu nháp')">Lưu nháp</button>
+          <button class="h-9 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50" onclick="showToast('Mở preview storefront')">Xem trước</button>
+        </div>
+        <p class="text-[11px] text-slate-400 text-center">Phím tắt: <kbd class="px-1 bg-slate-100 rounded">⌘S</kbd> lưu nháp · <kbd class="px-1 bg-slate-100 rounded">⌘↵</kbd> đăng bán</p>
+      </div>
+    </div>
+    <!-- Completion checklist -->
+    <div class="fcard">
+      <div class="fhead">
+        <svg class="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <h3 class="text-sm font-bold text-slate-900">Checklist đăng bán</h3>
+        <span class="badge badge-amber ml-auto" id="checklist-score">8/12</span>
+      </div>
+      <div class="fbody" id="checklist-desktop"></div>
+    </div>
+    <!-- Meta -->
+    <div class="fcard">
+      <div class="fbody text-xs text-slate-500 space-y-1.5">
+        <div class="flex justify-between"><span>Tạo lúc</span><span class="text-slate-700 font-medium">21/06/2026 10:02</span></div>
+        <div class="flex justify-between"><span>Cập nhật</span><span class="text-slate-700 font-medium">23/06/2026 11:30</span></div>
+        <div class="flex justify-between"><span>Người tạo</span><span class="text-slate-700 font-medium">Nguyễn Minh</span></div>
+        <div class="border-t border-slate-100 pt-2 mt-1"><a href="#" class="text-blue-600 hover:underline font-medium inline-flex items-center gap-1" onclick="showToast('Mở audit log sản phẩm')">Xem lịch sử thay đổi →</a></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+</div>
+</main><!-- /page content -->
+</div><!-- /admin-main -->
+</div><!-- /admin layout -->
+
+<!-- ============================================================
+     7. MOBILE BOTTOM ACTION BAR (side panel → bottom bar)
+     ============================================================ -->
+<div class="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 px-3 py-2.5 z-30 flex items-center gap-2" style="padding-bottom:calc(0.625rem + env(safe-area-inset-bottom))">
+  <button class="flex-1 h-11 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700" onclick="showToast('Đã lưu nháp')">Lưu nháp</button>
+  <button class="h-11 px-4 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700" onclick="showToast('Mở preview')" aria-label="Xem trước">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+  </button>
+  <button class="flex-1 h-11 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold" onclick="tryPublish()">Đăng bán</button>
+</div>
+
+<!-- ============================================================
+     8. CONFIRM MODAL
+     ============================================================ -->
+<div id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm mx-4 p-6">
+    <div class="flex items-start gap-3 mb-4">
+      <div id="confirm-icon-wrap" class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
+        <svg id="confirm-icon" class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <div><h3 id="confirm-title" class="text-base font-bold text-slate-900"></h3><p id="confirm-msg" class="text-sm text-slate-500 mt-1"></p></div>
+    </div>
+    <div class="flex gap-2 justify-end">
+      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
+      <button id="btn-confirm-action" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-colors">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     9. TOAST
+     ============================================================ -->
+<div id="toast" role="status" aria-live="polite">
+  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-xl max-w-xs">
+    <svg class="h-4 w-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toast-msg"></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     10. SCRIPTS
+     ============================================================ -->
+<script>
+(function() {
+  // ---- Sidebar ----
+  var sidebar = document.getElementById('admin-sidebar');
+  var overlay = document.getElementById('sidebar-overlay');
+  var btnMenu = document.getElementById('btn-menu');
+  function openSidebar(){ if(sidebar&&overlay){ sidebar.classList.add('open'); overlay.classList.add('show'); } }
+  window.closeSidebar = function(){ if(sidebar&&overlay){ sidebar.classList.remove('open'); overlay.classList.remove('show'); } };
+  if(btnMenu) btnMenu.addEventListener('click', openSidebar);
+  if(overlay) overlay.addEventListener('click', window.closeSidebar);
+
+  // ---- Toast ----
+  var toastEl = document.getElementById('toast'), toastMsg = document.getElementById('toast-msg'), toastTimer = null;
+  window.showToast = function(msg){ if(!toastEl||!toastMsg) return; toastMsg.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toastEl.classList.remove('show'); }, 3000); };
+
+  // ---- Completion checklist (render desktop + mobile) ----
+  var CHECKS = [
+    { ok:true,  label:'Có tên sản phẩm' },
+    { ok:true,  label:'Slug hợp lệ & chưa trùng' },
+    { ok:true,  label:'SKU hợp lệ & chưa trùng' },
+    { ok:true,  label:'Đã chọn danh mục' },
+    { ok:true,  label:'Đã chọn thương hiệu' },
+    { ok:false, label:'Có ảnh chính' },
+    { ok:false, label:'Đã nhập giá bán' },
+    { ok:false, label:'Đủ thông số bắt buộc (Chipset, RAM)' },
+    { ok:true,  label:'Đã cấu hình tồn kho' },
+    { ok:true,  label:'Đã cấu hình bảo hành' },
+    { ok:false, label:'Có SEO title (hoặc bật tự sinh)' },
+    { ok:true,  label:'Trạng thái hợp lệ' }
+  ];
+  function renderChecklist(elId){
+    var el = document.getElementById(elId); if(!el) return;
+    var html = '<ul class="space-y-2">';
+    CHECKS.forEach(function(c){
+      html += '<li class="flex items-start gap-2 text-sm">' +
+        (c.ok
+          ? '<svg class="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span class="text-slate-600">'
+          : '<svg class="h-4 w-4 text-amber-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg><span class="text-slate-700 font-medium">') +
+        c.label + '</span></li>';
+    });
+    html += '</ul>';
+    el.innerHTML = html;
+  }
+  renderChecklist('checklist-desktop');
+  renderChecklist('checklist-mobile');
+
+  // ---- Counters ----
+  var nameInput = document.getElementById('f-name'), nameCount = document.getElementById('name-count');
+  if(nameInput && nameCount) nameInput.addEventListener('input', function(){ nameCount.textContent = this.value.length; });
+  var seoDesc = document.getElementById('seo-desc'), seoCount = document.getElementById('seo-count');
+  if(seoDesc && seoCount) seoDesc.addEventListener('input', function(){ seoCount.textContent = this.value.length; });
+
+  // ---- Slug auto-gen ----
+  window.genSlug = function(){
+    var name = (document.getElementById('f-name')||{}).value || '';
+    var slug = name.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d')
+      .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-');
+    var el = document.getElementById('f-slug'); if(el) el.value = slug;
+    showToast('Đã tạo slug từ tên sản phẩm');
+  };
+
+  // ---- Publish validation (demo) ----
+  window.tryPublish = function(){
+    var es = document.getElementById('error-summary');
+    if(es){ es.classList.remove('hidden'); es.focus(); es.scrollIntoView({behavior:'smooth', block:'start'}); }
+    showToast('Không thể đăng bán — còn 4 vấn đề cần sửa');
+  };
+
+  // ---- Confirm modal (delete image) ----
+  var currentAction=null, ov=document.getElementById('confirm-overlay'), t=document.getElementById('confirm-title'), m=document.getElementById('confirm-msg'), ba=document.getElementById('btn-confirm-action'), bc=document.getElementById('btn-cancel-confirm');
+  var ACTIONS = { 'delete-image':{ title:'Xóa ảnh này?', msg:'Ảnh sẽ bị gỡ khỏi sản phẩm. Thao tác này không thể hoàn tác.', btn:'Xóa ảnh', done:'Đã xóa ảnh' } };
+  window.openConfirm = function(a){ var c=ACTIONS[a]; if(!c) return; currentAction=c; t.textContent=c.title; m.textContent=c.msg; ba.textContent=c.btn; if(ov) ov.classList.add('show'); };
+  function closeConfirm(){ if(ov) ov.classList.remove('show'); currentAction=null; }
+  if(ba) ba.addEventListener('click', function(){ var d=currentAction?currentAction.done:'Hoàn tất'; closeConfirm(); showToast(d); });
+  if(bc) bc.addEventListener('click', closeConfirm);
+  if(ov) ov.addEventListener('click', function(e){ if(e.target===this) closeConfirm(); });
+
+  // ---- Keyboard shortcuts + Esc ----
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape'){ closeConfirm(); window.closeSidebar(); }
+    if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='s'){ e.preventDefault(); showToast('Đã lưu nháp (⌘/Ctrl + S)'); }
+    if((e.metaKey||e.ctrlKey) && e.key==='Enter'){ e.preventDefault(); tryPublish(); }
+  });
+
+  // ---- Unsaved-changes guard (demo) ----
+  var dirty=false;
+  document.querySelectorAll('input, textarea, select, [contenteditable]').forEach(function(el){
+    el.addEventListener('input', function(){ dirty=true; });
+  });
+  window.addEventListener('beforeunload', function(e){ if(dirty){ e.preventDefault(); e.returnValue=''; } });
+})();
+</script>
+
+</body>
+</html>

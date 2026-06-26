@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laptop chính hãng, giá tốt | TechStore</title>
+<meta name="description" content="Mua laptop chính hãng, nhiều cấu hình, bảo hành rõ ràng, giao hàng nhanh. Xem giá, khuyến mãi và so sánh sản phẩm tại TechStore.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } } }</script>
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; background:#f8fafc; }
+  .line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+
+  /* Product card */
+  .product-card { transition:all .18s ease; }
+  .product-card:hover { box-shadow:0 6px 24px rgba(0,0,0,.12); border-color:#93c5fd !important; transform:translateY(-1px); }
+
+  /* Filter group */
+  .filter-group-body { max-height:0; overflow:hidden; transition:max-height .25s ease; }
+  .filter-group-body.open { max-height:999px; }
+
+  /* Price strong */
+  .price-s { color:#dc2626; }
+  .price-o { color:#94a3b8; text-decoration:line-through; }
+
+  /* Drawer overlay */
+  #filter-overlay { display:none; }
+  #filter-overlay.active { display:block; }
+  #filter-drawer { transform:translateX(-100%); transition:transform .28s ease; }
+  #filter-drawer.open { transform:translateX(0); }
+
+  /* Compare tray */
+  #compare-tray { transform:translateY(100%); transition:transform .25s ease; }
+  #compare-tray.visible { transform:translateY(0); }
+
+  /* Chip animation */
+  .chip-enter { animation: chip-in .15s ease; }
+  @keyframes chip-in { from{opacity:0;transform:scale(.85)} to{opacity:1;transform:scale(1)} }
+
+  /* Skeleton */
+  .skeleton { background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* Availability colors */
+  .avail-in    { color:#16a34a; }
+  .avail-low   { color:#d97706; }
+  .avail-out   { color:#94a3b8; }
+  .avail-pre   { color:#7c3aed; }
+
+  /* Sort dropdown */
+  select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; background-size:16px; }
+</style>
+</head>
+<body class="text-slate-900 antialiased">
+
+<!-- ============================================================
+     HEADER (shared with home page)
+     ============================================================ -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+  <div class="max-w-[1320px] mx-auto px-4">
+    <div class="flex items-center gap-3 h-16">
+      <button class="md:hidden p-2 -ml-2 text-slate-600" onclick="openDrawer()" aria-label="Mở menu">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <a href="01-home-page.html" class="shrink-0 flex items-center gap-2">
+        <div class="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
+          <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+        </div>
+        <span class="font-bold text-lg tracking-tight">Tech<span class="text-blue-600">Store</span></span>
+      </a>
+      <div class="hidden md:flex flex-1 max-w-xl">
+        <div class="relative w-full">
+          <label for="srch" class="sr-only">Tìm kiếm</label>
+          <input id="srch" type="search" value="laptop" class="w-full h-9 pl-4 pr-12 border-2 border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 transition-colors">
+          <button class="absolute right-0 top-0 h-9 w-11 bg-blue-600 hover:bg-blue-700 rounded-r-xl flex items-center justify-center transition-colors" aria-label="Tìm kiếm">
+            <svg class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex items-center gap-1 ml-auto md:ml-0">
+        <button class="hidden md:flex flex-col items-center gap-0.5 px-3 py-2 text-slate-600 hover:text-blue-600 transition-colors" aria-label="So sánh">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span class="text-[10px]">So sánh</span>
+        </button>
+        <button class="flex flex-col items-center gap-0.5 px-3 py-2 text-slate-600 hover:text-blue-600 transition-colors" aria-label="Tài khoản">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          <span class="text-[10px] hidden md:block">Tài khoản</span>
+        </button>
+        <button class="relative flex flex-col items-center gap-0.5 px-3 py-2 text-slate-600 hover:text-blue-600 transition-colors" aria-label="Giỏ hàng">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          <span class="absolute top-1.5 right-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">2</span>
+          <span class="text-[10px] hidden md:block">Giỏ hàng</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Nav bar -->
+<nav class="hidden md:block bg-[#1e293b]">
+  <div class="max-w-[1320px] mx-auto px-4 flex items-center">
+    <a href="#" class="h-10 px-4 flex items-center text-blue-300 text-sm font-semibold border-b-2 border-blue-400">Laptop</a>
+    <a href="#" class="h-10 px-4 flex items-center text-white text-sm hover:bg-white/10 font-medium transition-colors">Điện thoại</a>
+    <a href="#" class="h-10 px-4 flex items-center text-white text-sm hover:bg-white/10 font-medium transition-colors">Tablet</a>
+    <a href="#" class="h-10 px-4 flex items-center text-white text-sm hover:bg-white/10 font-medium transition-colors">Màn hình</a>
+    <a href="#" class="h-10 px-4 flex items-center text-white text-sm hover:bg-white/10 font-medium transition-colors">Tai nghe</a>
+    <a href="#" class="h-10 px-4 flex items-center text-white text-sm hover:bg-white/10 font-medium transition-colors">Phụ kiện</a>
+    <a href="#" class="h-10 px-4 flex items-center text-red-400 text-sm font-semibold hover:bg-white/10 transition-colors">🔥 Khuyến mãi</a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     MOBILE STICKY CONTROL BAR
+     ============================================================ -->
+<div class="md:hidden bg-white border-b border-slate-200 sticky top-16 z-40">
+  <div class="px-4 py-2 flex items-center gap-2">
+    <button onclick="openDrawer()" class="flex items-center gap-1.5 px-3 py-1.5 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:border-blue-400 hover:text-blue-600 transition-colors">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+      Bộ lọc
+      <span class="bg-blue-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">2</span>
+    </button>
+    <select class="flex-1 h-8 pl-3 pr-8 border border-slate-300 rounded-lg text-sm text-slate-700 focus:outline-none focus:border-blue-400 bg-white">
+      <option>Bán chạy</option>
+      <option>Mới nhất</option>
+      <option>Giá thấp → cao</option>
+      <option>Giá cao → thấp</option>
+      <option>Đánh giá cao</option>
+    </select>
+    <span class="text-xs text-slate-500 shrink-0">128 SP</span>
+  </div>
+  <!-- Applied chips mobile -->
+  <div class="px-4 pb-2 flex gap-2 overflow-x-auto scrollbar-hide">
+    <button onclick="removeChip(this)" class="flex items-center gap-1 shrink-0 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+      Dell <span class="opacity-60">×</span>
+    </button>
+    <button onclick="removeChip(this)" class="flex items-center gap-1 shrink-0 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+      RAM 16GB <span class="opacity-60">×</span>
+    </button>
+    <button onclick="clearChips(this)" class="flex items-center gap-1 shrink-0 text-xs text-slate-500 hover:text-red-500 px-2 py-1 underline transition-colors">Xóa tất cả</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<div class="max-w-[1320px] mx-auto px-4 py-5">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="mb-3">
+    <ol class="flex items-center gap-1.5 text-sm text-slate-500">
+      <li><a href="01-home-page.html" class="hover:text-blue-600 transition-colors">Trang chủ</a></li>
+      <li><svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></li>
+      <li class="text-slate-900 font-medium">Laptop</li>
+    </ol>
+  </nav>
+
+  <!-- Page title + description -->
+  <div class="mb-4">
+    <div class="flex items-baseline gap-3">
+      <h1 class="text-2xl font-bold text-slate-900">Laptop</h1>
+      <span class="text-sm text-slate-500">128 sản phẩm</span>
+    </div>
+    <p class="text-sm text-slate-500 mt-1">Laptop chính hãng, bảo hành rõ ràng, nhiều lựa chọn cho học tập, văn phòng, gaming và đồ họa.</p>
+  </div>
+
+  <!-- Category banner (optional) -->
+  <div class="mb-5 rounded-2xl bg-gradient-to-r from-[#0f172a] to-[#1d4ed8] px-6 py-4 flex items-center justify-between overflow-hidden relative" style="max-height:140px">
+    <div class="relative z-10">
+      <p class="text-blue-300 text-xs font-semibold uppercase tracking-wider mb-1">Back to School 2026</p>
+      <p class="text-white font-bold text-xl leading-tight">Laptop giảm đến 20%</p>
+      <p class="text-blue-200 text-xs mt-1">Tặng balo + chuột không dây cho đơn từ 15 triệu</p>
+    </div>
+    <a href="#" class="shrink-0 bg-blue-500 hover:bg-blue-400 text-white font-semibold text-sm px-5 py-2 rounded-xl transition-colors relative z-10">Xem ưu đãi</a>
+    <div class="absolute right-20 top-0 bottom-0 w-32 bg-white/5 rounded-l-3xl pointer-events-none"></div>
+  </div>
+
+  <!-- Quick filter chips -->
+  <div class="mb-5 flex gap-2 flex-wrap">
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-600 text-white">Gaming</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">Văn phòng</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">Đồ họa</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">Mỏng nhẹ</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">Dưới 15 triệu</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">RAM 16GB</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">SSD 512GB</button>
+    <button class="px-3 py-1.5 rounded-full text-sm font-medium bg-white border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors">Sinh viên</button>
+  </div>
+
+  <!-- Content grid: sidebar + products -->
+  <div class="flex gap-6">
+
+    <!-- ============================================================
+         FILTER SIDEBAR — desktop
+         ============================================================ -->
+    <aside class="hidden md:block w-[280px] shrink-0">
+      <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+
+        <!-- Sidebar header -->
+        <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+          <h2 class="font-semibold text-sm text-slate-800">Bộ lọc</h2>
+          <button class="text-xs text-blue-600 hover:text-blue-800 transition-colors" onclick="clearAllFilters()">Xóa tất cả</button>
+        </div>
+
+        <!-- Applied filter chips -->
+        <div class="px-4 py-3 border-b border-slate-100 flex flex-wrap gap-2" id="applied-chips-desktop">
+          <span class="chip-enter flex items-center gap-1 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
+            Dell
+            <button onclick="removeChip(this.parentElement)" class="hover:text-blue-900 transition-colors" aria-label="Bỏ lọc Dell">×</button>
+          </span>
+          <span class="chip-enter flex items-center gap-1 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium px-2 py-0.5 rounded-full">
+            RAM 16GB
+            <button onclick="removeChip(this.parentElement)" class="hover:text-blue-900 transition-colors" aria-label="Bỏ lọc RAM 16GB">×</button>
+          </span>
+        </div>
+
+        <!-- Filter groups -->
+        <div class="divide-y divide-slate-100">
+
+          <!-- Brand -->
+          <div class="filter-group">
+            <button class="w-full px-4 py-3 flex items-center justify-between text-left" onclick="toggleGroup(this)">
+              <span class="text-sm font-semibold text-slate-800">Thương hiệu</span>
+              <svg class="h-4 w-4 text-slate-400 rotate-icon transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="filter-group-body open px-4 pb-3 space-y-2">
+              <div class="relative mb-2">
+                <input type="text" placeholder="Tìm thương hiệu..." class="w-full h-8 pl-3 pr-3 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-400">
+              </div>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" checked class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Dell</span>
+                <span class="text-xs text-slate-400">24</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">HP</span>
+                <span class="text-xs text-slate-400">18</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Asus</span>
+                <span class="text-xs text-slate-400">21</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Lenovo</span>
+                <span class="text-xs text-slate-400">15</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Apple</span>
+                <span class="text-xs text-slate-400">12</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">MSI</span>
+                <span class="text-xs text-slate-400">9</span>
+              </label>
+              <button class="text-xs text-blue-600 hover:text-blue-800 mt-1 transition-colors">+ Xem thêm 8 thương hiệu</button>
+            </div>
+          </div>
+
+          <!-- Price range -->
+          <div class="filter-group">
+            <button class="w-full px-4 py-3 flex items-center justify-between text-left" onclick="toggleGroup(this)">
+              <span class="text-sm font-semibold text-slate-800">Khoảng giá</span>
+              <svg class="h-4 w-4 text-slate-400 rotate-icon transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="filter-group-body open px-4 pb-3 space-y-2">
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="price" class="w-4 h-4 border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">Dưới 10 triệu</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="price" class="w-4 h-4 border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">10 – 15 triệu</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="price" class="w-4 h-4 border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">15 – 20 triệu</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="price" checked class="w-4 h-4 border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">20 – 30 triệu</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="price" class="w-4 h-4 border-slate-300 text-blue-600 focus:ring-blue-500">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">Trên 30 triệu</span>
+              </label>
+              <!-- Custom range input -->
+              <p class="text-xs font-medium text-slate-500 pt-1">Hoặc nhập khoảng giá:</p>
+              <div class="flex gap-2 items-center">
+                <input type="text" placeholder="Từ" class="flex-1 h-8 px-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-400 text-right">
+                <span class="text-slate-400 text-xs">–</span>
+                <input type="text" placeholder="Đến" class="flex-1 h-8 px-2 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-blue-400 text-right">
+                <button class="h-8 px-3 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors">OK</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Availability -->
+          <div class="filter-group">
+            <button class="w-full px-4 py-3 flex items-center justify-between text-left" onclick="toggleGroup(this)">
+              <span class="text-sm font-semibold text-slate-800">Tình trạng</span>
+              <svg class="h-4 w-4 text-slate-400 rotate-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="filter-group-body px-4 pb-3 space-y-2">
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="avail" checked class="w-4 h-4 border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">Tất cả</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="avail" class="w-4 h-4 border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">Còn hàng</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="radio" name="avail" class="w-4 h-4 border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600">Đặt trước</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- RAM -->
+          <div class="filter-group">
+            <button class="w-full px-4 py-3 flex items-center justify-between text-left" onclick="toggleGroup(this)">
+              <span class="text-sm font-semibold text-slate-800">RAM</span>
+              <svg class="h-4 w-4 text-slate-400 rotate-icon transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="filter-group-body open px-4 pb-3 space-y-2">
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">8GB</span>
+                <span class="text-xs text-slate-400">32</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" checked class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">16GB</span>
+                <span class="text-xs text-slate-400">64</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">32GB</span>
+                <span class="text-xs text-slate-400">18</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- CPU / Chip -->
+          <div class="filter-group">
+            <button class="w-full px-4 py-3 flex items-center justify-between text-left" onclick="toggleGroup(this)">
+              <span class="text-sm font-semibold text-slate-800">Dòng CPU</span>
+              <svg class="h-4 w-4 text-slate-400 rotate-icon transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="filter-group-body px-4 pb-3 space-y-2">
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Intel Core i5</span>
+                <span class="text-xs text-slate-400">38</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Intel Core i7</span>
+                <span class="text-xs text-slate-400">29</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Intel Core Ultra</span>
+                <span class="text-xs text-slate-400">22</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">AMD Ryzen 5</span>
+                <span class="text-xs text-slate-400">16</span>
+              </label>
+              <label class="flex items-center gap-2.5 cursor-pointer group">
+                <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-600 flex-1">Apple M3</span>
+                <span class="text-xs text-slate-400">12</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Rating -->
+          <div class="filter-group">
+            <button class="w-full px-4 py-3 flex items-center justify-between text-left" onclick="toggleGroup(this)">
+              <span class="text-sm font-semibold text-slate-800">Đánh giá</span>
+              <svg class="h-4 w-4 text-slate-400 rotate-icon transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="filter-group-body px-4 pb-3 space-y-2">
+              <label class="flex items-center gap-2 cursor-pointer group">
+                <input type="radio" name="rating" class="w-4 h-4 border-slate-300 text-blue-600">
+                <span class="text-yellow-400 text-sm">★★★★★</span>
+                <span class="text-xs text-slate-500">(5 sao)</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer group">
+                <input type="radio" name="rating" class="w-4 h-4 border-slate-300 text-blue-600">
+                <span class="text-yellow-400 text-sm">★★★★</span><span class="text-slate-300 text-sm">★</span>
+                <span class="text-xs text-slate-500">(từ 4 sao)</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer group">
+                <input type="radio" name="rating" class="w-4 h-4 border-slate-300 text-blue-600">
+                <span class="text-yellow-400 text-sm">★★★</span><span class="text-slate-300 text-sm">★★</span>
+                <span class="text-xs text-slate-500">(từ 3 sao)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- On sale toggle -->
+          <div class="px-4 py-3">
+            <label class="flex items-center justify-between cursor-pointer">
+              <span class="text-sm font-semibold text-slate-800">Đang giảm giá</span>
+              <button type="button" role="switch" aria-checked="false" onclick="toggleSwitch(this)" class="relative inline-flex h-5 w-9 items-center rounded-full bg-slate-200 transition-colors focus:outline-none">
+                <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform translate-x-0.5 switch-thumb"></span>
+              </button>
+            </label>
+          </div>
+
+        </div><!-- /divide-y -->
+      </div><!-- /sidebar card -->
+    </aside>
+
+    <!-- ============================================================
+         PRODUCT AREA (right side)
+         ============================================================ -->
+    <div class="flex-1 min-w-0">
+
+      <!-- Desktop toolbar -->
+      <div class="hidden md:block mb-4">
+        <div class="flex items-center gap-3 flex-wrap">
+          <!-- Result count -->
+          <span class="text-sm text-slate-600 font-medium mr-auto">128 sản phẩm</span>
+
+          <!-- Applied chips desktop -->
+          <div class="flex items-center gap-2 flex-wrap" id="chips-bar">
+            <span class="chip-enter flex items-center gap-1 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+              Dell
+              <button onclick="removeChip(this.parentElement)" class="hover:text-blue-900 transition-colors" aria-label="Bỏ lọc Dell">×</button>
+            </span>
+            <span class="chip-enter flex items-center gap-1 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+              RAM 16GB
+              <button onclick="removeChip(this.parentElement)" class="hover:text-blue-900 transition-colors" aria-label="Bỏ lọc RAM 16GB">×</button>
+            </span>
+            <button onclick="clearAllFilters()" class="text-xs text-slate-500 hover:text-red-500 transition-colors underline">Xóa tất cả</button>
+          </div>
+
+          <!-- View mode -->
+          <div class="flex items-center gap-1 border border-slate-200 rounded-lg overflow-hidden">
+            <button class="p-1.5 bg-blue-50 text-blue-600" aria-label="Grid view" title="Grid view">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+            </button>
+            <button class="p-1.5 text-slate-400 hover:text-slate-600" aria-label="List view" title="List view">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+            </button>
+          </div>
+
+          <!-- Sort -->
+          <select class="h-9 pl-3 pr-8 border border-slate-200 rounded-xl text-sm text-slate-700 bg-white focus:outline-none focus:border-blue-400 transition-colors cursor-pointer" aria-label="Sắp xếp theo">
+            <option value="best_selling">Bán chạy nhất</option>
+            <option value="newest">Mới nhất</option>
+            <option value="price_asc">Giá thấp → cao</option>
+            <option value="price_desc">Giá cao → thấp</option>
+            <option value="rating_desc">Đánh giá cao</option>
+            <option value="discount_desc">Giảm giá nhiều</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4" id="product-grid">
+
+        <!-- ============================================================
+             PRODUCT CARD — Standard
+             ============================================================ -->
+
+        <!-- Card 1 — in_stock, on sale -->
+        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer group" data-compare-id="p1">
+          <a href="#" class="block">
+            <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
+              <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-16%</span>
+              <span class="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Chính hãng</span>
+              <img src="https://placehold.co/200x200/f8fafc/1e40af?text=Dell+Inspiron" alt="Laptop Dell Inspiron 15 Intel Core i5 16GB 512GB" class="max-h-full max-w-full object-contain" loading="lazy">
+            </div>
+          </a>
+          <div class="p-3">
+            <a href="#" class="block">
+              <p class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug mb-2 hover:text-blue-600 transition-colors">Laptop Dell Inspiron 15 Intel Core i5-1235U 16GB 512GB SSD 15.6" FHD</p>
+            </a>
+            <!-- Quick specs -->
+            <p class="text-[11px] text-slate-500 mb-2">Core i5 · 16GB · SSD 512GB · 15.6" FHD</p>
+            <!-- Rating -->
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-xs leading-none">★★★★</span><span class="text-slate-300 text-xs leading-none">★</span>
+              <span class="text-[11px] text-slate-500">4.6 (128)</span>
+              <span class="text-slate-300 text-xs mx-1">·</span>
+              <span class="text-[11px] text-slate-500">Đã bán 530</span>
+            </div>
+            <!-- Price -->
+            <p class="text-base font-extrabold price-s leading-tight">15.990.000đ</p>
+            <div class="flex items-center gap-2 mb-1.5">
+              <p class="text-xs price-o">18.990.000đ</p>
+              <span class="text-[10px] bg-red-50 text-red-600 font-bold px-1 py-0.5 rounded">-16%</span>
+            </div>
+            <!-- Promotion -->
+            <div class="space-y-0.5 mb-2">
+              <p class="text-[10px] text-slate-600">🎁 Tặng chuột không dây</p>
+              <p class="text-[10px] text-orange-600">💳 Trả góp 0% từ 1.332.000đ/tháng</p>
+            </div>
+            <!-- Availability -->
+            <p class="text-[11px] font-semibold avail-in mb-2.5">✓ Còn hàng · BH 24 tháng</p>
+            <!-- Actions -->
+            <div class="flex gap-2">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors" aria-label="Thêm Dell Inspiron 15 vào giỏ hàng">Thêm giỏ</button>
+              <button onclick="addCompare('p1', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors" aria-label="So sánh sản phẩm">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 — out_of_stock -->
+        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p2">
+          <a href="#" class="block">
+            <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
+              <span class="absolute top-2 left-2 bg-slate-400 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Hết hàng</span>
+              <img src="https://placehold.co/200x200/f8fafc/475569?text=ThinkPad+X1" alt="Lenovo ThinkPad X1 Carbon Gen 12" class="max-h-full max-w-full object-contain opacity-50" loading="lazy">
+            </div>
+          </a>
+          <div class="p-3">
+            <a href="#" class="block">
+              <p class="text-sm font-semibold text-slate-600 line-clamp-2 leading-snug mb-2">Lenovo ThinkPad X1 Carbon Gen 12 Intel Core Ultra 7 32GB 1TB SSD</p>
+            </a>
+            <p class="text-[11px] text-slate-400 mb-2">Ultra 7 · 32GB · SSD 1TB · 14" 2.8K</p>
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-xs">★★★★★</span>
+              <span class="text-[11px] text-slate-500">5.0 (91)</span>
+            </div>
+            <p class="text-base font-extrabold text-slate-400">42.990.000đ</p>
+            <p class="text-[11px] font-semibold avail-out mt-1 mb-2.5">— Tạm hết hàng</p>
+            <div class="flex gap-2">
+              <button class="flex-1 bg-slate-200 text-slate-400 text-xs font-semibold py-2 rounded-xl cursor-not-allowed" disabled aria-label="Hết hàng, không thể thêm vào giỏ">Hết hàng</button>
+              <button onclick="addCompare('p2', this)" class="w-8 h-8 flex items-center justify-center border border-slate-100 rounded-xl text-slate-300 hover:border-blue-200 hover:text-blue-400 transition-colors" aria-label="So sánh sản phẩm">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 — low_stock, in compare -->
+        <div class="product-card bg-white border-2 border-blue-400 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p3">
+          <a href="#" class="block">
+            <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
+              <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-22%</span>
+              <!-- Compare badge -->
+              <span class="absolute bottom-2 right-2 bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">Đang so sánh</span>
+              <img src="https://placehold.co/200x200/eff6ff/2563eb?text=MSI+Katana" alt="MSI Katana 15 i7 RTX 4060" class="max-h-full max-w-full object-contain" loading="lazy">
+            </div>
+          </a>
+          <div class="p-3">
+            <a href="#" class="block">
+              <p class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug mb-2">MSI Katana 15 Intel Core i7-12650H 16GB 512GB RTX 4060 144Hz</p>
+            </a>
+            <p class="text-[11px] text-slate-500 mb-2">i7-12650H · 16GB · SSD 512GB · RTX 4060 · 144Hz</p>
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-xs">★★★★</span><span class="text-slate-300 text-xs">★</span>
+              <span class="text-[11px] text-slate-500">4.3 (56)</span>
+            </div>
+            <p class="text-base font-extrabold price-s">26.490.000đ</p>
+            <div class="flex items-center gap-2 mb-1.5">
+              <p class="text-xs price-o">33.990.000đ</p>
+              <span class="text-[10px] bg-red-50 text-red-600 font-bold px-1 py-0.5 rounded">-22%</span>
+            </div>
+            <p class="text-[10px] text-orange-600 mb-1">💳 Trả góp từ 2.207.000đ/tháng</p>
+            <p class="text-[11px] font-semibold avail-low mb-2.5">⚠ Sắp hết hàng · BH 24 tháng</p>
+            <div class="flex gap-2">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+              <button onclick="addCompare('p3', this)" class="w-8 h-8 flex items-center justify-center border-2 border-blue-400 rounded-xl text-blue-500 hover:bg-blue-50 transition-colors" aria-label="Đang so sánh, bỏ so sánh">
+                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 — pre_order -->
+        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p4">
+          <a href="#" class="block">
+            <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
+              <span class="absolute top-2 left-2 bg-violet-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Đặt trước</span>
+              <img src="https://placehold.co/200x200/faf5ff/7c3aed?text=MacBook+Pro" alt="MacBook Pro M4 Pro 14 inch" class="max-h-full max-w-full object-contain" loading="lazy">
+            </div>
+          </a>
+          <div class="p-3">
+            <a href="#" class="block">
+              <p class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug mb-2">MacBook Pro M4 Pro 14" 24GB 512GB SSD Retina ProMotion 120Hz</p>
+            </a>
+            <p class="text-[11px] text-slate-500 mb-2">Apple M4 Pro · 24GB · 512GB · 14.2" ProMotion</p>
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-slate-200 text-xs">★★★★★</span>
+              <span class="text-[11px] text-slate-400">Chưa có đánh giá</span>
+            </div>
+            <p class="text-base font-extrabold price-normal font-bold text-slate-800">62.990.000đ</p>
+            <p class="text-[10px] text-violet-600 mb-1 mt-1">Dự kiến về hàng: 15/07/2026</p>
+            <p class="text-[11px] font-semibold avail-pre mb-2.5">Đặt trước ngay · BH 12 tháng</p>
+            <div class="flex gap-2">
+              <button class="flex-1 bg-violet-600 hover:bg-violet-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Đặt trước</button>
+              <button onclick="addCompare('p4', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p5">
+          <a href="#" class="block">
+            <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
+              <span class="absolute top-2 left-2 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">Mới</span>
+              <img src="https://placehold.co/200x200/f0fdf4/16a34a?text=HP+Envy" alt="HP Envy x360 15 Core Ultra 5" class="max-h-full max-w-full object-contain" loading="lazy">
+            </div>
+          </a>
+          <div class="p-3">
+            <a href="#" class="block">
+              <p class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug mb-2">HP Envy x360 15 Intel Core Ultra 5 125U 16GB 512GB Touch 15.6"</p>
+            </a>
+            <p class="text-[11px] text-slate-500 mb-2">Ultra 5 125U · 16GB · 512GB · 15.6" OLED Touch</p>
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-xs">★★★★</span><span class="text-slate-300 text-xs">★</span>
+              <span class="text-[11px] text-slate-500">4.5 (64)</span>
+            </div>
+            <p class="text-base font-extrabold price-s">19.490.000đ</p>
+            <div class="flex items-center gap-2 mb-1.5">
+              <p class="text-xs price-o">23.990.000đ</p>
+              <span class="text-[10px] bg-red-50 text-red-600 font-bold px-1 py-0.5 rounded">-19%</span>
+            </div>
+            <p class="text-[10px] text-orange-600 mb-1">💳 Trả góp từ 1.624.000đ/tháng</p>
+            <p class="text-[11px] font-semibold avail-in mb-2.5">✓ Còn hàng · BH 24 tháng</p>
+            <div class="flex gap-2">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+              <button onclick="addCompare('p5', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="product-card bg-white border border-slate-200 rounded-2xl overflow-hidden cursor-pointer" data-compare-id="p6">
+          <a href="#" class="block">
+            <div class="relative bg-slate-50 aspect-square flex items-center justify-center p-3">
+              <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md">-15%</span>
+              <img src="https://placehold.co/200x200/fff7ed/ea580c?text=Acer+Aspire" alt="Acer Aspire 5 i5 8GB 512GB" class="max-h-full max-w-full object-contain" loading="lazy">
+            </div>
+          </a>
+          <div class="p-3">
+            <a href="#" class="block">
+              <p class="text-sm font-semibold text-slate-800 line-clamp-2 leading-snug mb-2">Acer Aspire 5 A515-58M Intel Core i5-1335U 8GB 512GB 15.6" FHD</p>
+            </a>
+            <p class="text-[11px] text-slate-500 mb-2">Core i5 · 8GB · SSD 512GB · 15.6" FHD</p>
+            <div class="flex items-center gap-1 mb-2">
+              <span class="text-yellow-400 text-xs">★★★★</span><span class="text-slate-300 text-xs">★</span>
+              <span class="text-[11px] text-slate-500">4.2 (172)</span>
+              <span class="text-slate-300 text-xs mx-1">·</span>
+              <span class="text-[11px] text-slate-500">Đã bán 890</span>
+            </div>
+            <p class="text-base font-extrabold price-s">11.490.000đ</p>
+            <div class="flex items-center gap-2 mb-1.5">
+              <p class="text-xs price-o">13.490.000đ</p>
+              <span class="text-[10px] bg-red-50 text-red-600 font-bold px-1 py-0.5 rounded">-15%</span>
+            </div>
+            <p class="text-[10px] text-slate-600 mb-1">🎁 Tặng balo trị giá 500K</p>
+            <p class="text-[11px] font-semibold avail-in mb-2.5">✓ Còn hàng · BH 24 tháng</p>
+            <div class="flex gap-2">
+              <button onclick="addToCart(this)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 rounded-xl transition-colors">Thêm giỏ</button>
+              <button onclick="addCompare('p6', this)" class="w-8 h-8 flex items-center justify-center border border-slate-200 rounded-xl hover:border-blue-300 hover:text-blue-600 text-slate-400 transition-colors">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skeleton card (loading state demo) -->
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden opacity-60">
+          <div class="aspect-square skeleton"></div>
+          <div class="p-3 space-y-2">
+            <div class="h-4 skeleton rounded w-full"></div>
+            <div class="h-4 skeleton rounded w-3/4"></div>
+            <div class="h-3 skeleton rounded w-1/2"></div>
+            <div class="h-5 skeleton rounded w-2/3 mt-2"></div>
+            <div class="h-8 skeleton rounded-xl w-full mt-2"></div>
+          </div>
+        </div>
+
+        <!-- Skeleton card 2 -->
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden opacity-40">
+          <div class="aspect-square skeleton"></div>
+          <div class="p-3 space-y-2">
+            <div class="h-4 skeleton rounded w-full"></div>
+            <div class="h-4 skeleton rounded w-5/6"></div>
+            <div class="h-3 skeleton rounded w-1/2"></div>
+            <div class="h-5 skeleton rounded w-2/3 mt-2"></div>
+            <div class="h-8 skeleton rounded-xl w-full mt-2"></div>
+          </div>
+        </div>
+
+      </div><!-- /product-grid -->
+
+      <!-- Empty state (hidden by default — remove 'hidden' to preview) -->
+      <div class="hidden py-16 text-center" id="empty-state">
+        <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-800 mb-2">Không tìm thấy sản phẩm phù hợp</h3>
+        <p class="text-sm text-slate-500 mb-6">Hãy thử bỏ bớt bộ lọc hoặc thay đổi khoảng giá.</p>
+        <button onclick="clearAllFilters()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Xóa tất cả bộ lọc</button>
+      </div>
+
+      <!-- Error state (hidden by default) -->
+      <div class="hidden py-16 text-center" id="error-state">
+        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold text-slate-800 mb-2">Không thể tải danh sách sản phẩm</h3>
+        <p class="text-sm text-slate-500 mb-6">Đã xảy ra lỗi kết nối. Vui lòng thử lại.</p>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Thử lại</button>
+      </div>
+
+      <!-- Pagination -->
+      <div class="mt-8 flex items-center justify-center gap-1.5">
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 hover:border-blue-300 hover:text-blue-600 transition-colors" aria-label="Trang trước" disabled>
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-blue-600 text-white text-sm font-semibold">1</button>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors text-sm">2</button>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors text-sm">3</button>
+        <span class="w-9 h-9 flex items-center justify-center text-slate-400 text-sm">…</span>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-600 transition-colors text-sm">6</button>
+        <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:border-blue-300 hover:text-blue-600 transition-colors" aria-label="Trang sau">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <p class="text-center text-xs text-slate-400 mt-2">Trang 1 / 6 · 128 sản phẩm</p>
+
+    </div><!-- /product area -->
+  </div><!-- /content grid -->
+</div><!-- /max-w container -->
+
+<!-- ============================================================
+     COMPARE TRAY — fixed bottom
+     ============================================================ -->
+<div id="compare-tray" class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t-2 border-blue-500 shadow-2xl visible">
+  <div class="max-w-[1320px] mx-auto px-4 py-3 flex items-center gap-4">
+    <div class="flex items-center gap-1.5 text-sm font-semibold text-blue-700">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      So sánh (1/4)
+    </div>
+    <!-- Compare items -->
+    <div class="flex items-center gap-3 flex-1 overflow-x-auto">
+      <div class="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-xl px-3 py-1.5 shrink-0">
+        <img src="https://placehold.co/32x32/eff6ff/2563eb?text=MSI" alt="MSI Katana" class="w-8 h-8 object-contain rounded">
+        <span class="text-xs font-medium text-slate-700 max-w-[100px] truncate">MSI Katana 15 i7</span>
+        <button class="text-slate-400 hover:text-red-500 transition-colors text-sm font-bold" aria-label="Bỏ MSI Katana khỏi so sánh">×</button>
+      </div>
+      <!-- Empty slot -->
+      <div class="flex items-center justify-center w-24 h-10 border-2 border-dashed border-slate-300 rounded-xl shrink-0">
+        <span class="text-xs text-slate-400">+ Thêm SP</span>
+      </div>
+      <div class="flex items-center justify-center w-24 h-10 border-2 border-dashed border-slate-300 rounded-xl shrink-0">
+        <span class="text-xs text-slate-400">+ Thêm SP</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <button onclick="clearCompare()" class="text-sm text-slate-500 hover:text-red-500 transition-colors">Xóa</button>
+      <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2 rounded-xl transition-colors">So sánh ngay</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MOBILE FILTER DRAWER
+     ============================================================ -->
+<!-- Overlay -->
+<div id="filter-overlay" class="fixed inset-0 bg-black/50 z-50" onclick="closeDrawer()"></div>
+
+<!-- Drawer panel -->
+<div id="filter-drawer" class="fixed inset-y-0 left-0 w-[85vw] max-w-sm bg-white z-50 flex flex-col shadow-2xl" aria-label="Bộ lọc" role="dialog" aria-modal="true">
+  <!-- Drawer header -->
+  <div class="flex items-center justify-between px-4 py-4 border-b border-slate-200 shrink-0">
+    <div class="flex items-center gap-2">
+      <h2 class="font-bold text-slate-900">Bộ lọc</h2>
+      <span class="bg-blue-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">2</span>
+    </div>
+    <button onclick="closeDrawer()" class="p-1.5 text-slate-500 hover:text-slate-900 transition-colors" aria-label="Đóng bộ lọc">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Drawer body (scrollable) -->
+  <div class="flex-1 overflow-y-auto divide-y divide-slate-100">
+    <!-- Brand -->
+    <div class="px-4 py-4">
+      <p class="text-sm font-semibold text-slate-800 mb-3">Thương hiệu</p>
+      <div class="grid grid-cols-2 gap-2">
+        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" checked class="w-4 h-4 rounded border-slate-300 text-blue-600"><span class="text-sm">Dell</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600"><span class="text-sm">HP</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600"><span class="text-sm">Asus</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600"><span class="text-sm">Lenovo</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600"><span class="text-sm">Apple</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-blue-600"><span class="text-sm">MSI</span></label>
+      </div>
+    </div>
+    <!-- Price -->
+    <div class="px-4 py-4">
+      <p class="text-sm font-semibold text-slate-800 mb-3">Khoảng giá</p>
+      <div class="space-y-2">
+        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="mprice" class="w-4 h-4 border-slate-300 text-blue-600"><span class="text-sm">Dưới 10 triệu</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="mprice" class="w-4 h-4 border-slate-300 text-blue-600"><span class="text-sm">10 – 15 triệu</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="mprice" class="w-4 h-4 border-slate-300 text-blue-600"><span class="text-sm">15 – 20 triệu</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="mprice" checked class="w-4 h-4 border-slate-300 text-blue-600"><span class="text-sm">20 – 30 triệu</span></label>
+        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="mprice" class="w-4 h-4 border-slate-300 text-blue-600"><span class="text-sm">Trên 30 triệu</span></label>
+      </div>
+    </div>
+    <!-- RAM -->
+    <div class="px-4 py-4">
+      <p class="text-sm font-semibold text-slate-800 mb-3">RAM</p>
+      <div class="flex gap-2 flex-wrap">
+        <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm hover:border-blue-300 hover:text-blue-600 transition-colors">8GB</button>
+        <button class="px-3 py-1.5 rounded-lg border-2 border-blue-500 bg-blue-50 text-blue-700 text-sm font-medium">16GB</button>
+        <button class="px-3 py-1.5 rounded-lg border border-slate-200 text-sm hover:border-blue-300 hover:text-blue-600 transition-colors">32GB</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer footer (sticky) -->
+  <div class="shrink-0 border-t border-slate-200 px-4 py-4 flex gap-3 bg-white">
+    <button onclick="clearAllFilters()" class="flex-1 border border-slate-300 text-slate-700 font-semibold py-2.5 rounded-xl hover:border-slate-400 transition-colors text-sm">Xóa tất cả</button>
+    <button onclick="closeDrawer()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm">Áp dụng (2)</button>
+  </div>
+</div>
+
+<!-- Toast notification (demo) -->
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-xl opacity-0 pointer-events-none transition-opacity z-[60]">
+  ✓ Đã thêm vào giỏ hàng
+</div>
+
+<!-- ============================================================
+     FOOTER (minimal)
+     ============================================================ -->
+<footer class="bg-[#0f172a] text-white mt-12">
+  <div class="max-w-[1320px] mx-auto px-4 py-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 text-xs text-slate-400">
+      <span class="font-bold text-white text-base">Tech<span class="text-blue-400">Store</span></span>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition-colors">Chính sách bảo hành</a>
+        <a href="#" class="hover:text-white transition-colors">Chính sách đổi trả</a>
+        <a href="#" class="hover:text-white transition-colors">Liên hệ</a>
+      </div>
+      <span>© 2026 TechStore</span>
+    </div>
+  </div>
+</footer>
+
+<!-- extra bottom padding for compare tray -->
+<div class="h-16"></div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+  // ── Filter group toggle ──────────────────────────────────────
+  function toggleGroup(btn) {
+    const body = btn.nextElementSibling;
+    const icon = btn.querySelector('.rotate-icon');
+    body.classList.toggle('open');
+    if (icon) icon.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+  }
+
+  // Init: set icons for open groups
+  document.querySelectorAll('.filter-group-body.open').forEach(body => {
+    const icon = body.previousElementSibling.querySelector('.rotate-icon');
+    if (icon) icon.style.transform = 'rotate(180deg)';
+  });
+
+  // ── Mobile filter drawer ─────────────────────────────────────
+  function openDrawer() {
+    document.getElementById('filter-drawer').classList.add('open');
+    document.getElementById('filter-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    document.getElementById('filter-drawer').classList.remove('open');
+    document.getElementById('filter-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+  // ── Toggle switch ───────────────────────────────────────────
+  function toggleSwitch(btn) {
+    const checked = btn.getAttribute('aria-checked') === 'true';
+    btn.setAttribute('aria-checked', String(!checked));
+    const thumb = btn.querySelector('.switch-thumb');
+    if (!checked) {
+      btn.classList.replace('bg-slate-200', 'bg-blue-600');
+      thumb.classList.replace('translate-x-0.5', 'translate-x-4');
+    } else {
+      btn.classList.replace('bg-blue-600', 'bg-slate-200');
+      thumb.classList.replace('translate-x-4', 'translate-x-0.5');
+    }
+  }
+
+  // ── Chip remove ──────────────────────────────────────────────
+  function removeChip(el) { el.remove(); }
+  function clearChips() { document.querySelectorAll('[id^="applied-chips"]').forEach(c => c.innerHTML = ''); }
+  function clearAllFilters() { clearChips(); closeDrawer(); }
+
+  // ── Add to cart ──────────────────────────────────────────────
+  function addToCart(btn) {
+    const original = btn.textContent;
+    btn.textContent = '...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ Đã thêm';
+      btn.classList.replace('bg-blue-600','bg-green-600');
+      showToast('✓ Đã thêm vào giỏ hàng');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.disabled = false;
+        btn.classList.replace('bg-green-600','bg-blue-600');
+      }, 2000);
+    }, 600);
+  }
+
+  // ── Compare ──────────────────────────────────────────────────
+  const compareSet = new Set(['p3']);
+  function addCompare(id, btn) {
+    if (compareSet.has(id)) {
+      compareSet.delete(id);
+      btn.classList.remove('border-blue-400','text-blue-500');
+      btn.classList.add('border-slate-200','text-slate-400');
+    } else {
+      if (compareSet.size >= 4) { showToast('⚠ Chỉ so sánh tối đa 4 sản phẩm'); return; }
+      compareSet.add(id);
+      btn.classList.remove('border-slate-200','text-slate-400');
+      btn.classList.add('border-blue-400','text-blue-500');
+    }
+    updateCompareTray();
+  }
+  function clearCompare() { compareSet.clear(); document.querySelectorAll('[data-compare-id]').forEach(card => { const btn = card.querySelector('[onclick^="addCompare"]'); if (btn) { btn.classList.remove('border-blue-400','text-blue-500'); btn.classList.add('border-slate-200','text-slate-400'); } }); updateCompareTray(); }
+  function updateCompareTray() {
+    const tray = document.getElementById('compare-tray');
+    if (compareSet.size === 0) { tray.classList.remove('visible'); return; }
+    tray.classList.add('visible');
+    tray.querySelector('.text-blue-700').textContent = `So sánh (${compareSet.size}/4)`;
+  }
+
+  // ── Toast ────────────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.opacity = '1';
+    setTimeout(() => { t.style.opacity = '0'; }, 2200);
+  }
+</script>
+</body>
+</html>

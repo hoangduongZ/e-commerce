@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="electronics">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý đơn hàng | Admin — TechStore</title>
+<meta name="description" content="Danh sách, tìm kiếm, lọc và xử lý toàn bộ đơn hàng của cửa hàng điện tử.">
+<meta name="robots" content="noindex,nofollow">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } } }</script>
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; background:#f8fafc; height:100vh; overflow:hidden; }
+  .line-clamp-1 { display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden; }
+  .line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+
+  /* Skeleton loading */
+  .skeleton { background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+  /* Admin sidebar — đồng nhất với 08-admin-dashboard.html / 09 */
+  #admin-sidebar { width:240px; flex-shrink:0; transition:transform .25s ease; z-index:40; }
+  @media (max-width:1023px) {
+    #admin-sidebar { position:fixed; top:0; left:0; bottom:0; transform:translateX(-100%); }
+    #admin-sidebar.open { transform:translateX(0); }
+    .admin-main { width:100%; }
+  }
+  #sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.4); z-index:39; }
+  #sidebar-overlay.show { display:block; }
+
+  .nav-item { display:flex; align-items:center; gap:10px; padding:9px 16px; border-radius:8px; cursor:pointer; transition:all .15s; color:#475569; font-size:14px; font-weight:500; border-left:3px solid transparent; margin:1px 8px; }
+  .nav-item:hover { background:#f8fafc; color:#0f172a; }
+  .nav-item.is-active { background:#eff6ff; color:#1d4ed8; border-left-color:#2563eb; }
+  .nav-item.is-active svg { color:#2563eb; }
+  .nav-group-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.08em; padding:16px 24px 6px; }
+
+  /* Status badge shared */
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .badge-blue   { background:#dbeafe; color:#1d4ed8; }
+  .badge-emerald{ background:#d1fae5; color:#065f46; }
+  .badge-amber  { background:#fef3c7; color:#92400e; }
+  .badge-red    { background:#fee2e2; color:#991b1b; }
+  .badge-slate  { background:#f1f5f9; color:#475569; }
+
+  /* Risk chip */
+  .chip-risk { display:inline-flex; align-items:center; gap:3px; padding:1px 6px; border-radius:6px; font-size:10px; font-weight:600; background:#fffbeb; color:#b45309; border:1px solid #fde68a; }
+  .chip-danger { background:#fef2f2; color:#b91c1c; border-color:#fecaca; }
+
+  /* Price */
+  .price-s { color:#dc2626; }
+
+  /* Quick tabs */
+  .qtab { position:relative; padding:8px 4px; font-size:13px; font-weight:600; color:#64748b; white-space:nowrap; border-bottom:2px solid transparent; cursor:pointer; }
+  .qtab:hover { color:#0f172a; }
+  .qtab.is-active { color:#1d4ed8; border-bottom-color:#2563eb; }
+
+  /* Order table */
+  .otable thead th { position:sticky; top:0; background:#fff; z-index:10; }
+  .otable tbody tr { border-bottom:1px solid #f1f5f9; cursor:pointer; }
+  .otable tbody tr:hover { background:#f8fafc; }
+  tr.row-cancelled { opacity:.6; }
+  tr.row-selected { background:#eff6ff !important; }
+
+  /* Dropdown popover (filters) */
+  .dropdown-panel { display:none; }
+  .dropdown-panel.open { display:block; }
+
+  /* Filter drawer (More filters) */
+  #filter-drawer { position:fixed; top:0; right:0; bottom:0; width:360px; max-width:90vw; background:#fff; transform:translateX(100%); transition:transform .25s ease; z-index:70; display:flex; flex-direction:column; }
+  #filter-drawer.open { transform:translateX(0); }
+  #drawer-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.5); z-index:69; }
+  #drawer-overlay.show { display:block; }
+
+  /* Bulk action bar */
+  #bulk-bar { display:none; }
+  #bulk-bar.show { display:flex; }
+
+  /* Toast */
+  #toast { position:fixed; bottom:24px; right:24px; transform:translateY(120%); transition:transform .3s ease; z-index:100; }
+  #toast.show { transform:translateY(0); }
+
+  /* Confirm overlay */
+  #confirm-overlay { display:none; position:fixed; inset:0; background:rgba(15,23,42,.5); z-index:90; align-items:center; justify-content:center; }
+  #confirm-overlay.show { display:flex; }
+
+  /* Row actions menu */
+  .row-menu { display:none; }
+  .row-menu.open { display:block; }
+</style>
+</head>
+<body class="text-slate-900 antialiased">
+
+<!-- ASSUMPTION: Admin area dùng Admin Shell riêng (AdminSidebar + AdminTopBar) theo spec 09/12,
+     KHÔNG dùng header/footer/nav của storefront. Shell copy nguyên từ 09-admin-product-management.html. -->
+
+<!-- ============================================================
+     ADMIN SHELL
+     ============================================================ -->
+<div class="flex h-screen overflow-hidden">
+
+<!-- ============================================================
+     1. ADMIN SIDEBAR  (copy 09, set "Đơn hàng" active)
+     ============================================================ -->
+<aside id="admin-sidebar" class="bg-white border-r border-slate-200 flex flex-col h-full overflow-y-auto">
+  <div class="flex items-center gap-2.5 h-16 px-5 border-b border-slate-100 shrink-0">
+    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+      <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+    </div>
+    <div>
+      <p class="font-bold text-base leading-tight">Tech<span class="text-blue-600">Store</span></p>
+      <p class="text-[10px] text-slate-400">Admin Panel</p>
+    </div>
+  </div>
+
+  <nav class="flex-1 py-2" aria-label="Admin navigation">
+    <div class="nav-group-label">Vận hành</div>
+    <a href="08-admin-dashboard.html" class="nav-item" data-nav="dashboard">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 13a1 1 0 011-1h4a1 1 0 011 1v6a1 1 0 01-1 1h-4a1 1 0 01-1-1v-6z"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item is-active" aria-current="page" data-nav="orders">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      <span class="flex-1">Đơn hàng</span>
+      <span class="bg-amber-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">18</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="inventory">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <span class="flex-1">Tồn kho</span>
+      <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">12</span>
+    </a>
+
+    <div class="nav-group-label">Danh mục</div>
+    <a href="09-admin-product-management.html" class="nav-item" data-nav="products">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      <span>Sản phẩm</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="categories">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+      <span>Danh mục</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="brands">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      <span>Thương hiệu</span>
+    </a>
+
+    <div class="nav-group-label">Khách hàng</div>
+    <a href="#" class="nav-item" data-nav="customers">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span>Khách hàng</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="reviews">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      <span>Đánh giá</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="warranty">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      <span>Bảo hành</span>
+    </a>
+
+    <div class="nav-group-label">Marketing</div>
+    <a href="#" class="nav-item" data-nav="promotions">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+      <span>Khuyến mãi</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="shipping">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+      <span>Vận chuyển</span>
+    </a>
+
+    <div class="nav-group-label">Hệ thống</div>
+    <a href="#" class="nav-item" data-nav="reports">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span>Báo cáo</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="staff">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      <span>Nhân sự & Phân quyền</span>
+    </a>
+    <a href="#" class="nav-item" data-nav="settings">
+      <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <span>Cài đặt</span>
+    </a>
+  </nav>
+
+  <div class="border-t border-slate-100 p-3 shrink-0">
+    <div class="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">NM</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-semibold text-slate-900 leading-tight">Nguyễn Minh</p>
+        <p class="text-[10px] text-slate-400">Store Manager</p>
+      </div>
+      <svg class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/></svg>
+    </div>
+  </div>
+</aside>
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ============================================================
+     MAIN AREA
+     ============================================================ -->
+<div class="admin-main flex-1 flex flex-col overflow-hidden">
+
+<!-- ============================================================
+     2. ADMIN TOP BAR  (copy 09)
+     ============================================================ -->
+<header class="bg-white border-b border-slate-200 flex items-center gap-3 h-16 px-4 shrink-0">
+  <button id="btn-menu" class="lg:hidden p-2 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg" aria-label="Mở menu">
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+  </button>
+  <div class="relative flex-1 max-w-md">
+    <label for="admin-search" class="sr-only">Tìm kiếm đơn hàng, sản phẩm, khách hàng</label>
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    <input id="admin-search" type="search" placeholder="Tìm đơn hàng, SKU, khách hàng..." class="w-full h-9 pl-9 pr-4 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+  </div>
+  <div class="flex items-center gap-1 ml-auto">
+    <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Thông báo (5 chưa đọc)">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+      <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+    </button>
+    <button class="flex items-center gap-2 h-9 px-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors" aria-label="Tài khoản admin">
+      <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">NM</div>
+      <span class="hidden md:block text-sm font-medium">Nguyễn Minh</span>
+      <svg class="h-4 w-4 text-slate-400 hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============================================================
+     3. PAGE CONTENT (scrollable)
+     ============================================================ -->
+<main class="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-50">
+
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-1.5 text-xs text-slate-500 mb-4" aria-label="Breadcrumb">
+  <a href="08-admin-dashboard.html" class="text-slate-400 hover:text-slate-600">Admin</a>
+  <svg class="h-3 w-3 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  <span class="font-medium text-slate-700">Đơn hàng</span>
+</nav>
+
+<!-- ============================================================
+     4. PAGE HEADER
+     ============================================================ -->
+<div class="flex flex-wrap items-start justify-between gap-3 mb-5">
+  <div>
+    <h1 class="text-xl font-bold text-slate-900">Quản lý đơn hàng</h1>
+    <p class="text-sm text-slate-500 mt-0.5">Tổng <strong class="text-slate-700">156</strong> đơn · <span class="text-amber-600 font-medium">18 chờ xác nhận</span> · <span class="text-amber-600 font-medium">9 chờ thanh toán</span> · <span class="text-blue-600 font-medium">42 đang giao</span> · <span class="text-red-600 font-medium">2 lỗi giao</span></p>
+  </div>
+  <div class="flex flex-wrap items-center gap-2">
+    <button class="flex items-center gap-1.5 h-9 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" onclick="showToast('In hóa đơn cho đơn đã chọn')">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+      In
+    </button>
+    <button class="flex items-center gap-1.5 h-9 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" onclick="showToast('Xuất danh sách đơn hàng ra CSV (cần quyền order.export)')">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      Export
+    </button>
+    <button class="flex items-center gap-1.5 h-9 px-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-white bg-white transition-colors" onclick="showToast('Làm mới danh sách đơn hàng')">
+      <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Làm mới
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     5. QUICK TABS
+     ============================================================ -->
+<div class="border-b border-slate-200 mb-4 overflow-x-auto">
+  <div class="flex items-center gap-5 min-w-max">
+    <button class="qtab is-active" onclick="selectTab(this,'Tất cả đơn')">Tất cả <span class="ml-1 text-slate-400 font-bold">156</span></button>
+    <button class="qtab" onclick="selectTab(this,'Đơn mới')">Đơn mới <span class="ml-1 text-amber-600 font-bold">7</span></button>
+    <button class="qtab" onclick="selectTab(this,'Chờ xác nhận')">Chờ xác nhận <span class="ml-1 text-amber-600 font-bold">18</span></button>
+    <button class="qtab" onclick="selectTab(this,'Chờ thanh toán')">Chờ thanh toán <span class="ml-1 text-amber-600 font-bold">9</span></button>
+    <button class="qtab" onclick="selectTab(this,'Đang đóng gói')">Đóng gói <span class="ml-1 text-slate-400 font-bold">11</span></button>
+    <button class="qtab" onclick="selectTab(this,'Đang giao')">Đang giao <span class="ml-1 text-blue-600 font-bold">42</span></button>
+    <button class="qtab" onclick="selectTab(this,'Lỗi giao hàng')">Lỗi giao <span class="ml-1 text-red-600 font-bold">2</span></button>
+    <button class="qtab" onclick="selectTab(this,'Đã hủy')">Đã hủy <span class="ml-1 text-slate-400 font-bold">14</span></button>
+    <button class="qtab" onclick="selectTab(this,'Hoàn hàng')">Hoàn hàng <span class="ml-1 text-slate-400 font-bold">3</span></button>
+  </div>
+</div>
+
+<!-- ============================================================
+     6. TOOLBAR (search + filters)
+     ============================================================ -->
+<div class="bg-white border border-slate-200 rounded-2xl p-3 mb-4">
+  <div class="flex flex-col lg:flex-row lg:items-center gap-2">
+    <!-- Search -->
+    <div class="relative flex-1 min-w-0">
+      <label for="order-search" class="sr-only">Tìm theo mã đơn, khách hàng, SĐT, email, mã vận đơn</label>
+      <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input id="order-search" type="search" placeholder="Tìm mã đơn, khách hàng, SĐT, email, mã vận đơn..." class="w-full h-10 pl-9 pr-9 border border-slate-200 rounded-xl text-sm bg-slate-50 focus:outline-none focus:border-blue-500 focus:bg-white transition-colors">
+      <button id="search-clear" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 rounded" aria-label="Xóa tìm kiếm">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Filter buttons -->
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- Order status -->
+      <div class="relative">
+        <button data-dd="dd-status" class="dd-btn flex items-center gap-1.5 h-10 px-3 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 bg-white transition-colors">
+          <span class="dd-label">Trạng thái đơn</span>
+          <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="dd-status" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1.5">
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả trạng thái</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Chờ xác nhận">Chờ xác nhận</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đã xác nhận">Đã xác nhận</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đang xử lý">Đang xử lý</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Hoàn thành">Hoàn thành</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đã hủy">Đã hủy</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Hoàn hàng">Hoàn hàng</label>
+        </div>
+      </div>
+
+      <!-- Payment status -->
+      <div class="relative">
+        <button data-dd="dd-payment" class="dd-btn flex items-center gap-1.5 h-10 px-3 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 bg-white transition-colors">
+          <span class="dd-label">Thanh toán</span>
+          <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="dd-payment" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1.5">
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả thanh toán</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Chưa thanh toán">Chưa thanh toán</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="COD chờ thu">COD chờ thu</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Chờ chuyển khoản">Chờ chuyển khoản</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Cần xác minh">Cần xác minh</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đã thanh toán">Đã thanh toán</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Thanh toán lỗi">Thanh toán lỗi</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đã hoàn tiền">Đã hoàn tiền</label>
+        </div>
+      </div>
+
+      <!-- Fulfillment status -->
+      <div class="relative">
+        <button data-dd="dd-fulfillment" class="dd-btn flex items-center gap-1.5 h-10 px-3 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 bg-white transition-colors">
+          <span class="dd-label">Vận chuyển</span>
+          <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="dd-fulfillment" class="dropdown-panel absolute left-0 mt-1 w-52 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1.5">
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="">Tất cả</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Chưa xử lý hàng">Chưa xử lý hàng</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đang đóng gói">Đang đóng gói</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Sẵn sàng giao">Sẵn sàng giao</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đang giao">Đang giao</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Đã giao">Đã giao</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Giao thất bại">Giao thất bại</label>
+        </div>
+      </div>
+
+      <!-- Date range -->
+      <div class="relative">
+        <button data-dd="dd-date" class="dd-btn flex items-center gap-1.5 h-10 px-3 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 bg-white transition-colors">
+          <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span class="dd-label">7 ngày qua</span>
+          <svg class="h-3.5 w-3.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div id="dd-date" class="dropdown-panel absolute left-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1.5">
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Hôm nay">Hôm nay</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Hôm qua">Hôm qua</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="7 ngày qua">7 ngày qua</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="30 ngày qua">30 ngày qua</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Tháng này">Tháng này</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Tháng trước">Tháng trước</label>
+          <label class="dd-opt flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-50 cursor-pointer text-sm" data-value="Tùy chọn">Tùy chọn…</label>
+        </div>
+      </div>
+
+      <!-- More filters -->
+      <button id="btn-more-filters" class="flex items-center gap-1.5 h-10 px-3 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50 bg-white transition-colors">
+        <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.879a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"/></svg>
+        Bộ lọc khác
+        <span class="ml-0.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 bg-blue-600 text-white text-[10px] font-bold rounded-full">2</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Active filter chips -->
+  <div class="flex flex-wrap items-center gap-2 mt-2.5 pt-2.5 border-t border-slate-100">
+    <span class="text-xs text-slate-400 font-medium">Đang lọc:</span>
+    <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">Trạng thái: Chờ xác nhận <button class="hover:text-blue-900" aria-label="Bỏ lọc trạng thái" onclick="this.parentElement.remove()"><svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></span>
+    <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-lg text-xs font-medium">Đơn giá trị cao <button class="hover:text-blue-900" aria-label="Bỏ lọc đơn giá trị cao" onclick="this.parentElement.remove()"><svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></span>
+    <button class="text-xs font-semibold text-slate-500 hover:text-red-600" onclick="showToast('Đã xóa tất cả bộ lọc')">Xóa tất cả</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     7. BULK ACTION BAR (hiện khi chọn nhiều đơn)
+     ============================================================ -->
+<div id="bulk-bar" class="items-center gap-2 flex-wrap bg-blue-600 text-white rounded-2xl px-4 py-2.5 mb-3">
+  <div class="flex items-center gap-2 mr-auto">
+    <span class="inline-flex items-center justify-center w-6 h-6 bg-white/20 rounded-lg text-sm font-bold" id="bulk-count">0</span>
+    <span class="text-sm font-semibold">đơn đã chọn</span>
+    <button class="text-xs text-blue-100 hover:text-white underline ml-1" onclick="clearSelection()">Bỏ chọn</button>
+  </div>
+  <div class="flex items-center gap-1.5 flex-wrap">
+    <button class="h-8 px-3 bg-white/15 hover:bg-white/25 rounded-lg text-xs font-semibold transition-colors" onclick="openConfirm('bulk-confirm')">Xác nhận</button>
+    <button class="h-8 px-3 bg-white/15 hover:bg-white/25 rounded-lg text-xs font-semibold transition-colors" onclick="openConfirm('bulk-pack')">Đóng gói</button>
+    <button class="h-8 px-3 bg-white/15 hover:bg-white/25 rounded-lg text-xs font-semibold transition-colors" onclick="showToast('Gán nhân viên xử lý cho đơn đã chọn')">Gán NV</button>
+    <button class="h-8 px-3 bg-white/15 hover:bg-white/25 rounded-lg text-xs font-semibold transition-colors" onclick="showToast('In hóa đơn cho đơn đã chọn')">In hóa đơn</button>
+    <button class="h-8 px-3 bg-white/15 hover:bg-white/25 rounded-lg text-xs font-semibold transition-colors" onclick="showToast('Xuất đơn đã chọn ra CSV')">Export</button>
+    <button class="h-8 px-3 bg-red-500 hover:bg-red-600 rounded-lg text-xs font-semibold transition-colors" onclick="openConfirm('bulk-cancel')">Hủy đơn</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     8. ORDER TABLE (desktop ≥ md)  +  MOBILE CARDS (< md)
+     ============================================================ -->
+<div class="bg-white border border-slate-200 rounded-2xl overflow-hidden mb-4">
+  <div class="overflow-x-auto max-h-[calc(100vh-420px)] overflow-y-auto">
+    <table class="otable w-full text-sm min-w-[1120px] hidden md:table">
+      <thead>
+        <tr class="text-left">
+          <th class="py-2.5 px-3 w-10"><input type="checkbox" id="check-all" class="accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn tất cả đơn hàng"></th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Đơn hàng</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Khách hàng</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Sản phẩm</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500 text-right">Tổng tiền</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Thanh toán</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Vận chuyển</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Trạng thái</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500">Cảnh báo</th>
+          <th class="py-2.5 px-3 text-xs font-semibold text-slate-500 text-right">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody id="order-tbody">
+
+        <!-- Row 1: Pending confirmation + bank transfer + high value -->
+        <tr class="orow" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1024"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1024</a>
+            <span class="badge badge-blue text-[10px] ml-1">Mới</span>
+            <p class="text-[11px] text-slate-400 mt-0.5">22/06/2026 14:35</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Nguyễn Văn A</p>
+            <p class="text-[11px] text-slate-400 font-mono">090****000</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">Dell Inspiron 15 3520</p>
+            <p class="text-[11px] text-slate-400">2 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">30.980.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-amber">Chờ chuyển khoản</span></td>
+          <td class="py-3 px-3"><span class="badge badge-slate">Chưa xử lý hàng</span></td>
+          <td class="py-3 px-3"><span class="badge badge-amber">Chờ xác nhận</span></td>
+          <td class="py-3 px-3"><span class="chip-risk">⚠ Giá trị cao</span></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <button class="h-8 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors" onclick="openConfirm('confirm')">Xác nhận</button>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1024" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="openConfirm('mark-paid')">Đánh dấu đã thanh toán</button>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('In hóa đơn DH1024')">In hóa đơn</button>
+                <div class="border-t border-slate-100 my-1"></div>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-red-50 text-xs text-red-600" onclick="openConfirm('cancel')">Hủy đơn</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+        <!-- Row 2: Confirmed + COD pending + packing -->
+        <tr class="orow" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1023"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1023</a>
+            <p class="text-[11px] text-slate-400 mt-0.5">22/06/2026 11:02</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Trần Thị Bích Ngọc</p>
+            <p class="text-[11px] text-slate-400 font-mono">098****123</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">iPhone 15 Pro Max 256GB</p>
+            <p class="text-[11px] text-slate-400">1 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">32.490.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-amber">COD chờ thu</span></td>
+          <td class="py-3 px-3"><span class="badge badge-blue">Đang đóng gói</span></td>
+          <td class="py-3 px-3"><span class="badge badge-blue">Đã xác nhận</span></td>
+          <td class="py-3 px-3"><span class="chip-risk">⚠ Giá trị cao</span></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <button class="h-8 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors" onclick="showToast('Đánh dấu đơn DH1023 sẵn sàng giao')">Đóng gói xong</button>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1023" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Cập nhật vận đơn DH1023')">Cập nhật vận đơn</button>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('In phiếu đóng gói DH1023')">In phiếu đóng gói</button>
+                <div class="border-t border-slate-100 my-1"></div>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-red-50 text-xs text-red-600" onclick="openConfirm('cancel')">Hủy đơn</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+        <!-- Row 3: Confirmed + paid + shipping -->
+        <tr class="orow" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1022"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1022</a>
+            <p class="text-[11px] text-slate-400 mt-0.5">21/06/2026 16:48</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Lê Hoàng Phúc</p>
+            <p class="text-[11px] text-slate-400 font-mono">091****456</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">Tai nghe Sony WH-1000XM5 +1 SP</p>
+            <p class="text-[11px] text-slate-400">3 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">9.290.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-emerald">Đã thanh toán</span></td>
+          <td class="py-3 px-3"><span class="badge badge-blue">Đang giao</span><p class="text-[10px] text-slate-400 mt-0.5 font-mono">GHTK·G1234</p></td>
+          <td class="py-3 px-3"><span class="badge badge-blue">Đang xử lý</span></td>
+          <td class="py-3 px-3"><span class="text-xs text-slate-300">—</span></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <button class="h-8 px-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors" onclick="openConfirm('delivered')">Đã giao</button>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1022" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Theo dõi vận đơn GHTK G1234')">Theo dõi vận đơn</button>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-amber-700" onclick="showToast('Báo giao thất bại DH1022')">Báo giao thất bại</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+        <!-- Row 4: Delivery failed (DANGER) -->
+        <tr class="orow" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1019"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1019</a>
+            <p class="text-[11px] text-slate-400 mt-0.5">20/06/2026 09:20</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Phạm Quốc Đạt</p>
+            <p class="text-[11px] text-slate-400 font-mono">097****789</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">Màn hình LG UltraGear 27GP850</p>
+            <p class="text-[11px] text-slate-400">1 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">9.490.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-amber">COD chờ thu</span></td>
+          <td class="py-3 px-3"><span class="badge badge-red">Giao thất bại</span></td>
+          <td class="py-3 px-3"><span class="badge badge-blue">Đang xử lý</span></td>
+          <td class="py-3 px-3"><span class="chip-risk chip-danger">✕ Lỗi giao</span></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition-colors" onclick="showToast('Giao lại đơn DH1019')">Giao lại</button>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1019" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Gọi khách DH1019')">Gọi khách hàng</button>
+                <div class="border-t border-slate-100 my-1"></div>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-red-50 text-xs text-red-600" onclick="openConfirm('cancel')">Hủy & hoàn hàng</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+        <!-- Row 5: Payment failed (DANGER) -->
+        <tr class="orow" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1018"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1018</a>
+            <p class="text-[11px] text-slate-400 mt-0.5">19/06/2026 21:15</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Vũ Minh Khang</p>
+            <p class="text-[11px] text-slate-400 font-mono">036****555</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">MacBook Air 13" M3 16GB 512GB</p>
+            <p class="text-[11px] text-slate-400">1 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">27.990.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-red">Thanh toán lỗi</span></td>
+          <td class="py-3 px-3"><span class="badge badge-slate">Chưa xử lý hàng</span></td>
+          <td class="py-3 px-3"><span class="badge badge-amber">Chờ xác nhận</span></td>
+          <td class="py-3 px-3"><div class="flex flex-wrap gap-1"><span class="chip-risk chip-danger">✕ TT lỗi</span><span class="chip-risk">+1</span></div></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <button class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition-colors" onclick="openConfirm('mark-paid')">Đánh dấu TT</button>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1018" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Gửi lại link thanh toán DH1018')">Gửi lại link TT</button>
+                <div class="border-t border-slate-100 my-1"></div>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-red-50 text-xs text-red-600" onclick="openConfirm('cancel')">Hủy đơn</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+        <!-- Row 6: Completed + paid + delivered -->
+        <tr class="orow" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1015"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1015</a>
+            <p class="text-[11px] text-slate-400 mt-0.5">18/06/2026 10:30</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Đặng Thu Hà</p>
+            <p class="text-[11px] text-slate-400 font-mono">090****222</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">Chuột Logitech MX Master 3S</p>
+            <p class="text-[11px] text-slate-400">1 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">2.290.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-emerald">Đã thanh toán</span></td>
+          <td class="py-3 px-3"><span class="badge badge-emerald">Đã giao</span></td>
+          <td class="py-3 px-3"><span class="badge badge-emerald">Hoàn thành</span></td>
+          <td class="py-3 px-3"><span class="text-xs text-slate-300">—</span></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <a href="12b-admin-order-detail.html" class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition-colors flex items-center">Xem</a>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1015" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('In hóa đơn DH1015')">In hóa đơn</button>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Tạo phiếu bảo hành DH1015')">Tạo phiếu bảo hành</button>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-red-50 text-xs text-red-600" onclick="openConfirm('refund')">Hoàn tiền</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+        <!-- Row 7: Cancelled (dimmed) -->
+        <tr class="orow row-cancelled" onclick="goDetail(event)">
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><input type="checkbox" class="row-check accent-blue-600 w-4 h-4 align-middle" aria-label="Chọn đơn DH1011"></td>
+          <td class="py-3 px-3">
+            <a href="12b-admin-order-detail.html" class="text-sm font-bold text-slate-800 hover:text-blue-600">#DH1011</a>
+            <p class="text-[11px] text-slate-400 mt-0.5">17/06/2026 13:05</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-sm font-medium text-slate-700 line-clamp-1">Hoàng Anh Tuấn</p>
+            <p class="text-[11px] text-slate-400 font-mono">033****888</p>
+          </td>
+          <td class="py-3 px-3">
+            <p class="text-xs text-slate-700 line-clamp-1">Bàn phím Keychron K8 Pro</p>
+            <p class="text-[11px] text-slate-400">1 sản phẩm</p>
+          </td>
+          <td class="py-3 px-3 text-right"><p class="text-sm font-bold text-slate-900">2.690.000đ</p></td>
+          <td class="py-3 px-3"><span class="badge badge-slate">Đã hoàn tiền</span></td>
+          <td class="py-3 px-3"><span class="badge badge-slate">Đã hoàn hàng</span></td>
+          <td class="py-3 px-3"><span class="badge badge-red">Đã hủy</span></td>
+          <td class="py-3 px-3"><span class="chip-risk">⚠ Khách hủy</span></td>
+          <td class="py-3 px-3" onclick="event.stopPropagation()"><div class="flex items-center gap-1 justify-end">
+            <a href="12b-admin-order-detail.html" class="h-8 px-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold rounded-lg transition-colors flex items-center">Xem</a>
+            <div class="relative">
+              <button class="row-menu-btn p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors" aria-label="Thao tác khác cho đơn DH1011" aria-haspopup="true"><svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"/></svg></button>
+              <div class="row-menu absolute right-0 mt-1 w-44 bg-white border border-slate-200 rounded-xl shadow-lg z-30 p-1 text-left">
+                <a href="12b-admin-order-detail.html" class="block px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700">Xem chi tiết</a>
+                <button class="w-full text-left px-3 py-1.5 rounded-lg hover:bg-slate-50 text-xs text-slate-700" onclick="showToast('Xem lịch sử (audit log) DH1011')">Xem lịch sử</button>
+              </div>
+            </div>
+          </div></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <!-- ===== MOBILE CARD LIST (< md) ===== -->
+    <div class="md:hidden divide-y divide-slate-100" id="order-cards">
+      <!-- Card 1: pending confirmation -->
+      <a href="12b-admin-order-detail.html" class="block p-3 active:bg-slate-50">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="text-sm font-bold text-slate-800">#DH1024</span>
+            <span class="badge badge-blue text-[10px]">Mới</span>
+          </div>
+          <span class="badge badge-amber shrink-0">Chờ xác nhận</span>
+        </div>
+        <p class="text-xs text-slate-600 mt-1 line-clamp-1">Nguyễn Văn A · <span class="font-mono text-slate-400">090****000</span></p>
+        <div class="flex items-center justify-between mt-1.5">
+          <span class="text-sm font-bold text-slate-900">30.980.000đ</span>
+          <span class="text-[11px] text-slate-400">42 phút trước</span>
+        </div>
+        <div class="flex items-center gap-1 mt-1.5 flex-wrap">
+          <span class="badge badge-amber text-[10px]">Chờ chuyển khoản</span>
+          <span class="badge badge-slate text-[10px]">Chưa xử lý hàng</span>
+          <span class="chip-risk">⚠ Giá trị cao</span>
+        </div>
+        <div class="flex items-center gap-2 mt-2.5" onclick="event.preventDefault();event.stopPropagation()">
+          <button class="flex-1 h-9 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl" onclick="openConfirm('confirm')">Xác nhận đơn</button>
+          <a href="12b-admin-order-detail.html" class="h-9 px-3 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl flex items-center">Chi tiết</a>
+        </div>
+      </a>
+      <!-- Card 2: shipping -->
+      <a href="12b-admin-order-detail.html" class="block p-3 active:bg-slate-50">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-sm font-bold text-slate-800">#DH1022</span>
+          <span class="badge badge-blue shrink-0">Đang xử lý</span>
+        </div>
+        <p class="text-xs text-slate-600 mt-1 line-clamp-1">Lê Hoàng Phúc · <span class="font-mono text-slate-400">091****456</span></p>
+        <div class="flex items-center justify-between mt-1.5">
+          <span class="text-sm font-bold text-slate-900">9.290.000đ</span>
+          <span class="text-[11px] text-slate-400 font-mono">GHTK · G1234</span>
+        </div>
+        <div class="flex items-center gap-1 mt-1.5 flex-wrap">
+          <span class="badge badge-emerald text-[10px]">Đã thanh toán</span>
+          <span class="badge badge-blue text-[10px]">Đang giao</span>
+        </div>
+        <div class="flex items-center gap-2 mt-2.5" onclick="event.preventDefault();event.stopPropagation()">
+          <button class="flex-1 h-9 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-xl" onclick="openConfirm('delivered')">Đánh dấu đã giao</button>
+          <a href="12b-admin-order-detail.html" class="h-9 px-3 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl flex items-center">Chi tiết</a>
+        </div>
+      </a>
+      <!-- Card 3: delivery failed -->
+      <a href="12b-admin-order-detail.html" class="block p-3 active:bg-slate-50">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-sm font-bold text-slate-800">#DH1019</span>
+          <span class="badge badge-red shrink-0">Giao thất bại</span>
+        </div>
+        <p class="text-xs text-slate-600 mt-1 line-clamp-1">Phạm Quốc Đạt · <span class="font-mono text-slate-400">097****789</span></p>
+        <div class="flex items-center justify-between mt-1.5">
+          <span class="text-sm font-bold text-slate-900">9.490.000đ</span>
+          <span class="text-[11px] text-slate-400">2 ngày trước</span>
+        </div>
+        <div class="flex items-center gap-1 mt-1.5 flex-wrap">
+          <span class="badge badge-amber text-[10px]">COD chờ thu</span>
+          <span class="chip-risk chip-danger">✕ Lỗi giao</span>
+        </div>
+        <div class="flex items-center gap-2 mt-2.5" onclick="event.preventDefault();event.stopPropagation()">
+          <button class="flex-1 h-9 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl" onclick="showToast('Giao lại đơn DH1019')">Giao lại</button>
+          <a href="12b-admin-order-detail.html" class="h-9 px-3 border border-slate-200 text-slate-700 text-xs font-semibold rounded-xl flex items-center">Chi tiết</a>
+        </div>
+      </a>
+    </div>
+
+    <!-- ===== LOADING STATE (skeleton) — hidden by default ===== -->
+    <div id="state-loading" class="hidden p-4 space-y-3">
+      <div class="flex items-center gap-3"><div class="flex-1 space-y-2"><div class="skeleton h-3.5 rounded w-2/3"></div><div class="skeleton h-3 rounded w-1/3"></div></div><div class="skeleton h-6 w-24 rounded-full"></div></div>
+      <div class="flex items-center gap-3"><div class="flex-1 space-y-2"><div class="skeleton h-3.5 rounded w-1/2"></div><div class="skeleton h-3 rounded w-1/4"></div></div><div class="skeleton h-6 w-24 rounded-full"></div></div>
+      <div class="flex items-center gap-3"><div class="flex-1 space-y-2"><div class="skeleton h-3.5 rounded w-3/4"></div><div class="skeleton h-3 rounded w-1/3"></div></div><div class="skeleton h-6 w-24 rounded-full"></div></div>
+      <div class="flex items-center gap-3"><div class="flex-1 space-y-2"><div class="skeleton h-3.5 rounded w-2/3"></div><div class="skeleton h-3 rounded w-1/4"></div></div><div class="skeleton h-6 w-24 rounded-full"></div></div>
+    </div>
+
+    <!-- ===== EMPTY STATE — no orders ===== -->
+    <div id="state-empty" class="hidden p-12 text-center">
+      <div class="w-16 h-16 mx-auto bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+        <svg class="h-8 w-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">Chưa có đơn hàng nào</h3>
+      <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Khi khách hàng đặt mua, đơn hàng sẽ xuất hiện ở đây để bạn xử lý.</p>
+      <div class="flex items-center justify-center gap-2 mt-4">
+        <a href="01-home-page.html" class="h-9 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl flex items-center">Xem cửa hàng</a>
+        <button class="h-9 px-4 border border-slate-200 hover:bg-slate-50 text-sm font-semibold rounded-xl text-slate-700" onclick="showToast('Tạo đơn hàng thử nghiệm')">Tạo đơn thử</button>
+      </div>
+    </div>
+
+    <!-- ===== NO RESULTS STATE — filtered ===== -->
+    <div id="state-noresults" class="hidden p-12 text-center">
+      <div class="w-16 h-16 mx-auto bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+        <svg class="h-8 w-8 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">Không có đơn hàng khớp bộ lọc</h3>
+      <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Thử đổi từ khóa tìm kiếm hoặc xóa bớt bộ lọc đang áp dụng.</p>
+      <button class="h-9 px-4 mt-4 border border-slate-200 hover:bg-slate-50 text-sm font-semibold rounded-xl text-slate-700" onclick="showToast('Đã xóa tất cả bộ lọc')">Xóa bộ lọc</button>
+    </div>
+
+    <!-- ===== ERROR STATE ===== -->
+    <div id="state-error" class="hidden p-12 text-center">
+      <div class="w-16 h-16 mx-auto bg-red-50 rounded-2xl flex items-center justify-center mb-4">
+        <svg class="h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">Không tải được danh sách đơn hàng</h3>
+      <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Đã có lỗi khi kết nối máy chủ. Vui lòng thử lại sau giây lát.</p>
+      <button class="h-9 px-4 mt-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl inline-flex items-center gap-1.5" onclick="reloadList()">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        Thử lại
+      </button>
+    </div>
+
+    <!-- ===== PERMISSION DENIED STATE ===== -->
+    <div id="state-denied" class="hidden p-12 text-center">
+      <div class="w-16 h-16 mx-auto bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+        <svg class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">Bạn không có quyền xem đơn hàng</h3>
+      <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">Tài khoản của bạn thiếu quyền <span class="font-mono">order.view</span>. Liên hệ quản trị viên để được cấp quyền.</p>
+    </div>
+  </div>
+
+  <!-- ===== PAGINATION ===== -->
+  <div id="pagination-bar" class="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-t border-slate-100">
+    <div class="flex items-center gap-2 text-xs text-slate-500">
+      <span>Hiển thị <strong class="text-slate-700">1–20</strong> trên <strong class="text-slate-700">156</strong> đơn hàng</span>
+      <span class="text-slate-300">·</span>
+      <label class="flex items-center gap-1">Mỗi trang
+        <select class="h-7 border border-slate-200 rounded-lg text-xs px-1.5 focus:outline-none focus:border-blue-500" aria-label="Số đơn mỗi trang" onchange="showToast('Hiển thị ' + this.value + ' đơn/trang')">
+          <option>10</option><option selected>20</option><option>50</option><option>100</option>
+        </select>
+      </label>
+    </div>
+    <nav class="flex items-center gap-1" aria-label="Phân trang">
+      <button class="h-8 w-8 flex items-center justify-center border border-slate-200 rounded-lg text-slate-400 cursor-not-allowed" disabled aria-label="Trang trước">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button class="h-8 min-w-[32px] px-2 bg-blue-600 text-white rounded-lg text-sm font-semibold" aria-current="page">1</button>
+      <button class="h-8 min-w-[32px] px-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50" onclick="showToast('Tới trang 2')">2</button>
+      <button class="h-8 min-w-[32px] px-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50" onclick="showToast('Tới trang 3')">3</button>
+      <span class="px-1 text-slate-400">…</span>
+      <button class="h-8 min-w-[32px] px-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50" onclick="showToast('Tới trang 8')">8</button>
+      <button class="h-8 w-8 flex items-center justify-center border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50" aria-label="Trang sau" onclick="showToast('Tới trang 2')">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </nav>
+  </div>
+</div>
+
+<!-- Demo: state switcher (dev helper, không thuộc spec UI thật) -->
+<div class="flex flex-wrap items-center gap-2 text-xs text-slate-400 mb-2">
+  <span class="font-medium">Xem nhanh trạng thái (demo):</span>
+  <button class="px-2 py-1 border border-slate-200 rounded-lg hover:bg-white bg-white text-slate-600" onclick="setState('data')">Có dữ liệu</button>
+  <button class="px-2 py-1 border border-slate-200 rounded-lg hover:bg-white bg-white text-slate-600" onclick="setState('loading')">Loading</button>
+  <button class="px-2 py-1 border border-slate-200 rounded-lg hover:bg-white bg-white text-slate-600" onclick="setState('empty')">Trống</button>
+  <button class="px-2 py-1 border border-slate-200 rounded-lg hover:bg-white bg-white text-slate-600" onclick="setState('noresults')">Không kết quả</button>
+  <button class="px-2 py-1 border border-slate-200 rounded-lg hover:bg-white bg-white text-slate-600" onclick="setState('error')">Lỗi</button>
+  <button class="px-2 py-1 border border-slate-200 rounded-lg hover:bg-white bg-white text-slate-600" onclick="setState('denied')">Thiếu quyền</button>
+</div>
+
+</main><!-- /page content -->
+</div><!-- /admin-main -->
+</div><!-- /admin layout -->
+
+<!-- ============================================================
+     9. MORE FILTERS DRAWER
+     ============================================================ -->
+<div id="drawer-overlay" onclick="closeDrawer()"></div>
+<aside id="filter-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+  <div class="flex items-center justify-between h-16 px-5 border-b border-slate-200 shrink-0">
+    <h2 id="drawer-title" class="text-base font-bold text-slate-900">Bộ lọc nâng cao</h2>
+    <button onclick="closeDrawer()" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg" aria-label="Đóng bộ lọc">
+      <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="flex-1 overflow-y-auto p-5 space-y-5">
+    <!-- Order value range -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2">Giá trị đơn (đ)</label>
+      <div class="flex items-center gap-2">
+        <input type="number" placeholder="Từ" aria-label="Giá trị từ" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+        <span class="text-slate-400">–</span>
+        <input type="number" placeholder="Đến" aria-label="Giá trị đến" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+      </div>
+    </div>
+    <!-- Payment method -->
+    <div>
+      <label for="f-paymethod" class="block text-sm font-semibold text-slate-700 mb-2">Phương thức thanh toán</label>
+      <select id="f-paymethod" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+        <option value="">Tất cả</option><option>COD</option><option>Chuyển khoản</option><option>VNPay</option><option>MoMo</option><option>Thẻ tín dụng</option>
+      </select>
+    </div>
+    <!-- Shipping method / carrier -->
+    <div>
+      <label for="f-carrier" class="block text-sm font-semibold text-slate-700 mb-2">Đơn vị vận chuyển</label>
+      <select id="f-carrier" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+        <option value="">Tất cả</option><option>GHTK</option><option>GHN</option><option>Viettel Post</option><option>J&amp;T Express</option><option>Tự giao</option>
+      </select>
+    </div>
+    <!-- Assigned staff -->
+    <div>
+      <label for="f-staff" class="block text-sm font-semibold text-slate-700 mb-2">Nhân viên xử lý</label>
+      <select id="f-staff" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+        <option value="">Tất cả</option><option>Minh Anh</option><option>Quốc Bảo</option><option>Thu Trang</option><option>Chưa gán</option>
+      </select>
+    </div>
+    <!-- Province -->
+    <div>
+      <label for="f-city" class="block text-sm font-semibold text-slate-700 mb-2">Tỉnh / Thành phố</label>
+      <select id="f-city" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+        <option value="">Tất cả</option><option>Hà Nội</option><option>TP. Hồ Chí Minh</option><option>Đà Nẵng</option><option>Hải Phòng</option><option>Cần Thơ</option>
+      </select>
+    </div>
+    <!-- Date created -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2">Ngày đặt (tùy chọn)</label>
+      <div class="flex items-center gap-2">
+        <input type="date" aria-label="Ngày đặt từ" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+        <span class="text-slate-400">–</span>
+        <input type="date" aria-label="Ngày đặt đến" class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+      </div>
+    </div>
+    <!-- Risk flags -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2">Cờ rủi ro</label>
+      <div class="space-y-1.5">
+        <label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Đơn giá trị cao</label>
+        <label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Thanh toán lỗi</label>
+        <label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Quá hạn SLA</label>
+        <label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Thiếu tồn kho</label>
+        <label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Khách yêu cầu hủy</label>
+        <label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Lỗi giao hàng</label>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center gap-2 p-4 border-t border-slate-200 shrink-0">
+    <button onclick="showToast('Đã đặt lại bộ lọc nâng cao')" class="flex-1 h-10 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50">Đặt lại</button>
+    <button onclick="closeDrawer(); showToast('Đã áp dụng bộ lọc')" class="flex-1 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold">Áp dụng</button>
+  </div>
+</aside>
+
+<!-- ============================================================
+     10. CONFIRM MODAL (action nguy hiểm — theo spec 2.4 / 25)
+     ============================================================ -->
+<div id="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+    <div class="flex items-start gap-3 mb-4">
+      <div id="confirm-icon-wrap" class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+        <svg id="confirm-icon" class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <div class="min-w-0">
+        <h3 id="confirm-title" class="text-base font-bold text-slate-900"></h3>
+        <p id="confirm-msg" class="text-sm text-slate-500 mt-1"></p>
+      </div>
+    </div>
+    <!-- Dynamic form fields per action -->
+    <div id="confirm-fields" class="space-y-3 mb-4"></div>
+    <div class="flex gap-2 justify-end">
+      <button id="btn-cancel-confirm" class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">Hủy</button>
+      <button id="btn-confirm-action" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     11. TOAST
+     ============================================================ -->
+<div id="toast" role="status" aria-live="polite">
+  <div class="flex items-center gap-2.5 bg-slate-900 text-white text-sm font-medium px-4 py-3 rounded-2xl shadow-xl max-w-xs">
+    <svg class="h-4 w-4 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+    <span id="toast-msg"></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     12. SCRIPTS
+     ============================================================ -->
+<script>
+(function() {
+  // ---- Sidebar toggle (mobile) ----
+  var sidebar = document.getElementById('admin-sidebar');
+  var overlay = document.getElementById('sidebar-overlay');
+  var btnMenu = document.getElementById('btn-menu');
+  function openSidebar() { if (sidebar && overlay) { sidebar.classList.add('open'); overlay.classList.add('show'); } }
+  function closeSidebar() { if (sidebar && overlay) { sidebar.classList.remove('open'); overlay.classList.remove('show'); } }
+  window.closeSidebar = closeSidebar;
+  if (btnMenu) btnMenu.addEventListener('click', openSidebar);
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+
+  // ---- Toast ----
+  var toastEl = document.getElementById('toast');
+  var toastMsg = document.getElementById('toast-msg');
+  var toastTimer = null;
+  window.showToast = function(msg) {
+    if (!toastEl || !toastMsg) return;
+    toastMsg.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { toastEl.classList.remove('show'); }, 3000);
+  };
+
+  // ---- Navigate to detail when clicking a row (ignore inner controls) ----
+  window.goDetail = function(e) {
+    if (e.target.closest('button, a, input, .row-menu')) return;
+    window.location.href = '12b-admin-order-detail.html';
+  };
+
+  // ---- Search clear button ----
+  var search = document.getElementById('order-search');
+  var clearBtn = document.getElementById('search-clear');
+  if (search && clearBtn) {
+    search.addEventListener('input', function() { clearBtn.classList.toggle('hidden', !this.value); });
+    clearBtn.addEventListener('click', function() { search.value = ''; clearBtn.classList.add('hidden'); search.focus(); });
+  }
+
+  // ---- Quick tabs ----
+  window.selectTab = function(el, label) {
+    document.querySelectorAll('.qtab').forEach(function(t) { t.classList.remove('is-active'); });
+    el.classList.add('is-active');
+    showToast('Lọc nhanh: ' + label);
+  };
+
+  // ---- Filter dropdowns (popover) ----
+  function closeAllDropdowns(except) {
+    document.querySelectorAll('.dropdown-panel.open').forEach(function(p) { if (p !== except) p.classList.remove('open'); });
+  }
+  document.querySelectorAll('.dd-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var panel = document.getElementById(this.dataset.dd);
+      if (!panel) return;
+      var isOpen = panel.classList.contains('open');
+      closeAllDropdowns(panel);
+      panel.classList.toggle('open', !isOpen);
+    });
+  });
+  document.querySelectorAll('.dd-opt').forEach(function(opt) {
+    opt.addEventListener('click', function() {
+      var panel = this.closest('.dropdown-panel');
+      var btn = document.querySelector('.dd-btn[data-dd="' + panel.id + '"]');
+      var label = btn ? btn.querySelector('.dd-label') : null;
+      if (label) label.textContent = this.textContent.trim();
+      if (btn) btn.classList.toggle('text-blue-700', !!this.dataset.value);
+      panel.classList.remove('open');
+      showToast('Lọc: ' + this.textContent.trim());
+    });
+  });
+  document.addEventListener('click', function() { closeAllDropdowns(null); closeAllRowMenus(null); });
+
+  // ---- Row action menus ----
+  function closeAllRowMenus(except) {
+    document.querySelectorAll('.row-menu.open').forEach(function(m) { if (m !== except) m.classList.remove('open'); });
+  }
+  document.querySelectorAll('.row-menu-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var menu = this.parentElement.querySelector('.row-menu');
+      if (!menu) return;
+      var isOpen = menu.classList.contains('open');
+      closeAllRowMenus(menu);
+      menu.classList.toggle('open', !isOpen);
+    });
+  });
+
+  // ---- Row selection + bulk bar ----
+  var checkAll = document.getElementById('check-all');
+  var bulkBar = document.getElementById('bulk-bar');
+  var bulkCount = document.getElementById('bulk-count');
+  function rowChecks() { return Array.prototype.slice.call(document.querySelectorAll('.row-check')); }
+  function updateBulk() {
+    var checked = rowChecks().filter(function(c) { return c.checked; });
+    rowChecks().forEach(function(c) {
+      var tr = c.closest('tr');
+      if (tr) tr.classList.toggle('row-selected', c.checked);
+    });
+    if (bulkCount) bulkCount.textContent = checked.length;
+    if (bulkBar) bulkBar.classList.toggle('show', checked.length > 0);
+    if (checkAll) {
+      checkAll.checked = checked.length > 0 && checked.length === rowChecks().length;
+      checkAll.indeterminate = checked.length > 0 && checked.length < rowChecks().length;
+    }
+  }
+  rowChecks().forEach(function(c) { c.addEventListener('change', updateBulk); });
+  if (checkAll) checkAll.addEventListener('change', function() {
+    rowChecks().forEach(function(c) { c.checked = checkAll.checked; });
+    updateBulk();
+  });
+  window.clearSelection = function() {
+    rowChecks().forEach(function(c) { c.checked = false; });
+    if (checkAll) { checkAll.checked = false; checkAll.indeterminate = false; }
+    updateBulk();
+  };
+
+  // ---- More filters drawer ----
+  var drawer = document.getElementById('filter-drawer');
+  var drawerOverlay = document.getElementById('drawer-overlay');
+  var btnMore = document.getElementById('btn-more-filters');
+  window.closeDrawer = function() { if (drawer && drawerOverlay) { drawer.classList.remove('open'); drawerOverlay.classList.remove('show'); } };
+  if (btnMore) btnMore.addEventListener('click', function() { if (drawer && drawerOverlay) { drawer.classList.add('open'); drawerOverlay.classList.add('show'); } });
+
+  // ---- Confirm modal (theo state machine — mỗi action có form riêng) ----
+  var currentAction = null;
+  var confirmOverlay = document.getElementById('confirm-overlay');
+  var confirmTitle = document.getElementById('confirm-title');
+  var confirmMsg = document.getElementById('confirm-msg');
+  var confirmFields = document.getElementById('confirm-fields');
+  var confirmIconWrap = document.getElementById('confirm-icon-wrap');
+  var confirmIcon = document.getElementById('confirm-icon');
+  var btnConfirmAction = document.getElementById('btn-confirm-action');
+  var btnCancelConfirm = document.getElementById('btn-cancel-confirm');
+
+  var sel = 'class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"';
+  var inp = 'class="w-full h-9 px-3 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"';
+  var ta  = 'class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500" rows="2"';
+
+  var ACTIONS = {
+    'confirm': { title:'Xác nhận đơn hàng?', msg:'Đơn sẽ chuyển sang "Đã xác nhận" và sẵn sàng để kho đóng gói.', btn:'Xác nhận đơn', tone:'blue', done:'Đã xác nhận đơn hàng',
+      fields:'<label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú nội bộ (tùy chọn)</label><textarea '+ta+' placeholder="VD: Đã gọi khách xác nhận, giao buổi chiều..."></textarea>' },
+    'mark-paid': { title:'Đánh dấu đã thanh toán?', msg:'Đây là thao tác nhạy cảm. Hãy đối soát kỹ trước khi xác nhận. Hệ thống sẽ ghi audit log.', btn:'Xác nhận đã TT', tone:'amber', done:'Đã ghi nhận thanh toán',
+      fields:'<div class="grid grid-cols-2 gap-2"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Số tiền *</label><input type="text" '+inp+' value="30.980.000đ"></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Ngày thanh toán *</label><input type="date" '+inp+' value="2026-06-22"></div></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Phương thức</label><select '+sel+'><option>Chuyển khoản</option><option>COD</option><option>VNPay</option><option>Tiền mặt</option></select></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Mã giao dịch (tùy chọn)</label><input type="text" '+inp+' placeholder="VD: FT202606220001"></div>' },
+    'delivered': { title:'Đánh dấu đã giao thành công?', msg:'Xác nhận khách đã nhận hàng. Với đơn COD, có thể đồng thời ghi nhận đã thu tiền.', btn:'Đã giao', tone:'blue', done:'Đã cập nhật: giao thành công',
+      fields:'<label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Đồng thời ghi nhận đã thu tiền COD</label>' },
+    'cancel': { title:'Hủy đơn hàng này?', msg:'Thao tác này không thể hoàn tác trực tiếp. Nếu đơn đã thanh toán, cần xử lý hoàn tiền riêng.', btn:'Hủy đơn', tone:'red', done:'Đã hủy đơn hàng',
+      fields:'<div><label class="block text-xs font-semibold text-slate-600 mb-1">Lý do hủy *</label><select '+sel+'><option value="">— Chọn lý do —</option><option>Khách yêu cầu</option><option>Quá hạn thanh toán</option><option>Hết hàng</option><option>Sai địa chỉ</option><option>Đơn trùng</option><option>Nghi ngờ gian lận</option><option>Khác</option></select></div>'+
+             '<label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Hoàn trả hàng về kho (restock)</label>'+
+             '<label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4" checked> Gửi thông báo cho khách</label>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Ghi chú</label><textarea '+ta+' placeholder="Ghi chú nội bộ..."></textarea></div>' },
+    'refund': { title:'Hoàn tiền cho đơn này?', msg:'Thao tác nhạy cảm, sẽ ghi audit log. Số tiền hoàn không vượt quá số đã thanh toán.', btn:'Tạo yêu cầu hoàn tiền', tone:'red', done:'Đã tạo yêu cầu hoàn tiền',
+      fields:'<div class="grid grid-cols-2 gap-2"><div><label class="block text-xs font-semibold text-slate-600 mb-1">Số tiền hoàn *</label><input type="text" '+inp+' placeholder="0đ"></div><div><label class="block text-xs font-semibold text-slate-600 mb-1">Phương thức</label><select '+sel+'><option>Chuyển khoản</option><option>Cổng thanh toán</option><option>Tiền mặt</option></select></div></div>'+
+             '<div><label class="block text-xs font-semibold text-slate-600 mb-1">Lý do hoàn *</label><select '+sel+'><option value="">— Chọn lý do —</option><option>Khách trả hàng</option><option>Lỗi sản phẩm</option><option>Hoàn một phần</option><option>Khác</option></select></div>'+
+             '<label class="flex items-center gap-2.5 px-3 py-2 border border-slate-200 rounded-xl text-sm cursor-pointer hover:bg-slate-50"><input type="checkbox" class="accent-blue-600 w-4 h-4"> Hoàn hàng về kho</label>' },
+    'bulk-confirm': { title:'Xác nhận các đơn đã chọn?', msg:'Chỉ những đơn đang ở trạng thái "Chờ xác nhận" sẽ được xử lý. Các đơn không hợp lệ sẽ được báo lại.', btn:'Xác nhận tất cả', tone:'blue', done:'Đã xác nhận các đơn hợp lệ' },
+    'bulk-pack': { title:'Chuyển sang đóng gói?', msg:'Chỉ những đơn đã xác nhận và đã giữ hàng mới được chuyển sang đóng gói.', btn:'Đóng gói tất cả', tone:'blue', done:'Đã chuyển các đơn hợp lệ sang đóng gói' },
+    'bulk-cancel': { title:'Hủy các đơn đã chọn?', msg:'Đây là thao tác nguy hiểm. Đơn đã thanh toán cần xử lý hoàn tiền riêng. Đơn đã giao không thể hủy.', btn:'Hủy các đơn', tone:'red', done:'Đã hủy các đơn hợp lệ',
+      fields:'<div><label class="block text-xs font-semibold text-slate-600 mb-1">Lý do hủy *</label><select '+sel+'><option value="">— Chọn lý do —</option><option>Khách yêu cầu</option><option>Quá hạn thanh toán</option><option>Hết hàng</option><option>Khác</option></select></div>' }
+  };
+  var TONES = {
+    blue:  { wrap:'bg-blue-50',  ic:'#2563eb', btn:'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors' },
+    amber: { wrap:'bg-amber-50', ic:'#d97706', btn:'px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-sm font-semibold transition-colors' },
+    red:   { wrap:'bg-red-50',   ic:'#dc2626', btn:'px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-colors' }
+  };
+  window.openConfirm = function(action) {
+    closeAllRowMenus(null);
+    var cfg = ACTIONS[action]; if (!cfg) return;
+    currentAction = cfg;
+    var n = document.querySelectorAll('.row-check:checked').length;
+    confirmTitle.textContent = cfg.title;
+    confirmMsg.textContent = (action.indexOf('bulk') === 0 ? ('Ảnh hưởng ' + n + ' đơn. ') : '') + cfg.msg;
+    confirmFields.innerHTML = cfg.fields || '';
+    confirmFields.style.display = cfg.fields ? '' : 'none';
+    btnConfirmAction.textContent = cfg.btn;
+    var tone = TONES[cfg.tone] || TONES.blue;
+    btnConfirmAction.className = tone.btn;
+    confirmIconWrap.className = 'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ' + tone.wrap;
+    confirmIcon.style.color = tone.ic;
+    if (confirmOverlay) confirmOverlay.classList.add('show');
+  };
+  function closeConfirm() { if (confirmOverlay) confirmOverlay.classList.remove('show'); currentAction = null; }
+  if (btnConfirmAction) btnConfirmAction.addEventListener('click', function() {
+    var msg = currentAction ? currentAction.done : 'Hoàn tất';
+    closeConfirm();
+    showToast(msg);
+  });
+  if (btnCancelConfirm) btnCancelConfirm.addEventListener('click', closeConfirm);
+  if (confirmOverlay) confirmOverlay.addEventListener('click', function(e) { if (e.target === this) closeConfirm(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeConfirm(); closeDrawer(); closeAllDropdowns(null); closeAllRowMenus(null); } });
+
+  // ---- Demo state switcher ----
+  var table = document.querySelector('.otable');
+  var cards = document.getElementById('order-cards');
+  var pager = document.getElementById('pagination-bar');
+  var states = { loading:'state-loading', empty:'state-empty', noresults:'state-noresults', error:'state-error', denied:'state-denied' };
+  window.setState = function(name) {
+    Object.keys(states).forEach(function(k) { var el = document.getElementById(states[k]); if (el) el.classList.add('hidden'); });
+    var showData = (name === 'data');
+    if (table) table.style.display = showData ? '' : 'none';
+    if (cards) cards.style.display = showData ? '' : 'none';
+    if (pager) pager.style.display = (showData || name === 'noresults') ? '' : 'none';
+    if (!showData && states[name]) { var el = document.getElementById(states[name]); if (el) el.classList.remove('hidden'); }
+    if (name === 'data') showToast('Đã tải danh sách đơn hàng');
+  };
+  window.reloadList = function() { setState('loading'); setTimeout(function() { setState('data'); }, 1200); };
+
+  // init
+  updateBulk();
+})();
+</script>
+
+</body>
+</html>

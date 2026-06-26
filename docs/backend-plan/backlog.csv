@@ -1,0 +1,147 @@
+Work item ID,Parent,External Task ID,Work type,Summary,Description,Acceptance Criteria,Priority,Story point estimate,Module,Dependency Codes,Responsible Role,Phase,Planned Sprint,Status
+1,,EPIC-00,Epic,Foundation & DevOps,"Dung nen tang du an, DevOps, chuan code, response/exception envelope",Hoan thanh toan bo task con cua epic va dat Definition of Done,Highest,,Foundation,,Lead,Phase 0,,Backlog
+2,,EPIC-01,Epic,Auth & User Management,"Xac thuc JWT, phan quyen RBAC, ho so, so dia chi",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,IAM,EPIC-00,Lead,Phase 1,,Backlog
+3,,EPIC-02,Epic,Catalog: Category & Brand,Quan ly danh muc long nhau va thuong hieu,Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Catalog,EPIC-00,Lead,Phase 1,,Backlog
+4,,EPIC-03,Epic,Catalog: Product / Image / Variant,"Quan ly san pham, anh, bien the",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Catalog,EPIC-02,Lead,Phase 1,,Backlog
+5,,EPIC-04,Epic,Attribute Template & Specs,He thong thuoc tinh dong dac thu nganh dien tu,Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Attribute,EPIC-03,Lead,Phase 1,,Backlog
+6,,EPIC-05,Epic,Inventory Management,"Quan ly ton kho, reserve/release, stock movement",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Inventory,EPIC-03,Lead,Phase 1,,Backlog
+7,,EPIC-06,Epic,Cart,Gio hang guest (Redis) va user (DB),Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Cart,EPIC-03;EPIC-01,Lead,Phase 1,,Backlog
+8,,EPIC-07,Epic,Promotion & Pricing,"Coupon, khuyen mai, pricing engine",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Promotion,EPIC-03,Lead,Phase 1,,Backlog
+9,,EPIC-08,Epic,Order Management,"Tao don tu gio, state machine, lich su trang thai",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Order,EPIC-05;EPIC-06;EPIC-07,Lead,Phase 1,,Backlog
+10,,EPIC-09,Epic,Payment (COD + chuyen khoan),Thanh toan COD va chuyen khoan theo Strategy,Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Payment,EPIC-08,Lead,Phase 1,,Backlog
+11,,EPIC-10,Epic,Admin API & Dashboard,API quan tri va metric dashboard,Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Admin,EPIC-03;EPIC-08,Lead,Phase 1,,Backlog
+12,,EPIC-11,Epic,Search & Filter (DB-based),Tim kiem va loc dong dua tren PostgreSQL,Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Search,EPIC-04,Lead,Phase 1,,Backlog
+13,,EPIC-12,Epic,Search nang cao (Elasticsearch),"Tim kiem ES, facet, reindex",Hoan thanh toan bo task con cua epic va dat Definition of Done,Medium,,Search,EPIC-11,Lead,Phase 2,,Backlog
+14,,EPIC-13,Epic,Cong thanh toan online,"VNPay, MoMo, webhook HMAC, refund",Hoan thanh toan bo task con cua epic va dat Definition of Done,Medium,,Payment,EPIC-09,Lead,Phase 2,,Backlog
+15,,EPIC-14,Epic,Reviews & Ratings,"Danh gia, xep hang, kiem duyet",Hoan thanh toan bo task con cua epic va dat Definition of Done,Medium,,Review,EPIC-08,Lead,Phase 2,,Backlog
+16,,EPIC-15,Epic,Notification (async),Email/SMS qua RabbitMQ + outbox,Hoan thanh toan bo task con cua epic va dat Definition of Done,Medium,,Notification,EPIC-08,Lead,Phase 2,,Backlog
+17,,EPIC-16,Epic,Shipping integration,Tinh phi ship va tich hop hang van chuyen,Hoan thanh toan bo task con cua epic va dat Definition of Done,Medium,,Shipping,EPIC-08,Lead,Phase 2,,Backlog
+18,,EPIC-17,Epic,Analytics & Reporting,Thu thap su kien va bao cao,Hoan thanh toan bo task con cua epic va dat Definition of Done,Low,,Analytics,EPIC-08,Lead,Phase 2,,Backlog
+19,,EPIC-18,Epic,Personalization,"Wishlist, so sanh, goi y san pham",Hoan thanh toan bo task con cua epic va dat Definition of Done,Low,,Personalization,EPIC-03,Lead,Phase 2,,Backlog
+20,,EPIC-19,Epic,Security hardening,"Rate limit, OWASP, secret/TLS, PII/GDPR",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,Security,EPIC-01,Lead,Phase 1,,Backlog
+21,,EPIC-20,Epic,Performance & Observability,"Cache, index, metrics, tracing, load test",Hoan thanh toan bo task con cua epic va dat Definition of Done,Medium,,Platform,EPIC-00,Lead,Phase 2,,Backlog
+22,,EPIC-21,Epic,Testing & Release,"Test, UAT, release production",Hoan thanh toan bo task con cua epic va dat Definition of Done,High,,QA,,Lead,Phase 1,,Backlog
+23,1,ECM-001,Task,Khoi tao project Spring Boot 3 / Java 21,"Khoi tao project Maven, Spring Boot 3.3+, Java 21; cau truc package theo module domain (iam/catalog/attribute/inventory/cart/promotion/order/payment/search/admin/notification)",Project build chay duoc; cau truc package dung chuan; co README ky thuat,Highest,3,Foundation,,Lead,Phase 0,Sprint 0,Backlog
+24,1,ECM-002,Task,Cau hinh profile va externalized config,Profile local/dev/staging/prod; tach config theo application-{env}.yml; secret qua bien moi truong,Chay duoc tung profile; khong co secret trong source,Highest,2,Foundation,ECM-001,Lead,Phase 0,Sprint 0,Backlog
+25,1,ECM-003,Task,Docker compose moi truong local,docker-compose dung PostgreSQL 16 + Redis 7 cho local dev,docker-compose up chay duoc PG+Redis; app ket noi thanh cong,Highest,3,Foundation,ECM-001,DevOps,Phase 0,Sprint 0,Backlog
+26,1,ECM-004,Task,Tich hop Flyway + migration baseline,Cau hinh Flyway; migration baseline; quy uoc dat ten V<timestamp>__mo_ta,Flyway chay khi khoi dong; baseline ap dung; tai lieu quy uoc,Highest,2,Foundation,ECM-003,BE,Phase 0,Sprint 0,Backlog
+27,1,ECM-005,Task,GlobalExceptionHandler + ApiResponse envelope,Envelope ApiResponse<T> thong nhat; bo ErrorCode chuan; map exception -> response,Moi loi tra dung format envelope; HTTP status chuan,Highest,3,Foundation,ECM-001,Lead,Phase 0,Sprint 0,Backlog
+28,1,ECM-006,Task,Cau hinh OpenAPI/Swagger,springdoc-openapi + Swagger UI; nhom tag theo module,Swagger UI truy cap duoc; endpoint hien thi day du,Highest,2,Foundation,ECM-005,BE,Phase 0,Sprint 0,Backlog
+29,1,ECM-007,Task,Structured logging + correlation id,Logging JSON; filter sinh/forward correlation-trace id,Log co trace id xuyen request; khong log du lieu nhay cam,High,2,Foundation,ECM-001,BE,Phase 0,Sprint 0,Backlog
+30,1,ECM-008,Task,CI pipeline GitHub Actions,Build + test + format check + dependency scan moi PR,PR chay CI tu dong; chan merge khi fail,Highest,3,Foundation,ECM-001,DevOps,Phase 0,Sprint 0,Backlog
+31,1,ECM-009,Task,BaseEntity + JPA Auditing,BaseEntity (created_at/updated_at/created_by/updated_by); bat JPA Auditing,Entity ke thua co audit fields tu dong dien,High,2,Foundation,ECM-004,BE,Phase 0,Sprint 0,Backlog
+32,1,ECM-010,Task,Spotless + Checkstyle + SonarQube gate,Cau hinh format/style; quality gate coverage tren Sonar,CI fail neu sai format/style hoac duoi nguong coverage,High,2,Foundation,ECM-008,DevOps,Phase 0,Sprint 0,Backlog
+33,1,ECM-011,Task,Actuator health + base metrics,Spring Actuator: health/readiness/liveness + metrics co ban,Endpoint health tra UP; readiness/liveness hoat dong,High,2,Foundation,ECM-001,BE,Phase 0,Sprint 0,Backlog
+34,2,ECM-012,Task,Entity User/Role/UserProfile + migration,"Entity User, Role, UserProfile + migration Flyway",Tao bang dung schema; quan he 1-1 User-Profile,High,3,IAM,ECM-009,BE,Phase 1,Sprint 1,Backlog
+35,2,ECM-013,Story,API dang ky + hash mat khau,POST /auth/register; hash BCrypt/Argon2,Dang ky thanh cong; mat khau khong luu tho; email trung bao loi,High,3,IAM,ECM-012,BE,Phase 1,Sprint 1,Backlog
+36,2,ECM-014,Story,API dang nhap + phat hanh JWT,POST /auth/login; phat hanh JWT access (ngan) + refresh token,Dang nhap dung tra token; sai mat khau tra 401 khong lo thong tin,High,5,IAM,ECM-013,BE-Sr,Phase 1,Sprint 1,Backlog
+37,2,ECM-015,Task,SecurityConfig + JWT filter + RBAC,SecurityConfig; JWT filter; method security @PreAuthorize theo role,Endpoint admin chan neu thieu role; token het han bi tu choi,High,5,IAM,ECM-014,BE-Sr,Phase 1,Sprint 1,Backlog
+38,2,ECM-016,Story,API refresh token + logout,POST /auth/refresh; luu/thu hoi refresh token tren Redis; logout,Refresh cap access moi; logout vo hieu refresh token,High,3,IAM,ECM-014,BE,Phase 1,Sprint 1,Backlog
+39,2,ECM-017,Story,API ho so nguoi dung,GET/PUT /users/me,Lay/cap nhat ho so chinh chu; khong sua duoc ho so nguoi khac,High,2,IAM,ECM-012,BE,Phase 1,Sprint 1,Backlog
+40,2,ECM-018,Story,CRUD so dia chi,CRUD addresses; mac dinh shipping/billing; is_default,Them/sua/xoa dia chi; chi 1 dia chi mac dinh moi loai,High,3,IAM,ECM-012,BE,Phase 1,Sprint 1,Backlog
+41,2,ECM-019,Story,Quen/dat lai mat khau qua email,POST /auth/reset-password; token qua email co han,Gui email reset; token het han khong dung duoc,Medium,3,IAM,ECM-013,BE,Phase 1,Sprint 1,Backlog
+42,2,ECM-020,Task,Seed role + admin mac dinh,Seed cac role + tai khoan admin mac dinh,Co san role va 1 admin de dang nhap quan tri,High,1,IAM,ECM-012,BE,Phase 1,Sprint 1,Backlog
+43,3,ECM-021,Task,Entity Category + Brand + migration,Category (parent_id self-ref) + Brand + migration,Tao bang Category/Brand; ho tro danh muc long nhau,High,3,Catalog,ECM-009,BE,Phase 1,Sprint 1,Backlog
+44,3,ECM-022,Story,CRUD Category (admin),CRUD danh muc; validate chong vong lap parent,Tao/sua/xoa danh muc; khong tao duoc vong lap parent,High,3,Catalog,ECM-021,BE,Phase 1,Sprint 1,Backlog
+45,3,ECM-023,Story,API cay danh muc (public),GET /categories tra cau truc long nhau,Tra cay danh muc nhieu cap dung thu tu,High,2,Catalog,ECM-021,BE,Phase 1,Sprint 1,Backlog
+46,3,ECM-024,Story,CRUD Brand + API list,CRUD brand (admin) + list brand (public),Quan ly brand; public lay duoc danh sach brand,High,2,Catalog,ECM-021,BE,Phase 1,Sprint 1,Backlog
+47,3,ECM-025,Task,Tien ich sinh slug unique,Util sinh slug + dam bao unique cho Category/Brand/Product,"Slug khong dau, unique, on dinh; trung thi them hau to",High,2,Catalog,ECM-021,BE,Phase 1,Sprint 1,Backlog
+48,4,ECM-026,Task,Entity Product + migration,"Product (gia, status, SEO fields) + migration",Tao bang product; gia NUMERIC; co status soft-delete,High,3,Catalog,ECM-021,BE,Phase 1,Sprint 2,Backlog
+49,4,ECM-027,Story,ProductImage + upload anh,ProductImage; upload MinIO/local; anh chinh + sort_order,Upload nhieu anh; co anh chinh bat buoc; sap xep duoc,High,5,Catalog,ECM-026,BE,Phase 1,Sprint 2,Backlog
+50,4,ECM-028,Task,ProductVariant + migration,"ProductVariant (JSONB attribute_values, SKU, price_override)",Tao variant; SKU unique; gia override hop le,High,5,Catalog,ECM-026,BE-Sr,Phase 1,Sprint 2,Backlog
+51,4,ECM-029,Story,API tao/sua san pham (admin),Tao/sua san pham kem anh + variant trong transaction,Tao san pham day du anh+variant; rollback neu loi giua chung,High,5,Catalog,ECM-028,BE-Sr,Phase 1,Sprint 2,Backlog
+52,4,ECM-030,Story,API chi tiet san pham (public),GET /products/{id|slug} gom specs + variants,Tra chi tiet day du; san pham an khong hien public,High,3,Catalog,ECM-029,BE,Phase 1,Sprint 2,Backlog
+53,4,ECM-031,Story,API danh sach san pham (public),List + phan trang + sort + filter co ban,Phan trang dung; sort theo gia/moi; loc co ban hoat dong,High,3,Catalog,ECM-026,BE,Phase 1,Sprint 2,Backlog
+54,4,ECM-032,Story,An/xoa mem san pham (admin),Cap nhat status de an/xoa mem,An san pham khoi storefront nhung giu lich su don,High,2,Catalog,ECM-026,BE,Phase 1,Sprint 2,Backlog
+55,4,ECM-033,Task,SEO fields + validate SKU/slug unique,Canonical slug; meta; validate SKU/slug unique,SKU/slug trung bao loi ro rang; co canonical,Medium,2,Catalog,ECM-025,BE,Phase 1,Sprint 2,Backlog
+56,5,ECM-034,Task,Entity AttributeGroup/Definition/Option,"AttributeGroup, AttributeDefinition (data_type, unit, flags), AttributeOption + migration",Tao bang attribute; ho tro type TEXT/SELECT/NUMBER/COLOR/BOOLEAN,High,5,Attribute,ECM-009,BE-Sr,Phase 1,Sprint 2,Backlog
+57,5,ECM-035,Task,Entity AttributeTemplate + mapping,AttributeTemplate + template_attributes + category_attribute_template,Template gan duoc nhieu attribute; gan duoc cho category,High,3,Attribute,ECM-034,BE,Phase 1,Sprint 2,Backlog
+58,5,ECM-036,Task,Entity ProductAttributeValue,ProductAttributeValue (value + value_number) gan cho san pham,Luu gia tri spec; value_number phuc vu loc range,High,5,Attribute,ECM-034;ECM-026,BE-Sr,Phase 1,Sprint 3,Backlog
+59,5,ECM-037,Story,CRUD Attribute Template (admin),Quan ly group/attribute/type/flags filterable-comparable-quick_spec,Tao/sua template day du; set duoc cac flag,High,5,Attribute,ECM-035,BE,Phase 1,Sprint 3,Backlog
+60,5,ECM-038,Story,Gan template cho category (admin),Gan AttributeTemplate cho danh muc,Category nhan dung bo attribute tu template,High,2,Attribute,ECM-035,BE,Phase 1,Sprint 3,Backlog
+61,5,ECM-039,Story,API specs san pham dang group,Tra specs theo group cho trang chi tiet,Specs nhom dung; co label+value; thieu thi an group,High,3,Attribute,ECM-036,BE,Phase 1,Sprint 3,Backlog
+62,5,ECM-040,Story,API metadata filter theo category,Tra attribute filterable/comparable/quick_spec theo category,FE render filter dong theo metadata tra ve,High,3,Attribute,ECM-036,BE,Phase 1,Sprint 3,Backlog
+63,5,ECM-041,Task,Seed Laptop Attribute Template,Seed template Laptop day du (CPU/RAM/SSD/Display/GPU/Warranty...),Co san template laptop dung de tao san pham mau,High,3,Attribute,ECM-037,BE,Phase 1,Sprint 3,Backlog
+64,6,ECM-042,Task,Entity Warehouse/InventoryItem/StockMovement,"Warehouse, InventoryItem (@Version), StockMovement + migration",Tao bang ton kho; co cot version cho optimistic lock,High,3,Inventory,ECM-028,BE,Phase 1,Sprint 3,Backlog
+65,6,ECM-043,Story,API truy van ton kho,Truy van ton kho theo san pham/bien the,Tra so luong available/reserved dung,High,2,Inventory,ECM-042,BE,Phase 1,Sprint 3,Backlog
+66,6,ECM-044,Task,Reserve ton kho atomic chong oversell,Reserve atomic + optimistic lock + retry; chong ban am,Test dong thoi N request mua 1 san pham con 1: dung 1 thanh cong; con lai 409,Highest,8,Inventory,ECM-042,BE-Sr,Phase 1,Sprint 3,Backlog
+67,6,ECM-045,Task,Release ton kho,Release khi huy don / thanh toan fail / het han giu,Release tra dung so luong; ghi StockMovement RELEASE,High,3,Inventory,ECM-044,BE-Sr,Phase 1,Sprint 3,Backlog
+68,6,ECM-046,Story,Nhap/dieu chinh ton kho (admin),Adjust/import + ghi StockMovement,Moi thay doi ton kho deu co movement log; khong sua truc tiep,High,3,Inventory,ECM-042,BE,Phase 1,Sprint 3,Backlog
+69,6,ECM-047,Story,Low-stock threshold + canh bao,Nguong sap het hang + co canh bao,San pham duoi nguong duoc danh dau sap het hang,Medium,2,Inventory,ECM-042,BE,Phase 1,Sprint 3,Backlog
+70,7,ECM-048,Task,Mo hinh Cart guest + user,Cart/CartItem: guest tren Redis (TTL) + user tren DB,Guest co gio tren Redis het han dung; user luu DB,High,5,Cart,ECM-030;ECM-015,BE-Sr,Phase 1,Sprint 4,Backlog
+71,7,ECM-049,Story,API xem gio hang,GET /cart: item + tam tinh + thue + phi ship uoc tinh,Tra dung tong tam tinh; phan biet guest/user,High,3,Cart,ECM-048,BE,Phase 1,Sprint 4,Backlog
+72,7,ECM-050,Story,API them item vao gio,POST /cart/items; validate ton kho + variant,Them dung item; vuot ton kho bao loi; variant bat buoc,High,3,Cart,ECM-048,BE,Phase 1,Sprint 4,Backlog
+73,7,ECM-051,Story,API cap nhat so luong,PATCH /cart/items/{id},Cap nhat so luong; <=0 thi xoa hoac bao loi,High,2,Cart,ECM-048,BE,Phase 1,Sprint 4,Backlog
+74,7,ECM-052,Story,API xoa item,DELETE /cart/items/{id},Xoa dung item khoi gio,High,1,Cart,ECM-048,BE,Phase 1,Sprint 4,Backlog
+75,7,ECM-053,Story,Merge gio guest sang user,Merge gio guest vao user khi dang nhap,Dang nhap gop dung item; cong don so luong trung,High,3,Cart,ECM-048,BE,Phase 1,Sprint 4,Backlog
+76,8,ECM-054,Task,Entity Coupon + redemptions,Coupon + coupon_redemptions + migration,Tao bang coupon; theo doi luot dung theo user,High,3,Promotion,ECM-009,BE,Phase 1,Sprint 4,Backlog
+77,8,ECM-055,Task,Entity Promotion + promotion_products,Promotion + promotion_products + migration,Tao bang promotion; gan duoc san pham,Medium,3,Promotion,ECM-026,BE,Phase 1,Sprint 4,Backlog
+78,8,ECM-056,Story,API ap ma giam gia,"POST /coupons/apply + rule validate (min order, han, usage limit, usage per user)",Ma hop le ap dung; het han/vuot luot bao loi ro rang,High,5,Promotion,ECM-054,BE-Sr,Phase 1,Sprint 4,Backlog
+79,8,ECM-057,Task,Pricing Engine,Tinh subtotal/discount/shipping/tax/total + thu tu uu tien khuyen mai,Tong tien tinh dung; thu tu uu tien KM ro rang; co test,High,5,Promotion,ECM-056,BE-Sr,Phase 1,Sprint 4,Backlog
+80,8,ECM-058,Story,API danh sach khuyen mai (public),GET /promotions hien hanh,Tra cac chuong trinh con hieu luc,Medium,2,Promotion,ECM-055,BE,Phase 1,Sprint 4,Backlog
+81,8,ECM-059,Story,CRUD coupon/promotion (admin),Quan ly coupon va promotion,"Tao/sua/xoa coupon, promotion; validate gia tri",High,3,Promotion,ECM-054,BE,Phase 1,Sprint 4,Backlog
+82,9,ECM-060,Task,Entity Order/OrderItem/StatusHistory,"Order, OrderItem (snapshot), OrderStatusHistory + migration",Tao bang don hang; OrderItem co snapshot ten/gia,High,3,Order,ECM-009;ECM-026,BE,Phase 1,Sprint 5,Backlog
+83,9,ECM-061,Story,Tao don tu gio hang,Transaction: reserve ton kho + snapshot gia + ap coupon + tinh total,Loi bat ky buoc nao -> rollback toan bo; gia snapshot bat bien,Highest,8,Order,ECM-044;ECM-057;ECM-048,BE-Sr,Phase 1,Sprint 5,Backlog
+84,9,ECM-062,Story,API chi tiet don,GET /orders/{id},Tra chi tiet don cho chu don/admin,High,2,Order,ECM-060,BE,Phase 1,Sprint 5,Backlog
+85,9,ECM-063,Story,API lich su don cua khach,GET /orders?customer_id=me,Khach xem duoc lich su don cua minh,High,2,Order,ECM-060,BE,Phase 1,Sprint 5,Backlog
+86,9,ECM-064,Task,Cap nhat trang thai don + state machine,Update status (admin) + state machine hop le + ghi history,Chi cho phep chuyen trang thai hop le; ghi OrderStatusHistory,High,5,Order,ECM-060,BE-Sr,Phase 1,Sprint 5,Backlog
+87,9,ECM-065,Story,Huy don + release ton kho,Huy don + release ton kho + ghi ly do,Huy don tra ton kho dung; bat buoc ly do,High,3,Order,ECM-064;ECM-045,BE,Phase 1,Sprint 5,Backlog
+88,9,ECM-066,Task,Bo sinh order_number,Sinh order_number unique de doc,order_number unique; dinh dang on dinh,High,2,Order,ECM-060,BE,Phase 1,Sprint 5,Backlog
+89,9,ECM-067,Task,Idempotency cho tao don,Header Idempotency-Key cho POST /orders,Gui lai cung key khong tao don trung,High,3,Order,ECM-061,BE-Sr,Phase 1,Sprint 5,Backlog
+90,10,ECM-068,Task,Entity Payment + Strategy PaymentMethod,Payment + abstraction PaymentMethod (Strategy) + migration,Co the cam them gateway ma khong sua Order,High,3,Payment,ECM-060,BE-Sr,Phase 1,Sprint 5,Backlog
+91,10,ECM-069,Story,Luong thanh toan COD,Tao payment pending; xac nhan khi giao,Don COD tao payment pending dung,High,2,Payment,ECM-068,BE,Phase 1,Sprint 5,Backlog
+92,10,ECM-070,Story,Luong chuyen khoan,Hien thi STK/noi dung/QR + han giu don,Hien thong tin chuyen khoan; co han giu don,High,3,Payment,ECM-068,BE,Phase 1,Sprint 5,Backlog
+93,10,ECM-071,Story,Admin xac nhan thanh toan,Admin xac nhan + cap nhat payment_status,Admin xac nhan da nhan tien; cap nhat trang thai,High,2,Payment,ECM-068,BE,Phase 1,Sprint 5,Backlog
+94,10,ECM-072,Task,Lien ket thanh toan voi Order,Cap nhat trang thai don theo ket qua thanh toan; outbox co ban,Thanh toan thanh cong/that bai cap nhat dung trang thai don,High,3,Payment,ECM-068;ECM-064,BE-Sr,Phase 1,Sprint 5,Backlog
+95,11,ECM-073,Story,API danh sach don (admin),"List don + filter (status, ngay, khach, phone)",Loc/tim don dung; phan trang,High,3,Admin,ECM-060,BE,Phase 1,Sprint 6,Backlog
+96,11,ECM-074,Story,API danh sach san pham (admin),"List san pham + filter (category, brand, status, stock, gia)",Loc san pham da tieu chi; ten dai hien ellipsis,High,3,Admin,ECM-031,BE,Phase 1,Sprint 6,Backlog
+97,11,ECM-075,Story,API metric dashboard,"Doanh thu, don moi, don cho xu ly, sap het hang, ban chay",Metric tra dung so lieu; co moc thoi gian cap nhat,High,5,Admin,ECM-060,BE-Sr,Phase 1,Sprint 6,Backlog
+98,11,ECM-076,Task,Phan quyen endpoint admin,RBAC chi tiet ADMIN/MANAGER/SUPPORT,Moi endpoint admin gioi han dung role,High,3,Admin,ECM-015,BE-Sr,Phase 1,Sprint 6,Backlog
+99,11,ECM-077,Story,Audit log hanh dong admin,"Ghi log cap nhat don, sua gia, dieu chinh kho",Hanh dong admin nhay cam deu duoc ghi log,Medium,3,Admin,ECM-064,BE,Phase 1,Sprint 6,Backlog
+100,12,ECM-078,Task,Loc dong theo thuoc tinh,JPA Specification/Criteria loc theo attribute dong,Loc dung theo nhieu thuoc tinh + khoang gia; co index,High,5,Search,ECM-040,BE-Sr,Phase 1,Sprint 6,Backlog
+101,12,ECM-079,Story,Tim kiem full-text MVP,PostgreSQL tsvector + GIN index,Tim theo ten/mo ta cho ket qua hop ly,High,3,Search,ECM-026,BE,Phase 1,Sprint 6,Backlog
+102,12,ECM-080,Story,Dem facet,Dem so luong theo brand/gia/thuoc tinh,Facet count khop voi ket qua loc,Medium,3,Search,ECM-078,BE,Phase 1,Sprint 6,Backlog
+103,12,ECM-081,Story,Autocomplete co ban,Goi y ten/brand/category,Go tu khoa tra goi y phu hop,Medium,2,Search,ECM-079,BE,Phase 1,Sprint 6,Backlog
+104,13,ECM-082,Task,Ha tang Elasticsearch + index mapping,ES 8 + dinh nghia index mapping san pham,ES chay; mapping ho tro full-text + facet,Medium,5,Search,ECM-079,BE-Sr,Phase 2,Sprint 7,Backlog
+105,13,ECM-083,Task,Indexer dong bo san pham,Dong bo san pham khi thay doi qua outbox,Thay doi san pham cap nhat ES gan realtime,Medium,5,Search,ECM-082,BE-Sr,Phase 2,Sprint 7,Backlog
+106,13,ECM-084,Story,API search/facet qua ES,Full-text + filter thuoc tinh qua ES,Search nhanh; facet dung; thay the duoc backend DB,Medium,5,Search,ECM-083,BE,Phase 2,Sprint 7,Backlog
+107,13,ECM-085,Task,Job reindex + alias zero-downtime,Reindex toan bo + alias swap khong downtime,Reindex khong gian doan dich vu,Medium,3,Search,ECM-083,BE,Phase 2,Sprint 7,Backlog
+108,14,ECM-086,Story,Tich hop VNPay,"Tao URL thanh toan, return_url qua Strategy",Tao duoc giao dich VNPay; redirect dung,Medium,5,Payment,ECM-068,BE-Sr,Phase 2,Sprint 8,Backlog
+109,14,ECM-087,Story,Tich hop MoMo,Tich hop cong MoMo,Tao duoc giao dich MoMo,Medium,5,Payment,ECM-068,BE-Sr,Phase 2,Sprint 8,Backlog
+110,14,ECM-088,Task,Webhook/IPN + xac thuc HMAC,Xu ly webhook + verify chu ky HMAC + idempotent,Webhook xac thuc dung; xu ly idempotent chong trung,High,5,Payment,ECM-086,BE-Sr,Phase 2,Sprint 8,Backlog
+111,14,ECM-089,Story,Luong hoan tien (refund),Refund + cap nhat trang thai,Hoan tien cap nhat dung payment/order status,Medium,3,Payment,ECM-088,BE,Phase 2,Sprint 8,Backlog
+112,15,ECM-090,Story,Entity Review + API tao danh gia,Review entity + POST /reviews,Tao danh gia kem rating; can dang nhap,Medium,3,Review,ECM-060,BE,Phase 2,Sprint 10,Backlog
+113,15,ECM-091,Story,API list review + tong hop rating,List review + rating trung binh + phan bo sao,Tra trung binh + phan bo dung; loc theo sao,Medium,3,Review,ECM-090,BE,Phase 2,Sprint 10,Backlog
+114,15,ECM-092,Story,Kiem duyet review (admin),Duyet/an review,Admin duyet/an review; chi review duyet hien public,Medium,2,Review,ECM-090,BE,Phase 2,Sprint 10,Backlog
+115,15,ECM-093,Story,Verified purchase,Kiem tra da mua hang truoc khi danh gia,Review tu nguoi da mua co badge verified,Low,2,Review,ECM-090,BE,Phase 2,Sprint 10,Backlog
+116,16,ECM-094,Task,Ha tang RabbitMQ,Cau hinh RabbitMQ + producer/consumer,Message gui/nhan duoc qua queue,Medium,3,Notification,ECM-072,DevOps,Phase 2,Sprint 9,Backlog
+117,16,ECM-095,Story,Dich vu email + template,SendGrid/SMTP + he thong template,Gui email theo template; co log,Medium,5,Notification,ECM-094,BE,Phase 2,Sprint 9,Backlog
+118,16,ECM-096,Story,Dich vu SMS (tuy chon),Tich hop Twilio gui SMS,Gui SMS thong bao co ban,Low,3,Notification,ECM-094,BE,Phase 2,Sprint 9,Backlog
+119,16,ECM-097,Task,Su kien hoa thong bao qua Outbox,Order placed/status changed -> outbox dispatcher -> queue,Su kien don hang sinh thong bao dung; khong mat su kien,Medium,5,Notification,ECM-094;ECM-072,BE-Sr,Phase 2,Sprint 9,Backlog
+120,16,ECM-098,Task,Log gui + retry/dead-letter,Log gui thong bao + retry + dead-letter queue,Gui that bai duoc retry; qua nguong vao DLQ,Medium,3,Notification,ECM-095,BE,Phase 2,Sprint 9,Backlog
+121,17,ECM-099,Story,Engine tinh phi ship,Tinh phi theo khu vuc/khoi luong,Phi ship tinh dung theo cau hinh,Medium,3,Shipping,ECM-060,BE,Phase 2,Sprint 10,Backlog
+122,17,ECM-100,Story,Tich hop hang van chuyen,GHN/GHTK: tao van don,Tao duoc van don; nhan ma tracking,Medium,5,Shipping,ECM-099,BE-Sr,Phase 2,Sprint 10,Backlog
+123,17,ECM-101,Story,Dong bo trang thai giao hang,Sync tracking tu hang van chuyen,Trang thai giao hang cap nhat dung,Medium,3,Shipping,ECM-100,BE,Phase 2,Sprint 10,Backlog
+124,18,ECM-102,Story,Thu thap su kien,Ghi nhan luot xem/chuyen doi,Su kien duoc thu thap day du,Low,3,Analytics,ECM-030,BE,Phase 2,Sprint 11,Backlog
+125,18,ECM-103,Task,Job tong hop bao cao,Aggregation doanh thu/ton kho/ban chay,Bao cao tong hop dung so lieu,Low,5,Analytics,ECM-102,BE,Phase 2,Sprint 11,Backlog
+126,18,ECM-104,Story,API bao cao + export CSV,API bao cao cho admin + export CSV,Admin xem bao cao; export CSV dung,Low,3,Analytics,ECM-103,BE,Phase 2,Sprint 11,Backlog
+127,19,ECM-105,Story,Wishlist,Them/xoa/list wishlist,Quan ly wishlist theo user,Low,3,Personalization,ECM-030,BE,Phase 2,Sprint 11,Backlog
+128,19,ECM-106,Story,API so sanh san pham,Compare theo thuoc tinh comparable,So sanh 2-4 san pham; highlight khac biet,Medium,3,Personalization,ECM-040,BE,Phase 2,Sprint 11,Backlog
+129,19,ECM-107,Story,San pham da xem gan day,Recently viewed theo user/session,Luu va tra san pham da xem gan day,Low,2,Personalization,ECM-030,BE,Phase 2,Sprint 11,Backlog
+130,19,ECM-108,Story,Goi y san pham co ban,Goi y cung category/brand/tam gia,Tra goi y hop ly cho san pham,Low,3,Personalization,ECM-030,BE,Phase 2,Sprint 11,Backlog
+131,20,ECM-109,Task,Rate limiting,Bucket4j + Redis cho login va API nhay cam,Vuot nguong tra 429; bao ve login brute-force,High,3,Security,ECM-016,BE-Sr,Phase 1,Sprint 6,Backlog
+132,20,ECM-110,Task,Hardening validation + OWASP,Chong SQLi/XSS/IDOR; siet validation input,Khong co lo hong OWASP nghiem trong; input duoc validate,High,3,Security,ECM-015,BE-Sr,Phase 1,Sprint 6,Backlog
+133,20,ECM-111,Task,Secret management + HTTPS/TLS,Quan ly secret + TLS + security headers,Khong commit secret; HTTPS bat buoc; headers an toan,High,2,Security,ECM-002,DevOps,Phase 0,Sprint 0,Backlog
+134,20,ECM-112,Task,PII + chuan bi GDPR/PCI,Xu ly PII + audit + khong luu the tho,Khong luu the tho; PII duoc bao ve va audit,Medium,3,Security,ECM-012,BE-Sr,Phase 1,Sprint 6,Backlog
+135,20,ECM-113,Task,Quet bao mat dinh ky,Dependency/Trivy scan + chuan bi pen-test,Quet bao mat tu dong; xu ly lo hong phat hien,Medium,2,Security,ECM-008,DevOps,Phase 1,Sprint 6,Backlog
+136,21,ECM-114,Task,Cache Redis cho catalog,Cache catalog/category + chien luoc invalidation,Cache giam tai DB; invalidate dung khi du lieu doi,Medium,5,Platform,ECM-030,BE-Sr,Phase 1,Sprint 6,Backlog
+137,21,ECM-115,Task,Toi uu index + query,"Ra soat N+1, slow query, them index",Loai bo N+1; query cham duoc toi uu,Medium,3,Platform,ECM-031,BE-Sr,Phase 1,Sprint 6,Backlog
+138,21,ECM-116,Task,Metrics Prometheus + Grafana,Micrometer -> Prometheus + dashboard Grafana,Metric thu thap duoc; co dashboard,Medium,3,Platform,ECM-011,DevOps,Phase 1,Sprint 6,Backlog
+139,21,ECM-117,Task,Distributed tracing,OpenTelemetry tracing,Trace xuyen request giua cac thanh phan,Low,3,Platform,ECM-007,DevOps,Phase 2,Sprint 12,Backlog
+140,21,ECM-118,Task,Load test luong mua hang,k6/Gatling + bao cao hieu nang,Dat muc tieu p95; phat hien diem nghen,Medium,5,Platform,ECM-061,QA,Phase 2,Sprint 12,Backlog
+141,22,ECM-119,Task,Thiet lap nen test + nguong coverage,JUnit5/Mockito + nguong coverage trong CI,CI chan merge khi coverage duoi nguong,High,3,QA,ECM-008,QA,Phase 1,Sprint 1,Backlog
+142,22,ECM-120,Task,Integration test luong dat hang,Testcontainers cho luong dat hang + test dong thoi ton kho,Test dat hang xanh; test dong thoi chung minh khong oversell,High,5,QA,ECM-061,QA,Phase 1,Sprint 5,Backlog
+143,22,ECM-121,Task,Contract test API,Kiem tra response API khop OpenAPI,Phat hien lech contract som,Medium,3,QA,ECM-006,QA,Phase 1,Sprint 6,Backlog
+144,22,ECM-122,Task,E2E happy path,Tu dong hoa search->cart->order->payment,Happy path chay tu dong xanh,Medium,5,QA,ECM-072,QA,Phase 1,Sprint 6,Backlog
+145,22,ECM-123,Task,Trien khai Staging + UAT,Deploy staging + chay UAT + checklist nghiem thu,MVP qua UAT tren staging (moc M1),High,3,QA,ECM-122,DevOps,Phase 1,Sprint 6,Backlog
+146,22,ECM-124,Task,Release production + runbook,Release prod + runbook + rollback plan,Release prod thanh cong; co runbook va rollback,High,3,QA,ECM-123,Lead,Phase 2,Sprint 12,Backlog
