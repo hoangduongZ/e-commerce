@@ -245,25 +245,29 @@ brand-700 = đen đậm
 | Token | Giá trị | Mục đích |
 |---|---:|---|
 | neutral-0 | #ffffff | nền trắng |
-| neutral-50 | #f9fafb | nền phụ |
-| neutral-100 | #f3f4f6 | nền block |
-| neutral-200 | #e5e7eb | border |
-| neutral-300 | #d1d5db | border mạnh |
-| neutral-400 | #9ca3af | placeholder |
-| neutral-500 | #6b7280 | text phụ |
-| neutral-600 | #4b5563 | text thường |
-| neutral-700 | #374151 | text đậm |
-| neutral-800 | #1f2937 | heading |
-| neutral-900 | #111827 | text chính |
+| neutral-50 | #f8fafc | nền phụ |
+| neutral-100 | #f1f5f9 | nền block |
+| neutral-200 | #e2e8f0 | border |
+| neutral-300 | #cbd5e1 | border mạnh |
+| neutral-400 | #94a3b8 | placeholder |
+| neutral-500 | #64748b | text phụ |
+| neutral-600 | #475569 | text thường |
+| neutral-700 | #334155 | text đậm |
+| neutral-800 | #1e293b | heading |
+| neutral-900 | #0f172a | text chính |
+
+> **Họ màu neutral = Tailwind `slate`** (KHÔNG dùng `gray`/`zinc`). Thống nhất với `../theme/01-electronics-store-theme.md` và `../theme-html/CLAUDE.md`.
 
 ### 4.4. Semantic colors
 
 | Nhóm | 50 | 600 | 700 |
 |---|---:|---:|---:|
-| success | #ecfdf5 | #059669 | #047857 |
+| success | #f0fdf4 | #16a34a | #15803d |
 | warning | #fffbeb | #d97706 | #b45309 |
 | error | #fef2f2 | #dc2626 | #b91c1c |
 | info | #eff6ff | #2563eb | #1d4ed8 |
+
+> **success = Tailwind `green`** (#16a34a), không phải `emerald`. Khớp `01-electronics-store-theme.md`.
 
 ### 4.5. Commerce colors
 
@@ -2576,9 +2580,9 @@ Không phụ thuộc công nghệ, nhưng cần rule để tránh CSS loạn.
 ```css
 :root {
   --color-brand-600: #2563eb;
-  --color-text-primary: #111827;
-  --color-text-secondary: #4b5563;
-  --color-border-default: #e5e7eb;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-border-default: #e2e8f0;
   --color-bg-page: #ffffff;
   --space-4: 16px;
   --radius-md: 8px;
