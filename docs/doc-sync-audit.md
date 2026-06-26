@@ -17,7 +17,7 @@ Repo hiện **chỉ có tài liệu** (chưa có code). Tài liệu chia thành 
 | `docs/backend-plan/` | `README`, `00`–`05`, `backlog.csv`, `jira_csv_overview_explained.md` | Kế hoạch phát triển Backend (Spring Boot) | ✅ Rất chuẩn |
 | `docs/theme/` | `01` theme + `02`–`08` storefront + `09`–`17` admin + `prompt-con-lai.md` | Spec UI từng màn hình | ❌ Nhiều mâu thuẫn |
 | `docs/theme-html/` | 11 file `.html` + `CLAUDE.md` | Mockup HTML + luật tạo mockup | ✅ Tốt (nhưng thiếu trang) |
-| `docs/agent-prompt/`, `my-mind.md`, `idea/jira.md`, `info/jira.md` | Prompt khởi tạo dự án + ghi chú | ⚠️ Trùng lặp/mồ côi |
+| `docs/agent-prompt/`, `my-mind.md`, `idea/jira.md`, `info/jira.md` | Prompt khởi tạo dự án + ghi chú | ⚠️ Rải rác (không trùng) |
 
 **Kết luận tổng:** Mỗi cụm tự nó tương đối ổn, nhưng **giữa các cụm CHƯA đồng bộ**. Ba nhóm vấn đề nghiêm trọng nhất:
 1. **Hợp đồng API** (envelope, base path, casing) lệch giữa `backend-plan` và `theme`.
@@ -131,7 +131,7 @@ File thật: `docs/main/ecommerce_design_language.md` (tiêu đề "00 - Ngôn n
 - **FE stack drift:** dự án đã chốt Nuxt 3, nhưng các theme docs tự khai "không phụ thuộc framework" và liệt kê cả **Spring Boot / FastAPI / Laravel** như lựa chọn "frontend" (gây nhiễu, mâu thuẫn quyết định stack).
 - **Breakpoint:** `768px` (`02, 04, 05`) vs `767px` (`03`, nghi là typo) vs `640px` (`08`); `theme-html/CLAUDE.md` dùng chuẩn Tailwind (sm 640 / md 768 / lg 1024).
 - **Trùng lặp / mồ côi / thiếu:**
-  - `my-mind.md` ≈ `idea/jira.md` (gần như trùng, `idea/jira.md` có typo "thsistem"); `info/jira.md` lại là Jira-MCP rules → 3 file rải rác cùng chủ đề.
+  - 3 file ghi chú rải rác (KHÔNG trùng nội dung — đã kiểm chứng lại): `my-mind.md` = prompt lập kế hoạch; `idea/jira.md` = Jira-MCP workflow rules; `info/jira.md` = email + link board Jira. Chỉ là tổ chức rời rạc, không có bản trùng để xoá.
   - `backend-plan/jira_csv_overview_explained.md` **không có** trong bảng mục lục của `backend-plan/README.md`.
   - `theme/prompt-con-lai.md` trỏ tới `22-api-design.md, 23-frontend-architecture.md, 25-agent-coding-rules.md, 26-playwright-test-strategy.md` — **chưa tồn tại**; lại lệch số với roadmap trong `theme/01` (đánh `18-agent-coding-rules.md`).
   - `theme-html/` mới có ~11/17 trang mockup (thiếu admin 10,11,13,14,15,16 và payment 17…).
@@ -169,7 +169,7 @@ Người dùng uỷ quyền chốt theo "góc nhìn senior 10 năm Microsoft". H
 - **B5.** Thống nhất role model + cấu trúc audit log giữa các admin docs.
 
 ### Phase C — Dọn dẹp & index
-- **C1.** Gộp `my-mind.md` / `idea/jira.md` / `info/jira.md` về 1 chỗ (vd `docs/notes/`), xoá bản trùng + sửa typo.
+- **C1.** ~~Xoá bản trùng~~ — đã kiểm chứng: 3 file KHÔNG trùng (prompt / Jira rules / Jira link). Tuỳ chọn: gom về `docs/notes/` cho gọn (không bắt buộc, không xoá nội dung).
 - **C2.** Thêm `jira_csv_overview_explained.md` vào mục lục `backend-plan/README.md`.
 - **C3.** Thống nhất đánh số doc tương lai; tạo stub hoặc gỡ tham chiếu tới doc chưa tồn tại trong `prompt-con-lai.md` & `theme/01`.
 - **C4.** (Tuỳ chọn) Bổ sung mockup HTML còn thiếu cho admin/payment.

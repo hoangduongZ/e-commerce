@@ -1,5 +1,11 @@
 # Thiết Kế Chi Tiết Cho Trang Web Bán Hàng Chuẩn
 
+> **Phạm vi tài liệu:** đây là thiết kế **tổng quát, độc lập công nghệ** cho một website bán hàng chuẩn (đa ngành). Phần đặc thù ngành điện tử và hợp đồng chi tiết được tinh chỉnh ở các tài liệu chuẩn sau (khi khác nhau → tài liệu chuẩn thắng):
+> - Mô hình dữ liệu / ERD chi tiết (Brand, Attribute Template, Warehouse, Warranty, payment/shipping status, outbox...): [`../backend-plan/02-database-design.md`](../backend-plan/02-database-design.md)
+> - Hợp đồng API (base path, envelope, casing, pagination): [`api-conventions.md`](api-conventions.md)
+> - Enum & trạng thái (order/fulfillment/payment/cod/stock/warranty): [`domain-enums.md`](domain-enums.md)
+> - Kiến trúc & tech stack: [`../backend-plan/01-kien-truc-tech-stack.md`](../backend-plan/01-kien-truc-tech-stack.md)
+
 ## 1. Giới Thiệu Chung
 
 Một website thương mại điện tử là hệ thống phức tạp bao gồm nhiều thành phần hoạt động kết hợp để người dùng có thể tìm kiếm sản phẩm, đặt hàng, thanh toán và theo dõi đơn hàng. Các thành phần chính gồm:
