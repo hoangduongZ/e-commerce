@@ -4,6 +4,8 @@
 
 Create a clean English Git commit with minimal context/token usage.
 
+Reference task ids: /Users/macbook/Documents/projects/e-commerce-docs/docs/backend-plan/05-task-breakdown.md
+
 ## Commit Format
 
 ```txt
