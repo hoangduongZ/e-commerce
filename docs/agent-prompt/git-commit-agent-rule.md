@@ -2,9 +2,7 @@
 
 ## Goal
 
-Create an English Git commit message with minimal context/token usage.
-
-Reference task ids: /Users/macbook/Documents/projects/e-commerce-docs/docs/backend-plan/05-task-breakdown.md
+Create a clean English Git commit with minimal context/token usage.
 
 ## Commit Format
 
@@ -34,7 +32,7 @@ test<ECM-120>: add concurrent inventory reservation test
 | `perf` | Performance improvement |
 | `ci` | CI/CD changes |
 
-## Rules
+## Core Rules
 
 - Use English only.
 - Keep description short, clear, and lowercase.
@@ -43,15 +41,55 @@ test<ECM-120>: add concurrent inventory reservation test
 - If task ID cannot be identified, ask before committing.
 - Do not commit secrets, `.env`, tokens, passwords, or credentials.
 
+## File Grouping Rule
+
+Before committing, check whether the workspace contains changes from multiple tasks.
+
+Do **not** commit all changes blindly.
+
+Avoid:
+
+```bash
+git add .
+```
+
+unless all changed files clearly belong to the same task.
+
+Group files by:
+
+- task ID
+- module/domain
+- feature/bug scope
+- related test files
+- related migration/config/docs files
+
+If changes belong to multiple unrelated tasks, create separate commits.
+
+Example:
+
+```txt
+catalog files + catalog tests + product migration
+=> one catalog-related commit
+
+order files + payment files + unrelated README update
+=> split into separate commits or ask before committing
+```
+
+If unsure whether files belong together, ask before staging.
+
 ## Agent Workflow
 
 1. Run `git status`.
-2. Check changes with `git diff --stat` and `git diff`.
-3. Identify commit `type`.
-4. Identify `TASK-ID`.
-5. Generate one commit message.
-6. Commit using the generated message.
-7. Output only:
+2. Check changed files with `git diff --stat` and `git diff --name-only`.
+3. Group files by related task/scope.
+4. Stage only files related to the current task.
+5. Never use `git add .` if unrelated changes exist.
+6. Check staged files with `git diff --cached --stat`.
+7. Identify commit `type`.
+8. Identify `TASK-ID`.
+9. Generate one commit message.
+10. Commit using the generated message.
+11. Output only:
 
 ```txt
 Committed:
@@ -73,4 +111,5 @@ refactor<ECM-029>: simplify product creation workflow
 commit<ECM-001>: done
 feat<ECM-001>: Update code.
 fix<ECM-044>: fix bug
+feat<ECM-029>: update many files
 ```
