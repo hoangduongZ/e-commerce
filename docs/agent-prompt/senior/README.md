@@ -8,10 +8,13 @@ Bộ prompt này xây hai thứ cho một project: **tri thức tĩnh** (tư duy
 |---|---|---|
 | [install-agent-learning-loop.md](install-agent-learning-loop.md) | Cài hạ tầng học vào `.claude`: context routing, memory policy, skill `/task-wrapup`, coding rules rút từ codebase | Mọi kịch bản — đây là nền tảng |
 | [install-knowledge-os-skill.md](install-knowledge-os-skill.md) | Cài skill `/knowledge-os` vào `.claude` để sinh knowledge base tư duy senior theo case | Khi cần tri thức nền để ra quyết định kiến trúc |
-| [senior_02.md](senior_02.md) | Prompt sinh knowledge base dùng **trực tiếp một lần**, không cài gì vào `.claude` | Muốn thử trước, hoặc dùng với tool khác (Cursor/Codex) |
-| [senior_01.md](senior_01.md) | Bản gốc chưa tối ưu — lưu trữ để so sánh | Không dùng để chỉ đạo agent |
+| [knowledge-os-oneshot.md](knowledge-os-oneshot.md) | Prompt sinh knowledge base dùng **trực tiếp một lần**, không cài gì vào `.claude` | Muốn thử trước, hoặc dùng với tool khác (Cursor/Codex) |
+| [knowledge-os-prompt-goc-deprecated.md](knowledge-os-prompt-goc-deprecated.md) | ⚠️ Bản gốc chưa tối ưu — lưu trữ để so sánh | Không dùng để chỉ đạo agent |
+| [review-de-xuat-cai-thien.md](review-de-xuat-cai-thien.md) | Bản review bộ prompt + đề xuất cải thiện (theo P1/P2/P3) | Khi muốn hiểu vì sao bộ prompt thiết kế vậy / trước khi sửa prompt |
 
 Hai file install đều có bước khảo sát tương thích ở đầu (Bước 0) nên chạy trước sau đều không phá nhau — nhưng thứ tự dưới đây cho kết quả tốt nhất.
+
+> **Routing canonical:** khi cài **cả hai**, `.claude/context-routing.md` (do learning-loop tạo) là file routing **duy nhất**. knowledge-os khi chạy sẽ đề xuất diff cập nhật file này, KHÔNG tạo `20-agent-context/routing.md` song song. Chỉ khi cài knowledge-os **mà không** cài learning-loop thì routing mới nằm ở `20-agent-context/routing.md`.
 
 ## Kịch bản 1 — Bắt đầu dự án mới từ số 0
 

@@ -4,7 +4,7 @@
 
 ## Nhiệm vụ
 
-Cài đặt prompt "Engineering Knowledge OS" (nguồn: `senior_02.md` cùng thư mục) thành một **skill của Claude Code** theo cấu trúc:
+Cài đặt prompt "Engineering Knowledge OS" (nội dung tương đương bản one-shot `knowledge-os-oneshot.md` cùng thư mục; file installer này là nguồn sự thật, bản one-shot là bản trích) thành một **skill của Claude Code** theo cấu trúc:
 
 ```text
 {{PROJECT_ROOT}}/
@@ -75,7 +75,7 @@ Danh sách trên là gợi ý — thêm/bớt theo context project thực tế. 
 Khi đã đủ case Tier 1, tạo các file theo spec trong `kb-structure.md`:
 
 - `00-index/README.md` — bảng toàn bộ file.
-- `20-agent-context/routing.md` — mapping *loại task → file cần đọc*.
+- **Routing** — quy tắc canonical: nếu `.claude/context-routing.md` **đã tồn tại** (learning-loop đã cài), KHÔNG tạo `20-agent-context/routing.md` song song — chỉ đề xuất diff cập nhật `.claude/context-routing.md` (đổi các mục `(chưa có)` thành đường dẫn file knowledge vừa sinh), chờ người dùng duyệt theo memory-update-policy. Chỉ khi routing canonical CHƯA tồn tại mới tạo `20-agent-context/routing.md`.
 - Đề xuất (≤ 10 dòng) bổ sung vào `CLAUDE.md` để Agent biết tra index trước khi làm task — không copy cả knowledge base vào đó.
 ````
 
@@ -180,15 +180,24 @@ Nếu `{{PROJECT_ROOT}}/CLAUDE.md` chưa tồn tại thì tạo mới; nếu đ�
 ```markdown
 ## Knowledge Base
 
-Trước khi làm task thiết kế/kiến trúc (thêm module, chọn công nghệ, thay đổi schema...), tra `docs/knowledge/00-index/README.md` và đọc đúng file theo `docs/knowledge/20-agent-context/routing.md` (nếu đã tồn tại). Để xây hoặc bổ sung knowledge base, gọi skill `/knowledge-os`.
+Trước khi làm task thiết kế/kiến trúc (thêm module, chọn công nghệ, thay đổi schema...), tra `docs/knowledge/00-index/README.md` và đọc đúng file theo routing canonical `.claude/context-routing.md` (nếu chưa cài learning-loop thì theo `docs/knowledge/20-agent-context/routing.md`). Để xây hoặc bổ sung knowledge base, gọi skill `/knowledge-os`.
 ```
+
+> Lưu ý routing canonical: nếu repo đã có `.claude/context-routing.md`, KHÔNG trỏ pointer sang `20-agent-context/routing.md`. Một khái niệm chỉ có một chỗ — trỏ hai nơi là mầm mống drift.
 
 ### Bước 5 — Kiểm tra và báo cáo
 
-1. Xác nhận 3 file tồn tại đúng đường dẫn: `SKILL.md`, `case-template.md`, `kb-structure.md`.
-2. Xác nhận frontmatter của `SKILL.md` có đủ `name` và `description` hợp lệ (YAML parse được).
-3. Xác nhận trong `.claude/` **không** có nội dung knowledge nào (chỉ có skill).
-4. Báo cáo cho người dùng: danh sách file đã tạo, thay đổi trong `CLAUDE.md`, và hướng dẫn 1 dòng: *"Mở session mới (hoặc reload) rồi gọi `/knowledge-os` để bắt đầu Giai đoạn 1."*
+Verify là hành động **chạy được**, không phải lời hứa — chạy các lệnh sau và dán kết quả vào báo cáo:
+
+1. `ls .claude/skills/knowledge-os/` → xác nhận đủ 3 file `SKILL.md`, `case-template.md`, `kb-structure.md`.
+2. Parse frontmatter `SKILL.md` (vd `python3 -c "import re,sys; t=open('.claude/skills/knowledge-os/SKILL.md').read(); m=re.match(r'^---\n(.*?)\n---',t,re.S); assert m and 'name:' in m.group(1) and 'description:' in m.group(1)"`) → phải không lỗi.
+3. `ls docs/knowledge 2>/dev/null` → xác nhận **không** tạo knowledge content ở bước cài (chỉ skill nằm trong `.claude/`).
+4. Nếu có sửa `CLAUDE.md`: `wc -l CLAUDE.md` → xác nhận vẫn trong budget (≤ ~30 dòng).
+5. Báo cáo cho người dùng: danh sách file đã tạo, thay đổi trong `CLAUDE.md`, và hướng dẫn 1 dòng: *"Mở session mới (hoặc reload) rồi gọi `/knowledge-os` để bắt đầu Giai đoạn 1."*
+
+## Cập nhật bản đã cài (khi bộ prompt ra bản mới)
+
+Bước 0 chặn ghi đè để bảo vệ tùy biến của người dùng — nhưng "chỉ bổ sung" nghĩa là bản cải tiến không tự vào lại repo đã cài. Khi cần nâng cấp: so nội dung 3 file skill hiện có với bản mới, **trình diff cho người dùng duyệt** (skill thuộc `.claude/` → nhóm cần approval), không tự ghi đè. Nếu muốn tự động phát hiện lệch, thêm dòng `template_version: <n>` vào đầu mỗi file và so version.
 
 ## Ràng buộc
 

@@ -247,14 +247,23 @@ Nếu chưa có thì tạo; nếu có thì append, không sửa nội dung cũ:
 
 ### Bước 6 — Verify và báo cáo
 
-1. Toàn bộ file tồn tại đúng đường dẫn; frontmatter của SKILL.md parse được; routing không trỏ đến file chưa tồn tại.
-2. `CLAUDE.md` ≤ 30 dòng sau khi append.
-3. Báo cáo: file đã tạo, file chờ duyệt (coding-rules draft, di chuyển routing cũ nếu có), và hướng dẫn: *"Mở session mới; sau task lớn đầu tiên hãy gọi `/task-wrapup` — hệ thống chỉ có giá trị khi vòng ghi được chạy thật."*
-4. Gợi ý (tùy chọn, không tự cài): có thể thêm hook `Stop` trong `.claude/settings.json` để nhắc chạy `/task-wrapup` sau mỗi phiên — để người dùng quyết định.
+Verify là hành động **chạy được**, không phải lời hứa — chạy lệnh và dán kết quả:
+
+1. `find .claude -type f` → xác nhận đủ file đúng đường dẫn.
+2. Parse frontmatter `task-wrapup/SKILL.md` (vd `python3 -c "import re; t=open('.claude/skills/task-wrapup/SKILL.md').read(); m=re.match(r'^---\n(.*?)\n---',t,re.S); assert m and 'name:' in m.group(1) and 'description:' in m.group(1)"`) → không lỗi.
+3. Routing không trỏ tới **file knowledge content** chưa tồn tại (được phép trỏ tới thư mục tích lũy `21/22/23`, xem Ràng buộc). Dò nhanh các đường dẫn đáng ngờ trong `.claude/context-routing.md`.
+4. `wc -l CLAUDE.md` → xác nhận ≤ 30 dòng sau khi append.
+5. Báo cáo: file đã tạo, file chờ duyệt (coding-rules draft, di chuyển routing cũ nếu có), và hướng dẫn: *"Mở session mới; sau task lớn đầu tiên hãy gọi `/task-wrapup` — hệ thống chỉ có giá trị khi vòng ghi được chạy thật."*
+6. Gợi ý (tùy chọn, không tự cài): có thể thêm hook `Stop` trong `.claude/settings.json` để nhắc chạy `/task-wrapup` sau mỗi phiên — để người dùng quyết định.
+
+## Cập nhật bản đã cài (khi bộ prompt ra bản mới)
+
+Bước 0 chỉ "bổ sung, không ghi đè" để bảo vệ tùy biến — nên bản cải tiến của template (`context-routing.md`, `memory-update-policy.md`, `task-wrapup/SKILL.md`) không tự vào lại repo đã cài. Khi cần nâng cấp: so từng file `.claude/` với bản mới, **trình diff cho người dùng duyệt** (nhóm cần approval), không tự ghi đè. `coding-rules.md` là convention riêng của project — KHÔNG đồng bộ từ template, chỉ người dùng sửa.
 
 ## Ràng buộc
 
 - Token efficiency là tiêu chí số một: mọi file thiết kế để *đọc chọn lọc* (frontmatter lọc được, ≤ 30 dòng với history/lesson, routing giới hạn ~5 file/task).
-- Không tạo file rỗng "để sẵn" — trừ `00-index/README.md`, file chỉ sinh ra khi có nội dung thật.
+- Không tạo file **hay thư mục** rỗng "để sẵn". Ở bước cài chỉ tạo `docs/knowledge/00-index/README.md`. Các thư mục tích lũy (`19-decision-records/`, `21-task-history/`, `22-lessons-learned/`, `23-debugging/`) do `/task-wrapup` `mkdir` on-demand khi ghi file thật đầu tiên — đừng tạo trước, đừng thêm `.gitkeep`.
+- Phân biệt trong routing: được phép trỏ tới **thư mục tích lũy** ở trên dù chưa tồn tại (đó là đích ghi, không phải file phải có sẵn); nhưng KHÔNG trỏ tới **file knowledge content** (`02`–`17`) chưa sinh — nhóm đó ghi `(chưa có)`.
 - Không ghi đè file tồn tại mà không hỏi; không sửa nội dung cũ của `CLAUDE.md`.
 - Portable: knowledge nằm ở `docs/knowledge/` nên Cursor/Codex/agent CLI khác dùng được; với tool khác chỉ cần file rule của tool đó trỏ đến `context-routing.md` và `memory-update-policy.md`.

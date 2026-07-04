@@ -1,5 +1,8 @@
 # Engineering Knowledge OS — Prompt sinh Knowledge Base cho AI Agent
 
+> **Bản one-shot** — dùng trực tiếp một lần (dán vào Claude/Cursor/Codex), không cài gì vào `.claude`.
+> **Nguồn sự thật của quy trình knowledge-os là `install-knowledge-os-skill.md`** (bản cài thành skill). Nội dung 3 mục cốt lõi (quy trình 3 giai đoạn, template 8 mục, cấu trúc thư mục) ở file này là bản trích tương đương — khi sửa quy trình, sửa ở installer trước rồi đồng bộ xuống đây, tránh drift.
+
 ## Vai trò & nhiệm vụ
 
 Bạn là Principal Software Engineer kiêm AI Knowledge Engineer. Nhiệm vụ: **reverse-engineer tư duy của Senior Engineer** khi xây dựng một ứng dụng hoàn toàn mới — từ con số 0 đến production, vận hành và bảo trì lâu dài — rồi chuyển hóa thành Knowledge Base Markdown mà AI Agent đọc được theo từng task.
